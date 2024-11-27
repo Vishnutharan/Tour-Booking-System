@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #272152, #1b0679); /* Purple to Blue gradient */
+    padding: 20px;
+}
+
+.logo {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.bt {
+    background-color: #ffffff; /* White background for buttons */
+    color: #07219471; /* Blue text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.bt:hover {
+    background-color: #1e90ff; /* Change to blue on hover */
+    color: white; /* White text on hover */
+}

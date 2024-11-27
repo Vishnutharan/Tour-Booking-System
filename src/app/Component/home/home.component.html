@@ -1,0 +1,66 @@
+<div class="container-fluid hero-section">
+  <div class="row align-items-center">
+      <div class="col-md-6 px-5 hero-content animate__animated animate__fadeInLeft">
+          <h1 class="display-3 hero-title mb-4">Global<br>teamwork<br>made possible.</h1>
+          <p class="lead mb-4 text-black font-italic">Our Global Growth Platform™ offers your business a new way to grow by making it easier to build and manage teams in 180+ countries and counting.</p>
+          <div class="d-flex">
+            <button class="btn btn-primary btn-lg mr-3 me-3 floating-element" style="background-color: #007bff; border-color: #007bff;">Book a demo</button>
+            <button class="btn btn-outline-light btn-lg floating-element" style="color: #007bff; border-color: #007bff;">Watch our platform</button>
+        </div>       
+      </div>
+      <div class="col-md-6 text-end animate__animated animate__fadeInRight">
+          <img src="/assets/tourbook1.webp" class="img-fluid hero-image floating-element" alt="Global Teamwork Platform">
+      </div>
+  </div>
+</div>
+<!-- Tour Packages Section -->
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
+      <div class="card">
+        <img src="/assets/tourbook1.webp" class="card-img-top" alt="{{ package.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ package.title }}</h5>
+          <p class="card-text">{{ package.description }}</p>
+          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
+        </div>
+      </div>
+    </div>
+    <!-- Repeat above block for other images -->
+    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
+      <div class="card">
+        <img src="/assets/tourbook2.webp" class="card-img-top" alt="{{ package.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ package.title }}</h5>
+          <p class="card-text">{{ package.description }}</p>
+          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- You can continue to add more images here -->
+    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
+      <div class="card">
+        <img src="/assets/tourbook3.webp" class="card-img-top" alt="{{ package.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ package.title }}</h5>
+          <p class="card-text">{{ package.description }}</p>
+          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
+      <div class="card">
+        <img src="/assets/tourbook4.webp" class="card-img-top" alt="{{ package.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ package.title }}</h5>
+          <p class="card-text">{{ package.description }}</p>
+          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Continue for other packages... -->
+  </div>
+</div>
