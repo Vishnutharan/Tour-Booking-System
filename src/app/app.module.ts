@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './Service/auth.service';
 import { HomeComponent } from './Component/home/home.component';
+// import { LucideModule } from 'lucide-angular';  // Import LucideModule here
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HomeComponent } from './Component/home/home.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    // LucideModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

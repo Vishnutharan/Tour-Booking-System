@@ -1,66 +1,118 @@
+<!-- Hero Section -->
+<!-- <section class="hero-section d-flex align-items-center" style="background-image: url('/assets/tourbook5.webp');">
+  <div class="container text-center">
+      <h1>Welcome to ABC Restaurant</h1>
+      <p>Welcome to your ultimate destination for exquisite and authentic dining experiences in Sri Lanka. We pride
+          ourselves on culinary excellence and exceptional hospitality across our various locations.</p>
+      <a class="btn btn-primary" routerLink="booking">Make a Reservation</a>
+      <a class="btn btn-secondary" href="#">Watch Our Story</a>
+  </div>
+</section> -->
+
 <div class="container-fluid hero-section">
   <div class="row align-items-center">
-      <div class="col-md-6 px-5 hero-content animate__animated animate__fadeInLeft">
-          <h1 class="display-3 hero-title mb-4">Global<br>teamwork<br>made possible.</h1>
-          <p class="lead mb-4 text-black font-italic">Our Global Growth Platform™ offers your business a new way to grow by making it easier to build and manage teams in 180+ countries and counting.</p>
-          <div class="d-flex">
-            <button class="btn btn-primary btn-lg mr-3 me-3 floating-element" style="background-color: #007bff; border-color: #007bff;">Book a demo</button>
-            <button class="btn btn-outline-light btn-lg floating-element" style="color: #007bff; border-color: #007bff;">Watch our platform</button>
-        </div>       
+    <div
+      class="col-md-6 px-5 hero-content animate__animated animate__fadeInLeft"
+    >
+      <h1 class="display-3 hero-title mb-4">
+        Global<br />teamwork<br />made possible.
+      </h1>
+      <p class="lead mb-4 text-black font-italic">
+        Our Global Growth Platform™ offers your business a new way to grow by
+        making it easier to build and manage teams in 180+ countries and
+        counting.
+      </p>
+      <div class="d-flex">
+        <button
+          class="btn btn-outline-light btn-lg floating-element"
+          style="color: #007bff; border-color: #007bff"
+        >
+          Book a Demo
+        </button>
+        <button
+          class="btn btn-outline-light btn-lg floating-element"
+          style="color: #007bff; border-color: #007bff"
+        >
+          Watch our platform
+        </button>
       </div>
-      <div class="col-md-6 text-end animate__animated animate__fadeInRight">
-          <img src="/assets/tourbook1.webp" class="img-fluid hero-image floating-element" alt="Global Teamwork Platform">
+    </div>
+    <div class="col-md-6 text-end animate__animated animate__fadeInRight">
+      <img
+        src="/assets/tourbook1.webp"
+        class="img-fluid hero-image floating-element"
+        alt="Global Teamwork Platform"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- about.component.html -->
+
+<div class="about-container container-fluid py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <div class="profile-image-container mb-4">
+        <img src="/assets/tourbook4.webp" class="profile-image" alt="Profile" />
       </div>
+
+      <h1 class="display-4">About Me</h1>
+      <p class="lead text-muted mb-5">
+        Welcome to our Travel Booking System, your one-stop solution for
+        hassle-free travel planning. We offer a seamless platform for booking
+        flights, hotels, car rentals, and tour packages. Our goal is to provide
+        customers with an intuitive and personalized experience, making travel
+        planning easy and convenient. Whether you're planning a business trip or
+        a family vacation, we ensure the best prices, quick bookings, and
+        exceptional customer service. Our team is dedicated to bringing you the
+        best travel deals while offering round-the-clock support to ensure your
+        journey is smooth from start to finish.
+      </p>
+
+      <div class="skills-grid row g-4 justify-content-center">
+        <div class="col-md-4" *ngFor="let skill of skills">
+          <div class="skill-card border-animated">
+            <div class="skill-icon">
+              <i class="lucide lucide-{{ skill.icon }} icon-large"></i>
+            </div>
+            <h3 class="skill-title">{{ skill.title }}</h3>
+            <p class="skill-description">{{ skill.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="social-links mt-5">
+        <a
+          *ngFor="let link of socialLinks"
+          [href]="link.url"
+          class="social-icon mx-3"
+        >
+          <i class="lucide lucide-{{ link.icon }} icon-social"></i>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 <!-- Tour Packages Section -->
 <div class="container py-5">
-  <div class="row">
+  <h1 class="head1 text-center">Packages</h1>
+  <div class="row justify-content-center">
     <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
-      <div class="card">
-        <img src="/assets/tourbook1.webp" class="card-img-top" alt="{{ package.title }}">
+      <div class="card package-card">
+        <img
+          [src]="package.src"
+          class="card-img-top"
+          alt="{{ package.title }}"
+        />
         <div class="card-body">
           <h5 class="card-title">{{ package.title }}</h5>
           <p class="card-text">{{ package.description }}</p>
-          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
+          <a [routerLink]="['/package', package.id]" class="btn btn-primary">
+            More information
+          </a>
         </div>
       </div>
     </div>
     <!-- Repeat above block for other images -->
-    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
-      <div class="card">
-        <img src="/assets/tourbook2.webp" class="card-img-top" alt="{{ package.title }}">
-        <div class="card-body">
-          <h5 class="card-title">{{ package.title }}</h5>
-          <p class="card-text">{{ package.description }}</p>
-          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- You can continue to add more images here -->
-    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
-      <div class="card">
-        <img src="/assets/tourbook3.webp" class="card-img-top" alt="{{ package.title }}">
-        <div class="card-body">
-          <h5 class="card-title">{{ package.title }}</h5>
-          <p class="card-text">{{ package.description }}</p>
-          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
-      <div class="card">
-        <img src="/assets/tourbook4.webp" class="card-img-top" alt="{{ package.title }}">
-        <div class="card-body">
-          <h5 class="card-title">{{ package.title }}</h5>
-          <p class="card-text">{{ package.description }}</p>
-          <a [routerLink]="['/package', package.id]" class="btn btn-primary">More information</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Continue for other packages... -->
   </div>
 </div>
