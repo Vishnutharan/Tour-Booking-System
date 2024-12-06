@@ -1,13 +1,4 @@
-<!-- Hero Section -->
-<!-- <section class="hero-section d-flex align-items-center" style="background-image: url('/assets/tourbook5.webp');">
-  <div class="container text-center">
-      <h1>Welcome to ABC Restaurant</h1>
-      <p>Welcome to your ultimate destination for exquisite and authentic dining experiences in Sri Lanka. We pride
-          ourselves on culinary excellence and exceptional hospitality across our various locations.</p>
-      <a class="btn btn-primary" routerLink="booking">Make a Reservation</a>
-      <a class="btn btn-secondary" href="#">Watch Our Story</a>
-  </div>
-</section> -->
+<!-- Hero Section  -->
 
 <div class="container-fluid hero-section">
   <div class="row align-items-center">
@@ -49,70 +40,531 @@
 
 <!-- about.component.html -->
 
-<div class="about-container container-fluid py-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8 text-center">
-      <div class="profile-image-container mb-4">
-        <img src="/assets/tourbook4.webp" class="profile-image" alt="Profile" />
+<body class="bg-gradient-to-br from-blue-50 to-blue-100">
+  <div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto text-center">
+      <div
+        class="mb-8 overflow-hidden rounded-full w-64 h-64 mx-auto shadow-2xl"
+      >
+        <img
+          src="/assets/tourbook4.webp"
+          alt="Profile"
+          class="profile-image w-full h-full object-cover"
+        />
       </div>
 
-      <h1 class="display-4">About Me</h1>
-      <p class="lead text-muted mb-5">
-        Welcome to our Travel Booking System, your one-stop solution for
-        hassle-free travel planning. We offer a seamless platform for booking
-        flights, hotels, car rentals, and tour packages. Our goal is to provide
-        customers with an intuitive and personalized experience, making travel
-        planning easy and convenient. Whether you're planning a business trip or
-        a family vacation, we ensure the best prices, quick bookings, and
-        exceptional customer service. Our team is dedicated to bringing you the
-        best travel deals while offering round-the-clock support to ensure your
-        journey is smooth from start to finish.
+      <h1 class="text-5xl font-extrabold text-blue-900 mb-6 tracking-tight">
+        About Our Travel Booking System
+      </h1>
+
+      <p class="text-xl text-gray-600 mb-12 leading-relaxed px-6">
+        Welcome to our Travel Booking System, your ultimate gateway to seamless
+        travel experiences. We're passionate about transforming travel planning
+        into an effortless, exciting journey. Our platform offers comprehensive
+        booking solutions for flights, hotels, car rentals, and curated tour
+        packages, designed to cater to both business travelers and vacation
+        enthusiasts.
       </p>
 
-      <div class="skills-grid row g-4 justify-content-center">
-        <div class="col-md-4" *ngFor="let skill of skills">
-          <div class="skill-card border-animated">
-            <div class="skill-icon">
-              <i class="lucide lucide-{{ skill.icon }} icon-large"></i>
-            </div>
-            <h3 class="skill-title">{{ skill.title }}</h3>
-            <p class="skill-description">{{ skill.description }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="social-links mt-5">
-        <a
-          *ngFor="let link of socialLinks"
-          [href]="link.url"
-          class="social-icon mx-3"
+      <div class="grid md:grid-cols-3 gap-8 px-6">
+        <div
+          class="border-animated bg-white rounded-xl p-6 transform transition duration-300 hover:scale-105 hover:shadow-2xl"
         >
-          <i class="lucide lucide-{{ link.icon }} icon-social"></i>
-        </a>
+          <div class="text-blue-600 text-5xl mb-4 flex justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-globe"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" x2="22" y1="12" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-blue-900 mb-3">Global Reach</h3>
+          <p class="text-gray-600">
+            Explore destinations worldwide with our extensive network of travel
+            partners.
+          </p>
+        </div>
+
+        <div
+          class="border-animated bg-white rounded-xl p-6 transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+        >
+          <div class="text-blue-600 text-5xl mb-4 flex justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-dollar-sign"
+            >
+              <line x1="12" x2="12" y1="2" y2="22" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-blue-900 mb-3">Best Prices</h3>
+          <p class="text-gray-600">
+            Competitive pricing and exclusive deals to maximize your travel
+            budget.
+          </p>
+        </div>
+
+        <div
+          class="border-animated bg-white rounded-xl p-6 transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+        >
+          <div class="text-blue-600 text-5xl mb-4 flex justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-headphones"
+            >
+              <path
+                d="M3 11h18a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2v-5h-4v5h-4v-5H3v-6a2 2 0 0 1 2-2zm0-5v5h18V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-blue-900 mb-3">24/7 Support</h3>
+          <p class="text-gray-600">
+            Round-the-clock customer service to assist you at every step of your
+            journey.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</body>
+
 <!-- Tour Packages Section -->
-<div class="container py-5">
-  <h1 class="head1 text-center">Packages</h1>
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-3 mb-4" *ngFor="let package of tourPackages">
-      <div class="card package-card">
-        <img
-          [src]="package.src"
-          class="card-img-top"
-          alt="{{ package.title }}"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{ package.title }}</h5>
-          <p class="card-text">{{ package.description }}</p>
-          <a [routerLink]="['/package', package.id]" class="btn btn-primary">
-            More information
+
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+  <div class="container mx-auto px-4 py-12">
+    <h1
+      class="text-5xl font-extrabold text-center text-blue-900 mb-12 tracking-tight"
+    >
+      Explore Our Packages
+    </h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Package Card 1 -->
+      <div
+        class="package-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform transition duration-300"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            src="/assets/tourbook12.webp"
+            alt="Tropical Paradise"
+            class="w-full h-64 object-cover"
+          />
+          <div
+            class="absolute top-4 right-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm"
+          >
+            Best Seller
+          </div>
+        </div>
+        <div class="p-6">
+          <h5 class="text-2xl font-bold text-blue-900 mb-3">
+            Tropical Paradise
+          </h5>
+          <p class="text-gray-600 mb-4">
+            Immerse yourself in pristine beaches and lush landscapes of a
+            tropical getaway.
+          </p>
+          <a
+            href="#"
+            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300"
+          >
+            More Information
+          </a>
+        </div>
+      </div>
+
+      <!-- Package Card 2 -->
+      <div
+        class="package-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform transition duration-300"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            src="/assets/tourbook1.webp"
+            alt="Mountain Adventure"
+            class="w-full h-64 object-cover"
+          />
+          <div
+            class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm"
+          >
+            Adventure
+          </div>
+        </div>
+        <div class="p-6">
+          <h5 class="text-2xl font-bold text-blue-900 mb-3">
+            Mountain Adventure
+          </h5>
+          <p class="text-gray-600 mb-4">
+            Explore rugged terrains, breathtaking peaks, and challenging hiking
+            trails.
+          </p>
+          <a
+            href="#"
+            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300"
+          >
+            More Information
+          </a>
+        </div>
+      </div>
+
+      <!-- Package Card 3 -->
+      <div
+        class="package-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform transition duration-300"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            src="/assets/tourbook2.webp"
+            alt="Cultural Expedition"
+            class="w-full h-64 object-cover"
+          />
+          <div
+            class="absolute top-4 right-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm"
+          >
+            Cultural
+          </div>
+        </div>
+        <div class="p-6">
+          <h5 class="text-2xl font-bold text-blue-900 mb-3">
+            Cultural Expedition
+          </h5>
+          <p class="text-gray-600 mb-4">
+            Discover rich heritage, ancient traditions, and vibrant local
+            experiences.
+          </p>
+          <a
+            href="#"
+            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300"
+          >
+            More Information
+          </a>
+        </div>
+      </div>
+
+      <!-- Package Card 4 -->
+      <div
+        class="package-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform transition duration-300"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            src="/assets/tourbook3.webp"
+            alt="Urban Exploration"
+            class="w-full h-64 object-cover"
+          />
+          <div
+            class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm"
+          >
+            City Tour
+          </div>
+        </div>
+        <div class="p-6">
+          <h5 class="text-2xl font-bold text-blue-900 mb-3">
+            Urban Exploration
+          </h5>
+          <p class="text-gray-600 mb-4">
+            Navigate through modern cityscapes, iconic landmarks, and local
+            urban culture.
+          </p>
+          <a
+            href="#"
+            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300"
+          >
+            More Information
           </a>
         </div>
       </div>
     </div>
-    <!-- Repeat above block for other images -->
   </div>
-</div>
+
+  <!-- Gallery Item  -->
+  <div class="container mx-auto px-6 py-12">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-12">
+      Gallery
+    </h2>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      <div class="relative overflow-hidden rounded-lg shadow-lg group">
+        <img
+          src="/assets/tourbook1.webp"
+          alt="Image 1"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300"
+        >
+          <span class="text-white font-bold text-lg">Image 1</span>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-lg shadow-lg group">
+        <img
+          src="/assets/tourbook5.webp"
+          alt="Image 2"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300"
+        >
+          <span class="text-white font-bold text-lg">Image 2</span>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-lg shadow-lg group">
+        <img
+          src="/assets/tourbook6.webp"
+          alt="Image 3"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300"
+        >
+          <span class="text-white font-bold text-lg">Image 3</span>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-lg shadow-lg group">
+        <img
+          src="/assets/tourbook1.webp"
+          alt="Image 4"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300"
+        >
+          <span class="text-white font-bold text-lg">Image 4</span>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-lg shadow-lg group">
+        <img
+          src="/assets/tourbook1.webp"
+          alt="Image 5"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300"
+        >
+          <span class="text-white font-bold text-lg">Image 5</span>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-lg shadow-lg group">
+        <img
+          src="/assets/tourbook1.webp"
+          alt="Image 6"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300"
+        >
+          <span class="text-white font-bold text-lg">Image 6</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Tour Package Reviews</h2>
+
+    <!-- Top Reviews Section -->
+    <form
+      [formGroup]="reviewForm"
+      (ngSubmit)="onSubmit()"
+      class="max-w-xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    >
+      <div class="mb-4">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="customerName"
+        >
+          Your Name
+        </label>
+        <input
+          formControlName="customerName"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+          id="customerName"
+          type="text"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Rating
+        </label>
+        <div class="flex">
+          <button
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            type="button"
+            class="text-3xl mr-2"
+            [ngClass]="
+              reviewForm.get('rating')?.value >= star
+                ? 'text-yellow-500'
+                : 'text-gray-300'
+            "
+            (click)="setRating(star)"
+          >
+            ★
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="reviewText"
+        >
+          Your Review
+        </label>
+        <textarea
+          formControlName="reviewText"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 h-24"
+          id="reviewText"
+        ></textarea>
+      </div>
+
+      <div class="flex items-center justify-center">
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          [disabled]="!reviewForm.valid"
+        >
+          Submit Review
+        </button>
+      </div>
+    </form>
+
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold mb-3">Our Location</h3>
+      <div class="w-full h-48 overflow-hidden rounded-lg shadow-lg">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.4846955895757!2d80.0280979!3d9.667434999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afe53591de35acd%3A0x5aa6c0932b2ccfc1!2s61%20Rakka%20Rd%2C%20Jaffna%2C%20Sri%20Lanka!5e0!3m2!1sen!2sus!4v1700989333333!5m2!1sen!2sus"
+          width="100%"
+          height="100%"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="w-full h-full"
+        ></iframe>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gradient">
+      <div>
+        <a href="" class="me-4 text-reset">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="" class="me-4 text-reset">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="" class="me-4 text-reset">
+          <i class="fab fa-google"></i>
+        </a>
+        <a href="" class="me-4 text-reset">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="" class="me-4 text-reset">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="" class="me-4 text-reset">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <div class="row mt-3">
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">
+                <i class="fas fa-gem me-3"></i>Company name
+              </h6>
+              <p>
+                Here you can use rows and columns to organize your footer
+                content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit.
+              </p>
+            </div>
+
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">Products</h6>
+              <p>
+                <a href="#!" class="text-reset">Angular</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">React</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Vue</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Laravel</a>
+              </p>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
+              <p>
+                <a href="#!" class="text-reset">Pricing</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Settings</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Orders</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Help</a>
+              </p>
+            </div>
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+              <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+              <p>
+                <i class="fas fa-envelope me-3"></i>
+                info@example.com
+              </p>
+              <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+              <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div
+        class="text-center p-4"
+        style="background-color: rgba(0, 0, 0, 0.05)"
+      >
+        © 2021 Copyright:
+        <a class="text-reset fw-bold" href="https://mdbootstrap.com/"
+          >MDBootstrap.com</a
+        >
+      </div>
+    </footer>
+  </div>
+</body>

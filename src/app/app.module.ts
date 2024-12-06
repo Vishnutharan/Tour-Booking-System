@@ -4,27 +4,31 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './Component/login/login.component';
 import { RegisterComponent } from './Component/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from './Service/auth.service';
+// import { AuthService } from './Service/auth.service';
 import { HomeComponent } from './Component/home/home.component';
-// import { LucideModule } from 'lucide-angular';  // Import LucideModule here
+import { BookingComponent } from './Component/booking/booking.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    BookingComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // LucideModule
+    FormsModule,
+
   ],
-  providers: [AuthService],
+  // providers: [AuthService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

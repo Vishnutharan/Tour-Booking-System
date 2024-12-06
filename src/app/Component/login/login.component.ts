@@ -1,48 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/Service/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import { AuthService } from 'src/app/Service/auth.service';
+import { LoginCredentials, LoginDto } from 'src/app/Model/auth.models';
+import { RegisterComponent } from '../register/register.component';
+import { AuthService } from 'src/app/Service/AuthService';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+export class LoginComponent {
+  credentials: LoginCredentials = {
+    username: '',
+    password: ''
+  };
+  errorMessage: string = '';
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private fb: FormBuilder
+    private authService: AuthService, 
+    private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+  onSubmit() {
+    this.errorMessage = ''; // Reset error message
+
+    this.authService.login(this.credentials).subscribe({
+      next: () => {
+        // Successful login
+        this.router.navigate(['/home']); // Redirect to dashboard
+      },
+      error: (err) => {
+        // Handle login error
+        this.errorMessage = err.error || 'Login failed. Please check your credentials.';
+      }
     });
   }
 
-  onSubmit(): void {
-    if (this.loginForm.invalid) {
-      return;
-    }
-
-    const credentials = this.loginForm.value;
-
-    this.authService.login(credentials).subscribe({
-      next: (response) => {
-        console.log('Login Successful:', response);
-        localStorage.setItem('authToken', response.token); // Store JWT token
-        this.router.navigate(['/dashboard']);
-      },
-      error: (error) => {
-        console.error('Login Failed:', error);
-        alert(
-          'Unable to login. Please check your credentials or try again later.'
-        );
-      },
-    });
+  switchToRegister() {
+    this.router.navigate(['/register']);
   }
 }

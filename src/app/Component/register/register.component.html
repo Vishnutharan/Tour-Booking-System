@@ -37,3 +37,53 @@
     </div>
   </section>
   
+
+  
+
+  <div class="register-container">
+    <div class="register-box">
+      <h2>Create an Account</h2>
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            [(ngModel)]="credentials.username" 
+            required 
+            class="form-control"
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="credentials.password" 
+            required 
+            class="form-control"
+          >
+        </div>
+        
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+        
+        <button 
+          type="submit" 
+          class="btn-register"
+          [disabled]="registerForm.invalid"
+        >
+          Register
+        </button>
+        
+        <p class="login-link">
+          Already have an account? 
+          <a (click)="switchToLogin()">Login here</a>
+        </p>
+      </form>
+    </div>
+  </div>
