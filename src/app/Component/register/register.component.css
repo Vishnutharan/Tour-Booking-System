@@ -1,0 +1,76 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #e0eafc, #cfdef3);
+  overflow: hidden;
+}
+
+.register-box {
+  display: flex; /* Make the box a flex container */
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 800px; /* Increased width for two columns */
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-side {
+  flex: 1; /* Take up available space */
+  padding-right: 20px; /* Add some spacing between form and image */
+}
+
+.image-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-side img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ... (rest of the CSS from the previous response for form elements) */
+.register-box h2 {
+    color: #3498db; /* Example color */
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.4);
+}
+
+.btn-register {
+    background-color: #3498db;
+}
+
+.btn-register:hover {
+    background-color: #2980b9;
+}
+.login-link a {
+    color: #3498db;
+}
+
+.login-link a:hover {
+    color: #2980b9;
+}
+body{
+    background: linear-gradient(to right, #2980b9, #8e44ad); /* Example gradient */
+}

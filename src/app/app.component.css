@@ -1,39 +1,122 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
+/* Basic Styling */
 .navbar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(90deg, #272152, #1b0679); /* Purple to Blue gradient */
-    padding: 20px;
-}
-
-.logo {
-    font-size: 24px;
+    justify-content: space-between; /* Distribute space between logo and links */
+    align-items: center; /* Vertically align items */
+    background-color: #333; /* Dark background */
     color: white;
+    padding: 1rem 2rem;
+    position: sticky; /* Stick the navbar to the top */
+    top: 0;
+    z-index: 100; /* Ensure it's above other content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  }
+  
+  .logo {
+    font-size: 1.5rem;
     font-weight: bold;
-}
-
-.nav-links {
+  }
+  
+  .nav-links {
     display: flex;
-    gap: 15px;
-}
-
-.bt {
-    background-color: #ffffff; /* White background for buttons */
-    color: #07219471; /* Blue text */
-    border: none;
+    gap: 1rem; /* Space between links */
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: white;
+    padding: 0.5rem 1rem;
     border-radius: 5px;
-    padding: 10px 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  }
+  
+  .nav-link:hover {
+    background-color: #555; /* Darker background on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+  }
+  
+  .auth {
+    background-color: #007bff; /* Blue background for auth buttons */
+  }
+  
+  .auth:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Styles */
+  .menu-toggle {
+    display: none; /* Hide by default on larger screens */
+    background: none;
+    border: none;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.bt:hover {
-    background-color: #1e90ff; /* Change to blue on hover */
-    color: white; /* White text on hover */
-}
+    padding: 0;
+  }
+  
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    transition: 0.4s;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none; /* Hide links on smaller screens */
+      flex-direction: column;
+      position: absolute;
+      top: 60px; /* Adjust based on navbar height */
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  
+    .nav-links.active {
+      display: flex; /* Show links when menu is toggled */
+    }
+  
+    .nav-link {
+      padding: 1rem;
+      width: 100%;
+      display: block;
+    }
+    .menu-toggle {
+      display: block; /* Show menu toggle on smaller screens */
+    }
+      .menu-toggle.active .bar:nth-child(1) {
+          transform: rotate(-45deg) translate(-6px, 6px);
+      }
+  
+      .menu-toggle.active .bar:nth-child(2) {
+          opacity: 0;
+      }
+  
+      .menu-toggle.active .bar:nth-child(3) {
+          transform: rotate(45deg) translate(-6px, -6px);
+      }
+  }
+  
+  /* Animations */
+  .nav-link {
+      overflow: hidden; /* Needed for the pseudo-element animation */
+      position: relative;
+  }
+  
+  .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #007bff; /* Accent color */
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+  }
+  
+  .nav-link:hover::before {
+      transform: scaleX(1);
+  }

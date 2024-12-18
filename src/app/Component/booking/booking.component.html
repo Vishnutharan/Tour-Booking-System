@@ -1,31 +1,31 @@
-<div class="container-fluid px-0">
+<div class="container-fluid">
   <div class="row">
     <div class="col-12">
       <div class="hero-section">
-        <img src="/assets/tourbook1.webp" alt="Discover the most engaging places" class="w-full h-auto" />
+        <img src="/assets/tourbook1.webp" alt="Discover the most engaging places" />
         <div class="hero-content">
-          <h1 class="text-4xl font-bold text-white mb-4">Discover the most engaging places</h1>
-          <p class="text-white text-lg mb-8">Natural beauty</p>
-          <div class="flex justify-center">
-            <div class="relative mr-4">
-              <input type="text" class="bg-white rounded-md px-4 py-2 pr-8 cursor-pointer" placeholder="Date from" (click)="showDatePicker = !showDatePicker" />
-              <div class="absolute z-10 bg-white shadow-lg rounded-md mt-2 p-4" *ngIf="showDatePicker">
+          <h1>Discover the most engaging places</h1>
+          <p>Natural beauty</p>
+          <div class="input-group">
+            <div class="relative">
+              <input type="text" placeholder="Date from" (click)="showDatePicker = !showDatePicker" />
+              <div class="absolute" *ngIf="showDatePicker">
                 <!-- Date picker content -->
               </div>
             </div>
-            <div class="relative mr-4">
-              <input type="text" class="bg-white rounded-md px-4 py-2 pr-8 cursor-pointer" placeholder="Guests" (click)="showGuestPicker = !showGuestPicker" />
-              <div class="absolute z-10 bg-white shadow-lg rounded-md mt-2 p-4" *ngIf="showGuestPicker">
+            <div class="relative">
+              <input type="text" placeholder="Guests" (click)="showGuestPicker = !showGuestPicker" />
+              <div class="absolute" *ngIf="showGuestPicker">
                 <!-- Guest picker content -->
               </div>
             </div>
             <div class="relative">
-              <input type="text" class="bg-white rounded-md px-4 py-2 pr-8 cursor-pointer" placeholder="Destination" (click)="showDestinationPicker = !showDestinationPicker" />
-              <div class="absolute z-10 bg-white shadow-lg rounded-md mt-2 p-4" *ngIf="showDestinationPicker">
+              <input type="text" placeholder="Destination" (click)="showDestinationPicker = !showDestinationPicker" />
+              <div class="absolute" *ngIf="showDestinationPicker">
                 <!-- Destination picker content -->
               </div>
             </div>
-            <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded ml-4">
+            <button>
               Explore Now
             </button>
           </div>

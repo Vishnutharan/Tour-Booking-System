@@ -20,7 +20,7 @@ export class LoginComponent {
   errorMessage: string = '';
 
   constructor(
-    private authService: AuthService, 
+    public authService: AuthService, 
     private router: Router
   ) {}
 
@@ -41,5 +41,8 @@ export class LoginComponent {
 
   switchToRegister() {
     this.router.navigate(['/register']);
+  }
+ public get isLoggedIn() {
+    return this.authService.isLoggedIn();
   }
 }

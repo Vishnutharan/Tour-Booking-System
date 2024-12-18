@@ -8,7 +8,7 @@ import { LoginCredentials, LoginDto,LoginResponse,RegisterDto,TokenResponse } fr
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+ export class AuthService {
   private apiUrl = 'https://localhost:7063/api/Auth';
   private currentUserSubject = new BehaviorSubject<string | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
@@ -40,7 +40,7 @@ export class AuthService {
     );
   }
 
-  logout(): void {
+  public logout(): void {
     // Remove token from local storage
     localStorage.removeItem('authToken');
     
