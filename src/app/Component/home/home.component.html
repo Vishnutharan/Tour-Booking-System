@@ -64,6 +64,15 @@
                   <h3 class="feature-title">24/7 Support</h3>
                   <p class="feature-description">Round-the-clock customer service to assist you at every step of your journey.</p>
               </div>
+              <div class="feature-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon headphones-icon">
+                        <path d="M3 11h18a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2v-5h-4v5h-4v-5H3v-6a2 2 0 0 1 2-2zm0-5v5h18V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z" />
+                    </svg>
+                </div>
+                <h3 class="feature-title">24/7 Support</h3>
+                <p class="feature-description">Round-the-clock customer service to assist you at every step of your journey.</p>
+            </div>
           </div>
       </div>
   </div>
@@ -223,46 +232,96 @@
 </div>
 
 <!-- Review -->
-<div class="review-page-wrapper">
-  <h2 class="review-section-title">Tour Package Reviews</h2>
-
-  <form class="review-form-container">
-      <div class="form-input-group">
-          <label class="form-label" for="customerName"> Your Name </label>
-          <input class="form-input" id="customerName" type="text" />
-      </div>
-
-      <div class="form-input-group">
-          <label class="form-label"> Rating </label>
-          <div class="star-rating-container">
-              <button type="button" class="star-button empty-star" (click)="setRating(1)">
-                  ★
-              </button>
-              <button type="button" class="star-button empty-star" (click)="setRating(2)">
-                  ★
-              </button>
-              <button type="button" class="star-button empty-star" (click)="setRating(3)">
-                  ★
-              </button>
-              <button type="button" class="star-button empty-star" (click)="setRating(4)">
-                  ★
-              </button>
-              <button type="button" class="star-button empty-star" (click)="setRating(5)">
-                  ★
-              </button>
+<!-- tour-review.component.html -->
+<div class="review-container">
+    <section class="review-submission">
+      <h2 class="section-title">Share Your Experience</h2>
+      
+      <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="review-form">
+        <!-- Customer Name Input -->
+        <div class="form-group">
+          <label for="customerName" class="form-label">Your Name</label>
+          <input 
+            type="text" 
+            id="customerName" 
+            formControlName="customerName" 
+            class="form-input"
+            [class.is-invalid]="submitted && f['customerName'].errors"
+          >
+          <div *ngIf="submitted && f['customerName'].errors" class="invalid-feedback">
+            <small *ngIf="f['customerName'].errors['required']">Name is required</small>
+            <small *ngIf="f['customerName'].errors['minlength']">Name must be at least 2 characters</small>
           </div>
-      </div>
-
-      <div class="form-input-group">
-          <label class="form-label" for="reviewText"> Your Review </label>
-          <textarea class="review-textarea" id="reviewText"></textarea>
-      </div>
-
-      <button type="submit" class="submit-review-btn">
+        </div>
+  
+        <!-- Star Rating -->
+        <div class="form-group">
+          <label class="form-label">Your Rating</label>
+          <div class="star-rating">
+            <button 
+              *ngFor="let star of [1,2,3,4,5]" 
+              type="button" 
+              class="star-button"
+              [class.active]="reviewForm.get('rating')?.value >= star"
+              (click)="setRating(star)"
+            >
+              ★
+            </button>
+          </div>
+          <div *ngIf="submitted && f['rating'].errors" class="invalid-feedback">
+            <small *ngIf="f['rating'].errors['required']">Please select a rating</small>
+          </div>
+        </div>
+  
+        <!-- Review Text -->
+        <div class="form-group">
+          <label for="reviewText" class="form-label">Your Review</label>
+          <textarea 
+            id="reviewText" 
+            formControlName="reviewText" 
+            class="form-textarea"
+            [class.is-invalid]="submitted && f['reviewText'].errors"
+          ></textarea>
+          <div *ngIf="submitted && f['reviewText'].errors" class="invalid-feedback">
+            <small *ngIf="f['reviewText'].errors['required']">Review is required</small>
+            <small *ngIf="f['reviewText'].errors['minlength']">Review must be at least 10 characters</small>
+          </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          class="submit-btn"
+          [disabled]="reviewForm.invalid"
+        >
           Submit Review
-      </button>
-  </form>
+        </button>
+  
+        <!-- Error Message -->
+        <div *ngIf="submitError" class="error-message">
+          Unable to submit review. Please try again later.
+        </div>
+      </form>
+    </section>
+  
+    <!-- Top Reviews Section -->
+    <section class="top-reviews">
+      <h2 class="section-title">Top Reviews</h2>
+      <div class="reviews-grid">
+        <div *ngFor="let review of topReviews" class="review-card">
+          <div class="review-header">
+            <h3 class="reviewer-name">{{ review.customerName }}</h3>
+            <div class="review-rating">
+              <span *ngFor="let star of getStars(review.rating)" class="active-star">★</span>
+            </div>
+          </div>
+          <p class="review-text">{{ review.reviewText }}</p>
+        </div>
+      </div>
+    </section>
+  </div>
 
+  
   <div class="location-info-section">
       <h3 class="map-heading">Our Location</h3>
       <div class="map-container">
@@ -275,7 +334,6 @@
           ></iframe>
       </div>
   </div>
-</div>
 
 <!-- Footer -->
 <footer class="site-footer">
