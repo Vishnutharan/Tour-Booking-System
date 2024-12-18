@@ -1,20 +1,20 @@
 <div class="navbar">
-    <div class="logo">My App</div>
-    <nav class="nav-links">
-      <a routerLink="/home" class="nav-link">Home</a>
-      <a routerLink="/about" class="nav-link">About</a>
-      <a routerLink="/gallery" class="nav-link">Gallery</a>
-      <a routerLink="/packages" class="nav-link">Packages</a>
-      <a routerLink="/booking" class="nav-link">Booking</a>
-      <a routerLink="/contact" class="nav-link">Contact</a>
-      <a routerLink="/login" class="nav-link auth">Login</a>
-      <a routerLink="/logout" class="nav-link auth">Logout</a>
-      <a routerLink="/register" class="nav-link auth">Register</a>
-    </nav>
-    <button class="menu-toggle">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-  <router-outlet></router-outlet>
+  <div class="logo">My App</div>
+  <nav class="nav-links">
+    <a routerLink="/home" fragment="home" class="nav-link">Home</a>
+    <a routerLink="/home" fragment="about" class="nav-link">About</a>
+    <a routerLink="/home" fragment="packages" class="nav-link">Packages</a>
+    <a routerLink="/home" fragment="gallery" class="nav-link">Gallery</a>
+    <a routerLink="/booking" class="nav-link">Booking</a>
+    <a routerLink="/home" fragment="contact" class="nav-link">Contact</a>
+    <a routerLink="/login" class="nav-link auth">Login</a>
+    <a routerLink="/logout" class="nav-link auth">Logout</a>
+    <a routerLink="/register" class="nav-link auth">Register</a>
+  </nav>
+  <button class="menu-toggle">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+</div>
+<router-outlet></router-outlet>
