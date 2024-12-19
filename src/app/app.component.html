@@ -7,9 +7,22 @@
     <a routerLink="/home" fragment="gallery" class="nav-link">Gallery</a>
     <a routerLink="/booking" class="nav-link">Booking</a>
     <a routerLink="/home" fragment="contact" class="nav-link">Contact</a>
-    <a routerLink="/login" class="nav-link auth">Login</a>
-    <a routerLink="/logout" class="nav-link auth">Logout</a>
-    <a routerLink="/register" class="nav-link auth">Register</a>
+    
+    <ng-container *ngIf="!authService.isLoggedIn(); else loggedInMenu">
+      <a routerLink="/login" class="nav-link auth">Login</a>
+      <a routerLink="/register" class="nav-link auth">Register</a>
+    </ng-container>
+    
+    <ng-template #loggedInMenu>
+      <div class="user-menu">
+        <a (click)="toggleLogoutDropdown()" class="nav-link auth username">
+          {{ authService.getCurrentUsername() }}
+        </a>
+        <div *ngIf="showLogoutDropdown" class="logout-dropdown">
+          <a (click)="logout()" class="nav-link">Logout</a>
+        </div>
+      </div>
+    </ng-template>
   </nav>
   <button class="menu-toggle">
     <span class="bar"></span>

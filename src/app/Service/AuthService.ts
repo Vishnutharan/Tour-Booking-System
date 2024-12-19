@@ -1,20 +1,22 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LoginCredentials, LoginDto,LoginResponse,RegisterDto,TokenResponse } from '../Model/auth.models';
+import { LoginCredentials, LoginResponse } from '../Model/auth.models';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
- export class AuthService {
+export class AuthService {
   private apiUrl = 'https://localhost:7063/api/Auth';
   private currentUserSubject = new BehaviorSubject<string | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    // Check if token exists in local storage on service initialization
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
     const token = localStorage.getItem('authToken');
     if (token) {
       this.currentUserSubject.next(this.getUsernameFromToken(token));
@@ -29,10 +31,7 @@ import { LoginCredentials, LoginDto,LoginResponse,RegisterDto,TokenResponse } fr
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
         if (response && response.token) {
-          // Store the token
           localStorage.setItem('authToken', response.token);
-          
-          // Set current user
           const username = this.getUsernameFromToken(response.token);
           this.currentUserSubject.next(username);
         }
@@ -40,12 +39,10 @@ import { LoginCredentials, LoginDto,LoginResponse,RegisterDto,TokenResponse } fr
     );
   }
 
-  public logout(): void {
-    // Remove token from local storage
+  logout(): void {
     localStorage.removeItem('authToken');
-    
-    // Clear current user
     this.currentUserSubject.next(null);
+    this.router.navigate(['/home']);
   }
 
   isLoggedIn(): boolean {

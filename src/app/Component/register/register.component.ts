@@ -1,45 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginCredentials } from 'src/app/Model/auth.models';
 import { AuthService } from 'src/app/Service/AuthService';
 
 @Component({
-    selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-    credentials: LoginCredentials = {
-        username: '',
-        password: ''
-    };
-    errorMessage: string = '';
+  credentials: LoginCredentials = {
+    username: '',
+    password: ''
+  };
+  errorMessage: string = '';
 
-    constructor(
-        private authService: AuthService,
-        private router: Router
-    ) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-    ngOnInit(): void {
-        // Remove the throw statement:
-        // No initialization logic needed at the moment.
-    }
+  ngOnInit(): void {}
 
-    onSubmit() {
-        this.errorMessage = '';
-
-        this.authService.register(this.credentials).subscribe({
-            next: () => {
-                this.router.navigate(['/login']);
-            },
-            error: (err) => {
-                this.errorMessage = err.error || 'Registration failed.'; // Better error handling
-            }
-        });
-    }
-
-    switchToLogin() {
+  onSubmit() {
+    this.errorMessage = '';
+    
+    this.authService.register(this.credentials).subscribe({
+      next: (response) => {
+        console.log('Registration successful');
         this.router.navigate(['/login']);
-    }
+      },
+      error: (error) => {
+        console.error('Registration error:', error);
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  switchToLogin() {
+    this.router.navigate(['/login']);
+  }
 }
