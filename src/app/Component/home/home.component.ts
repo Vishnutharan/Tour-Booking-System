@@ -206,7 +206,8 @@ export class HomeComponent implements OnInit {
 
  // Load Top Reviews
   loadTopReviews(): void {
-    this.http.get<Review[]>('api/Reviews/top/6').subscribe({
+    // this.http.get<Review[]>('api/Reviews/top/6').subscribe({
+      this.http.get<Review[]>('').subscribe({
       next: (reviews) => {
         this.topReviews = reviews;
       },

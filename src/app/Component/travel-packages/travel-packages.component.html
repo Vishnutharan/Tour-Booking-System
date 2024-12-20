@@ -1,0 +1,46 @@
+<!-- Step 1: Basic Structure for Countries -->
+<div class="countries">
+  <div class="country" *ngFor="let country of countries">
+    <img src="/assets/tourbook1.webp" alt="{{ country.name }}">
+    <h2>{{ country.name }}</h2>
+    <p>{{ country.description }}</p>
+    <button (click)="navigateToCountryDetails(country)">More</button>
+  </div>
+</div>
+
+<!-- Step 2: Structure for Country Details -->
+<div class="country-details" *ngIf="selectedCountry">
+  <h1>{{ selectedCountry.name }}</h1>
+  <div class="places">
+    <div class="place" *ngFor="let place of selectedCountry.places">
+      <img src="/assets/tourbook1.webp" alt="{{ place.name }}">
+      <h3>{{ place.name }}</h3>
+      <p>{{ place.details }}</p>
+      <p>Price: {{ place.price | currency }}</p>
+      <button (click)="addToCart(place)">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- Step 3: Cart Section -->
+<div class="cart">
+  <h2>Your Cart</h2>
+  <div *ngFor="let item of cart">
+    <h4>{{ item.name }}</h4>
+    <p>Price: {{ item.price | currency }}</p>
+  </div>
+  <h3>Total: {{ cartTotal | currency }}</h3>
+  <button (click)="goToBookingPage()">Proceed to Booking</button>
+</div>
+
+<!-- Step 4: Booking Page -->
+<div class="booking" *ngIf="isBookingPage">
+  <h1>Booking Details</h1>
+  <form>
+    <label>Name: <input type="text" [(ngModel)]="bookingDetails.name"></label>
+    <label>Email: <input type="email" [(ngModel)]="bookingDetails.email"></label>
+    <label>Phone: <input type="tel" [(ngModel)]="bookingDetails.phone"></label>
+    <button type="button" (click)="submitBooking()">Pay</button>
+    <button type="button" (click)="printDetails()">Print</button>
+  </form>
+</div>

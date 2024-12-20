@@ -4,12 +4,18 @@ import { LoginComponent } from './Component/login/login.component';
 import { RegisterComponent } from './Component/register/register.component';
 import { HomeComponent } from './Component/home/home.component';
 import { BookingComponent } from './Component/booking/booking.component';
+import { PaymentComponent } from './Component/payment/payment.component';
+import { TravelPackagesComponent } from './Component/travel-packages/travel-packages.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'booking', component: BookingComponent },
+  { path: 'payment', component: PaymentComponent },
+  { path: 'tpack', component: TravelPackagesComponent },
+
+
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Optional default route
 ];
 

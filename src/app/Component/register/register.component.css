@@ -4,13 +4,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f5f5;
+  background: linear-gradient(to bottom right, #e0eafc, #cfdef3);
   padding: 20px;
 }
 
 .register-box {
   display: flex;
-  background: white;
+  /* background: white; */
+  background: linear-gradient(to bottom right, #e0eafc, #3f5169);
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 900px;

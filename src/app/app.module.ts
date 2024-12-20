@@ -6,10 +6,11 @@ import { LoginComponent } from './Component/login/login.component';
 import { RegisterComponent } from './Component/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-// import { AuthService } from './Service/auth.service';
 import { HomeComponent } from './Component/home/home.component';
 import { BookingComponent } from './Component/booking/booking.component';
 import { RouterModule } from '@angular/router';
+import { PaymentComponent } from './Component/payment/payment.component';
+import { TravelPackagesComponent } from './Component/travel-packages/travel-packages.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,8 @@ import { RouterModule } from '@angular/router';
     HomeComponent,
     BookingComponent,
     LoginComponent,
+    PaymentComponent,
+    TravelPackagesComponent,
   ],
   imports: [
     BrowserModule,

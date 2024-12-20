@@ -1,0 +1,21 @@
+<form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="amount">Amount</label>
+    <input
+      id="amount"
+      formControlName="amount"
+      type="number"
+      min="1"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="card-element">Card Details</label>
+    <div id="card-element"></div>
+  </div>
+
+  <button type="submit" [disabled]="paymentForm.invalid || loading">
+    {{ loading ? "Processing..." : "Pay Now" }}
+  </button>
+</form>

@@ -9,7 +9,7 @@
 
 .login-box {
   display: flex;
-  background-color: white;
+  background: linear-gradient(to bottom right, #6a88c2, #8ebce2);
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

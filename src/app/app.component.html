@@ -6,11 +6,14 @@
     <a routerLink="/home" fragment="packages" class="nav-link">Packages</a>
     <a routerLink="/home" fragment="gallery" class="nav-link">Gallery</a>
     <a routerLink="/booking" class="nav-link">Booking</a>
+    <a routerLink="/tpack" class="nav-link">Travel Pack</a>
     <a routerLink="/home" fragment="contact" class="nav-link">Contact</a>
     
     <ng-container *ngIf="!authService.isLoggedIn(); else loggedInMenu">
       <a routerLink="/login" class="nav-link auth">Login</a>
       <a routerLink="/register" class="nav-link auth">Register</a>
+      <a routerLink="/payment" fragment="home" class="nav-link">Pay</a>
+
     </ng-container>
     
     <ng-template #loggedInMenu>
