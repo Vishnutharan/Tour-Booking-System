@@ -341,7 +341,7 @@
 }
 
 .contentcontry {
-  width: 90%; /* Make content slightly narrower */
+  width: 100%; /* Make content slightly narrower */
   max-width: auto; /* Limit max-width on large screens */
 }
 
