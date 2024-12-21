@@ -1,4 +1,3 @@
-/* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -33,7 +32,6 @@ img {
   border-radius: 5px;
 }
 
-/* Responsive Layout */
 .countries {
   display: flex;
   flex-wrap: wrap;
@@ -58,7 +56,6 @@ img {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Country Details */
 .country-details {
   padding: 20px;
 }

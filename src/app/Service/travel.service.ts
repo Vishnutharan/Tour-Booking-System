@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Country, TouristPlace, CartItem } from '../Interface/travel.interface';
+import { Country, TouristPlace, CartItem } from 'src/app/Interface/travel.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,47 +11,53 @@ export class TravelService {
       id: 'fr',
       name: 'France',
       description: 'The land of art, culture, and cuisine.',
-      imageUrl: '/assets/images/france.jpg',
+      imageUrl: '/assets/tourbook9.webp',
       featuredScore: 4.8
     },
     {
       id: 'jp',
       name: 'Japan',
       description: 'A blend of tradition and modern technology.',
-      imageUrl: '/assets/images/japan.jpg',
+      imageUrl: '/assets/tourbook8.webp',
       featuredScore: 4.9
     },
     {
       id: 'br',
       name: 'Brazil',
       description: 'Home to stunning beaches and vibrant culture.',
-      imageUrl: '/assets/images/brazil.jpg',
+      imageUrl: '/assets/tourbook7.webp',
       featuredScore: 4.7
     }
   ];
 
   private readonly mockTouristPlaces: TouristPlace[] = [
     {
-      id: 'fr-1',
+      id: 'fr',
       countryId: 'fr',
       name: 'Eiffel Tower',
       description: 'Iconic iron lattice tower on the Champ de Mars in Paris.',
-      imageUrl: '/assets/images/eiffel-tower.jpg',
+      imageUrl: '/assets/tourbook9.webp',
       cost: 25,
       rating: 4.7,
       highlights: ['Skip-the-line access', 'Panoramic city views', 'Restaurant dining'],
       bestTimeToVisit: 'Sunset',
       duration: '2-3 hours'
-    },
-    // Add more tourist places...
+    }
   ];
 
   private cartItems = new BehaviorSubject<CartItem[]>([]);
 
+  // Fetch countries
   getCountries(): Observable<Country[]> {
     return of(this.mockCountries);
   }
 
+  // Fetch country details by ID
+  getCountryById(id: string): Observable<Country> {
+    const country = this.mockCountries.find(c => c.id === id);
+    return of(country!);
+  }
+  
   getTouristPlaces(countryId: string): Observable<TouristPlace[]> {
     return of(this.mockTouristPlaces.filter(place => place.countryId === countryId));
   }
@@ -73,7 +79,9 @@ export class TravelService {
         countryId: place.countryId,
         name: place.name,
         cost: place.cost,
-        quantity: 1
+        quantity: 1,
+        details: place.description,
+        image: place.imageUrl
       };
       this.cartItems.next([...currentItems, newItem]);
     }

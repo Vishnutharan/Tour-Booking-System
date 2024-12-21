@@ -25,4 +25,14 @@ export interface Country {
     name: string;
     cost: number;
     quantity: number;
+    details: string;
+    image: string;
+  }
+  
+  export interface BookingDetails {
+    name: string;
+    email: string;
+    phone: string;
+    dateOfTravel?: Date;
+    numberOfPeople?: number;
   }

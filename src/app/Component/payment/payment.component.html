@@ -1,5 +1,6 @@
-<form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-  <div>
+<form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
+  <h2 class="form-title">Payment</h2>
+  <div class="form-group">
     <label for="amount">Amount</label>
     <input
       id="amount"
@@ -10,12 +11,12 @@
     />
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="card-element">Card Details</label>
     <div id="card-element"></div>
   </div>
 
-  <button type="submit" [disabled]="paymentForm.invalid || loading">
+  <button type="submit" [disabled]="paymentForm.invalid || loading" class="pay-button">
     {{ loading ? "Processing..." : "Pay Now" }}
   </button>
 </form>

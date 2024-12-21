@@ -6,6 +6,8 @@ import { HomeComponent } from './Component/home/home.component';
 import { BookingComponent } from './Component/booking/booking.component';
 import { PaymentComponent } from './Component/payment/payment.component';
 import { TravelPackagesComponent } from './Component/travel-packages/travel-packages.component';
+import { CountriesListComponent } from './Component/countries-list/countries-list.component';
+import { CountryDetailsComponent } from './Component/country-details/country-details.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,7 +16,8 @@ const routes: Routes = [
   { path: 'booking', component: BookingComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'tpack', component: TravelPackagesComponent },
-
+  { path: 'country', component: CountriesListComponent },
+  { path: 'country/:id', component: CountryDetailsComponent },
 
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Optional default route
 ];

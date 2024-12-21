@@ -1,0 +1,111 @@
+.countries-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header h1 {
+    margin-left: 10px;
+}
+
+
+.header-icon {
+  font-size: 2em;
+    margin-right: 10px;
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.country-card {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.country-card:hover{
+    transform: scale(1.05);
+}
+
+.image-container {
+  position: relative;
+}
+.overlay {
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.3);
+  
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.image-container:hover .overlay {
+    opacity: 1;
+}
+
+.card-icon {
+  color: white;
+  font-size: 2em;
+}
+
+.image-container img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.content {
+  padding: 15px;
+}
+
+.content h2 {
+  margin-bottom: 8px;
+}
+
+.content p {
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.rating {
+  color: #f39c12;
+  margin-bottom: 15px;
+}
+
+.explore-btn {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.explore-btn:hover {
+  background-color: #2980b9;
+}
