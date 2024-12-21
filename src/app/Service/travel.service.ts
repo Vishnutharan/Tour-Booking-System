@@ -26,6 +26,27 @@ export class TravelService {
       name: 'Brazil',
       description: 'Home to stunning beaches and vibrant culture.',
       imageUrl: '/assets/tourbook3.webp',
+      featuredScore: 4.5
+    },
+    {
+      id: 'ind',
+      name: 'india',
+      description: 'Home to stunning beaches and vibrant culture.',
+      imageUrl: '/assets/tourbook3.webp',
+      featuredScore: 4.4
+    },
+    {
+      id: 'sri',
+      name: 'Srilanka',
+      description: 'Home to stunning beaches and vibrant culture.',
+      imageUrl: '/assets/tourbook3.webp',
+      featuredScore: 4.0
+    },
+    {
+      id: 'cad',
+      name: 'canada',
+      description: 'Home to stunning beaches and vibrant culture.',
+      imageUrl: '/assets/tourbook3.webp',
       featuredScore: 4.7
     }
   ];

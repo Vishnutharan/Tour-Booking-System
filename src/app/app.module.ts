@@ -13,6 +13,8 @@ import { TravelPackagesComponent } from './Component/travel-packages/travel-pack
 import { CountriesListComponent } from './Component/countries-list/countries-list.component';
 import { LucideAngularModule, Globe, Plane, Star } from 'lucide-angular';
 import { CountryDetailsComponent } from './Component/country-details/country-details.component';
+import { PaymentPageComponent } from './Component/payment-page/payment-page.component';
+import { BookingConfirmationComponent } from './Component/booking-confirmation/booking-confirmation.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { CountryDetailsComponent } from './Component/country-details/country-det
     TravelPackagesComponent,
     CountriesListComponent,
     CountryDetailsComponent,
+    PaymentPageComponent,
+    BookingConfirmationComponent,
   ],
   imports: [
     BrowserModule,

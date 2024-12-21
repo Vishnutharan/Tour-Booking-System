@@ -55,12 +55,12 @@
 .nav-link[routerLink="/home"][fragment="packages"]::before { content: "📦"; }
 .nav-link[routerLink="/home"][fragment="gallery"]::before { content: "🖼"; }
 .nav-link[routerLink="/booking"]::before { content: "📅"; }
-.nav-link[routerLink="/tpack"]::before { content: "✈"; }
+/* .nav-link[routerLink="/tpack"]::before { content: "✈"; } */
 .nav-link[routerLink="/home"][fragment="contact"]::before { content: "📞"; }
 .nav-link[routerLink="/login"]::before { content: "👤"; }
 .nav-link[routerLink="/register"]::before { content: "✎"; }
-.nav-link[routerLink="/payment"]::before { content: "💳"; }
-.nav-link[routerLink="/home"][fragment="countryid"]::before { content: "🌍"; }
+.nav-link[routerLink="/paymentonline"]::before { content: "💳"; }
+.nav-link[routerLink="/home"][fragment="countryid"]::before { content: "✈🌍"; }
 
 
 

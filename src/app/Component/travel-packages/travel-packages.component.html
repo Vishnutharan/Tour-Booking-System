@@ -1,5 +1,4 @@
-<!-- Step 1: Basic Structure for Countries -->
-<div class="countries">
+<!-- <div class="countries">
   <div class="country" *ngFor="let country of countries">
     <img src="/assets/tourbook1.webp" alt="{{ country.name }}">
     <h2>{{ country.name }}</h2>
@@ -8,7 +7,6 @@
   </div>
 </div>
 
-<!-- Step 2: Structure for Country Details -->
 <div class="country-details" *ngIf="selectedCountry">
   <h1>{{ selectedCountry.name }}</h1>
   <div class="places">
@@ -22,7 +20,6 @@
   </div>
 </div>
 
-<!-- Step 3: Cart Section -->
 <div class="cart">
   <h2>Your Cart</h2>
   <div *ngFor="let item of cart">
@@ -33,7 +30,6 @@
   <button (click)="goToBookingPage()">Proceed to Booking</button>
 </div>
 
-<!-- Step 4: Booking Page -->
 <div class="booking" *ngIf="isBookingPage">
   <h1>Booking Details</h1>
   <form>
@@ -43,4 +39,4 @@
     <button type="button" (click)="submitBooking()">Pay</button>
     <button type="button" (click)="printDetails()">Print</button>
   </form>
-</div>
+</div> -->

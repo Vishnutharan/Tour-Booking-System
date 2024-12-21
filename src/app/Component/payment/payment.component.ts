@@ -7,55 +7,57 @@ import { PaymentService } from 'src/app/Service/payment.service';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent implements OnInit,AfterViewInit  {
-  paymentForm: FormGroup;
-  loading = false;
+export class PaymentComponent {
 
-  constructor(
-    private fb: FormBuilder,
-    private paymentService: PaymentService
-  ) {
-    this.paymentForm = this.fb.group({
-      amount: ['', [Validators.required, Validators.min(1)]]
-    });
-  }
+// export class PaymentComponent implements OnInit,AfterViewInit  {
+  // paymentForm: FormGroup;
+  // loading = false;
 
-  ngOnInit(): void {
-    // Form initialization logic
-  }
+  // constructor(
+  //   private fb: FormBuilder,
+  //   private paymentService: PaymentService
+  // ) {
+  //   this.paymentForm = this.fb.group({
+  //     amount: ['', [Validators.required, Validators.min(1)]]
+  //   });
+  // }
 
-  ngAfterViewInit(): void {
-    // Mount card element after view is fully initialized
-    setTimeout(() => {
-      this.paymentService.mountCardElement('card-element');
-    });
-  }
+  // ngOnInit(): void {
+  //   // Form initialization logic
+  // }
 
-  async onSubmit() {
-    if (this.paymentForm.invalid) return;
+  // ngAfterViewInit(): void {
+  //   // Mount card element after view is fully initialized
+  //   setTimeout(() => {
+  //     this.paymentService.mountCardElement('card-element');
+  //   });
+  // }
 
-    this.loading = true;
+  // async onSubmit() {
+  //   if (this.paymentForm.invalid) return;
 
-    try {
-      const { amount } = this.paymentForm.value;
+  //   this.loading = true;
+
+  //   try {
+  //     const { amount } = this.paymentForm.value;
       
-      // Create Payment Intent
-      const clientSecret = await this.paymentService.createPaymentIntent(amount);
+  //     // Create Payment Intent
+  //     const clientSecret = await this.paymentService.createPaymentIntent(amount);
       
-      // Confirm Card Payment
-      const result = await this.paymentService.handleCardPayment(clientSecret);
+  //     // Confirm Card Payment
+  //     const result = await this.paymentService.handleCardPayment(clientSecret);
       
-      if (result.success) {
-        alert('Payment successful!');
-        // Handle successful payment (e.g., reset form, navigate, etc.)
-      } else {
-        alert(`Payment failed: ${result.error}`);
-      }
-    } catch (error) {
-      console.error('Payment error', error);
-      alert('Payment failed');
-    } finally {
-      this.loading = false;
-    }
-  }
+  //     if (result.success) {
+  //       alert('Payment successful!');
+  //       // Handle successful payment (e.g., reset form, navigate, etc.)
+  //     } else {
+  //       alert(`Payment failed: ${result.error}`);
+  //     }
+  //   } catch (error) {
+  //     console.error('Payment error', error);
+  //     alert('Payment failed');
+  //   } finally {
+  //     this.loading = false;
+  //   }
+  // }
 }

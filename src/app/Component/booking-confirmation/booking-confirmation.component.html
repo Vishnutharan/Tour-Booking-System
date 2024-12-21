@@ -1,0 +1,17 @@
+<div class="confirmation-container">
+    <div class="confirmation-card">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h1>Booking Confirmed!</h1>
+      <p>Thank you for your purchase. Your booking has been successfully confirmed.</p>
+      <div class="booking-details">
+        <p>A confirmation email has been sent to your registered email address.</p>
+        <p>Booking Reference: #{{bookingReference}}</p>
+      </div>
+      <div class="actions">
+        <button class="primary-button" (click)="goToHome()">Return to Home</button>
+        <button class="secondary-button" (click)="viewBookings()">View My Bookings</button>
+      </div>
+    </div>
+  </div>

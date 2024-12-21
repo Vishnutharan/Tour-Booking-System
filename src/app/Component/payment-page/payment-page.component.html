@@ -1,0 +1,72 @@
+<div class="payment-container">
+  <!-- ... other HTML remains the same ... -->
+  
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Name</label>
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="Enter your full name"
+        [class.invalid]="paymentForm.get('name')?.invalid && paymentForm.get('name')?.touched">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Enter your email"
+        [class.invalid]="paymentForm.get('email')?.invalid && paymentForm.get('email')?.touched">
+    </div>
+
+    <div class="form-group">
+      <label>Card Details</label>
+      <div id="card-element" class="stripe-card-element"></div>
+      <!-- Add error message display -->
+      <div class="card-error" *ngIf="cardError">
+        {{ cardError }}
+      </div>
+    </div>
+    <!-- Change this line to use formControlName instead of a hidden input -->
+    <input type="hidden" formControlName="amount">
+
+    <button
+      type="submit"
+      class="pay-button"
+      [disabled]="paymentForm.invalid || loading">
+      <span *ngIf="!loading">Pay £{{orderSummary.total.toFixed(2)}}</span>
+      <span *ngIf="loading">Processing...</span>
+    </button>
+  </form>
+
+  <div class="order-summary">
+    <h2>Order Summary</h2>
+    <div class="cart-items">
+      <div class="cart-item" *ngFor="let item of cartItems">
+        <img [src]="item.image" [alt]="item.name">
+        <div class="item-details">
+          <h3>{{item.name}}</h3>
+          <p>{{item.details}}</p>
+          <div class="quantity">Quantity: {{item.quantity}}</div>
+          <div class="price">£{{(item.cost * item.quantity).toFixed(2)}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-totals">
+      <div class="total-row">
+        <span>Subtotal</span>
+        <span>£{{orderSummary.subtotal.toFixed(2)}}</span>
+      </div>
+      <div class="total-row">
+        <span>VAT (20%)</span>
+        <span>£{{orderSummary.tax.toFixed(2)}}</span>
+      </div>
+      <div class="total-row grand-total">
+        <span>Total</span>
+        <span>£{{orderSummary.total.toFixed(2)}}</span>
+      </div>
+    </div>
+  </div>
+</div>

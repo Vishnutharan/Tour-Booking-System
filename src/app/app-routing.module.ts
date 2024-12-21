@@ -8,6 +8,8 @@ import { PaymentComponent } from './Component/payment/payment.component';
 import { TravelPackagesComponent } from './Component/travel-packages/travel-packages.component';
 import { CountriesListComponent } from './Component/countries-list/countries-list.component';
 import { CountryDetailsComponent } from './Component/country-details/country-details.component';
+import { PaymentPageComponent } from './Component/payment-page/payment-page.component';
+import { BookingConfirmationComponent } from './Component/booking-confirmation/booking-confirmation.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,13 +17,14 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'booking', component: BookingComponent },
   { path: 'payment', component: PaymentComponent },
+  { path: 'paymentonline', component: PaymentPageComponent },
   { path: 'tpack', component: TravelPackagesComponent },
   { path: 'country', component: CountriesListComponent },
   { path: 'country/:id', component: CountryDetailsComponent },
+  { path: 'booking-confirmation', component: BookingConfirmationComponent },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Optional default route
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Optional default route
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
