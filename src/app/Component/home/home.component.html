@@ -146,7 +146,7 @@
     </div>
   </div>
   
-  <!-- Tour Packages Section -->
+  <!-- Tour Packages Section
   <div id="packages" class="packages-section"></div>
   <h1 class="section-title">Explore Our Packages</h1>
   <div class="package-grid">
@@ -263,8 +263,47 @@
         <a href="#" class="package-button">More Information</a>
       </div>
     </div>
-  </div>
+  </div> -->
   
+  <!-- Countries Section -->
+  <div id="countryid" class="container mx-auto px-4 py-8">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Discover Your Next Adventure</h1>
+    </header>
+  
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let country of countries" 
+           class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <img [src]="country.imageUrl" 
+             [alt]="country.name" 
+             class="w-full h-48 object-cover">
+        
+        <div class="p-6">
+          <div class="flex items-center mb-4">
+            <lucide-icon name="globe" class="text-blue-500 mr-2"></lucide-icon>
+            <h2 class="text-xl font-semibold">{{ country.name }}</h2>
+          </div>
+  
+          <p class="text-gray-600 mb-4">{{ country.description }}</p>
+          
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <lucide-icon name="star" class="text-yellow-400 mr-1"></lucide-icon>
+              <span class="text-gray-700">{{ country.featuredScore }}/5</span>
+            </div>
+            
+            <button (click)="navigateToCountryDetails(country.id)"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg 
+                           hover:bg-blue-600 transition-colors">
+              <lucide-icon name="plane" class="mr-2"></lucide-icon>
+              Explore Destinations
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Gallery Section  -->
   <div id="gallery" class="gallery-area">
     <h2 class="gallery-title">Gallery</h2>
@@ -329,106 +368,68 @@
   </div>
   
   <!-- Review -->
-  <!-- tour-review.component.html -->
-  <div id="review" class="review-container">
-    <section class="review-submission">
-      <h2 class="section-title">Share Your Experience</h2>
-  
-      <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="review-form">
-        <!-- Customer Name Input -->
+  <div class="review-container">
+    <section class="review-form-section">
+      <h2 class="hed2">Write a Review</h2>
+      <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="space-y-4">
         <div class="form-group">
-          <label for="customerName" class="form-label">Your Name</label>
+          <label for="customerName" class="block mb-1">Name</label>
           <input
-            type="text"
             id="customerName"
+            type="text"
             formControlName="customerName"
-            class="form-input"
-            [class.is-invalid]="submitted && f['customerName'].errors"
-          />
-          <div
-            *ngIf="submitted && f['customerName'].errors"
-            class="invalid-feedback"
+            class="w-full p-2 border rounded"
+            [ngClass]="{'border-red-500': submitted && f['customerName'].errors}"
           >
-            <small *ngIf="f['customerName'].errors['required']"
-              >Name is required</small
-            >
-            <small *ngIf="f['customerName'].errors['minlength']"
-              >Name must be at least 2 characters</small
-            >
-          </div>
         </div>
-  
-        <!-- Star Rating -->
+
         <div class="form-group">
-          <label class="form-label">Your Rating</label>
-          <div class="star-rating">
+          <label class="block mb-1">Rating</label>
+          <div class="flex space-x-1">
             <button
               *ngFor="let star of [1,2,3,4,5]"
               type="button"
-              class="star-button"
-              [class.active]="reviewForm.get('rating')?.value >= star"
               (click)="setRating(star)"
-            >
-              ★
-            </button>
-          </div>
-          <div *ngIf="submitted && f['rating'].errors" class="invalid-feedback">
-            <small *ngIf="f['rating'].errors['required']"
-              >Please select a rating</small
-            >
+              class="text-2xl"
+              [class.text-yellow-400]="star <= (reviewForm.get('rating')?.value || 0)"
+              [class.text-gray-300]="star > (reviewForm.get('rating')?.value || 0)"
+            >★</button>
           </div>
         </div>
-  
-        <!-- Review Text -->
+
         <div class="form-group">
-          <label for="reviewText" class="form-label">Your Review</label>
+          <label for="reviewText" class="block mb-1">Your Review</label>
           <textarea
             id="reviewText"
             formControlName="reviewText"
-            class="form-textarea"
-            [class.is-invalid]="submitted && f['reviewText'].errors"
+            class="w-full p-2 border rounded h-24"
+            [ngClass]="{'border-red-500': submitted && f['reviewText'].errors}"
           ></textarea>
-          <div
-            *ngIf="submitted && f['reviewText'].errors"
-            class="invalid-feedback"
-          >
-            <small *ngIf="f['reviewText'].errors['required']"
-              >Review is required</small
-            >
-            <small *ngIf="f['reviewText'].errors['minlength']"
-              >Review must be at least 10 characters</small
-            >
-          </div>
         </div>
-  
-        <!-- Submit Button -->
-        <button type="submit" class="submit-btn" [disabled]="reviewForm.invalid">
+
+        <button 
+          type="submit" 
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
           Submit Review
         </button>
-  
-        <!-- Error Message -->
-        <div *ngIf="submitError" class="error-message">
-          Unable to submit review. Please try again later.
-        </div>
       </form>
     </section>
-  
-    <!-- Top Reviews Section -->
-    <section class="top-reviews">
-      <h2 class="section-title">Top Reviews</h2>
-      <div class="reviews-grid">
-        <div *ngFor="let review of topReviews" class="review-card">
-          <div class="review-header">
-            <h3 class="reviewer-name">{{ review.customerName }}</h3>
-            <div class="review-rating">
-              <span
-                *ngFor="let star of getStars(review.rating)"
-                class="active-star"
-                >★</span
-              >
+
+    <section class="mt-8">
+      <h2 class="text-2xl font-bold mb-4">Recent Reviews</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div *ngFor="let review of reviews" class="border rounded p-4 shadow-sm">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-semibold">{{ review.customerName }}</h3>
+            <div class="flex">
+              <span 
+                *ngFor="let star of getStars(review.rating)" 
+                class="text-yellow-400"
+              >★</span>
             </div>
           </div>
-          <p class="review-text">{{ review.reviewText }}</p>
+          <p class="text-gray-600">{{ review.reviewText }}</p>
         </div>
       </div>
     </section>

@@ -18,14 +18,14 @@ export class TravelService {
       id: 'jp',
       name: 'Japan',
       description: 'A blend of tradition and modern technology.',
-      imageUrl: '/assets/tourbook8.webp',
+      imageUrl: '/assets/tourbook2.webp',
       featuredScore: 4.9
     },
     {
       id: 'br',
       name: 'Brazil',
       description: 'Home to stunning beaches and vibrant culture.',
-      imageUrl: '/assets/tourbook7.webp',
+      imageUrl: '/assets/tourbook3.webp',
       featuredScore: 4.7
     }
   ];

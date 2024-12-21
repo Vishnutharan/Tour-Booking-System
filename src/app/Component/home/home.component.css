@@ -244,7 +244,7 @@ img {
   padding: 50px 20px;
   text-align: center;
   border-radius: 8px;
-} */
+} 
 
 .section-title {
   font-size: 2.5rem;
@@ -263,7 +263,7 @@ img {
 }
 
 .package-card {
-  width: calc(30% - 20px); /* Adjust for more than 3 cols on larger screen */
+  width: calc(30% - 20px); /* Adjust for more than 3 cols on larger screen 
   background: white;
   border-radius: 8px;
   overflow: hidden;
@@ -327,7 +327,7 @@ img {
   background-color: #0056b3;
 }
 
-/* Responsive Design */
+Responsive Design 
 @media (max-width: 960px) {
   .package-card {
       width: calc(50% - 20px);
@@ -379,6 +379,119 @@ img {
 }
 
 /* ----------------------------------------------------------------------------- */
+/* Country section */
+.countries-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header h1 {
+    margin-left: 10px;
+}
+
+
+.header-icon {
+  font-size: 2em;
+    margin-right: 10px;
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.country-card {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.country-card:hover{
+    transform: scale(1.05);
+}
+
+.image-container {
+  position: relative;
+}
+.overlay {
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.3);
+  
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.image-container:hover .overlay {
+    opacity: 1;
+}
+
+.card-icon {
+  color: white;
+  font-size: 2em;
+}
+
+.image-container img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.content {
+  padding: 15px;
+}
+
+.content h2 {
+  margin-bottom: 8px;
+}
+
+.content p {
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.rating {
+  color: #f39c12;
+  margin-bottom: 15px;
+}
+
+.explore-btn {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.explore-btn:hover {
+  background-color: #2980b9;
+}
+
 /* Gallery Section Styles */
 
 .gallery-area {
@@ -443,7 +556,7 @@ img {
 
 /* Review Section Styles */
 
-.review-area {
+/* .review-area {
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
@@ -460,7 +573,6 @@ img {
   text-align: center;
   color: #444;
 }
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .image-grid {
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -473,9 +585,7 @@ img {
   }
 }
 
-/* Review   */
-/* Review Section Styles */
-/* tour-review.component.css */
+
 .review-container {
   max-width: 800px;
   margin: 0 auto;
@@ -612,6 +722,154 @@ img {
   text-align: center;
   margin-top: 10px;
 }
+
+.review-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .review-form-section {
+      background-color: #f8f9fa;
+      padding: 2rem;
+      border-radius: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .review-container {
+        padding: 0.5rem;
+      }
+      
+      .review-form-section {
+        padding: 1rem;
+      }
+    } */
+
+/* review new change */
+.review-container {
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.review-form-section {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.review-form-section:hover {
+  transform: translateY(-2px);
+}
+
+/* Center the "Write a Review" heading */
+.review-form-section h2 {
+  text-align: center; /* Center the text */
+  margin-bottom: 2rem; /* Increased margin for better spacing */
+}
+
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-weight: 500;
+  color: #333;
+}
+
+input,
+textarea {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 5px rgba(66, 153, 225, 0.3);
+}
+
+.text-red-500 {
+  border-color: #e53e3e !important;
+}
+
+.flex.space-x-1 button {
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.flex.space-x-1 button:hover {
+  transform: scale(1.2);
+}
+
+.bg-blue-500 {
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.bg-blue-500:hover {
+  background-color: #3182ce;
+  transform: translateY(-1px);
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.border {
+  border: 1px solid #eee;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.border:hover {
+  transform: translateY(-2px);
+}
+
+.text-yellow-400 {
+  color: #facc15;
+}
+
+@media (min-width: 768px) {
+  .grid-cols-1 {
+      grid-template-columns: repeat(1, 1fr);
+  }
+  .md\:grid-cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.h-24 {
+  height: 6rem;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
 
 /* Location Section Styles */
 .location-info-section {
