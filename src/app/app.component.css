@@ -60,6 +60,8 @@
 .nav-link[routerLink="/login"]::before { content: "👤"; }
 .nav-link[routerLink="/register"]::before { content: "✎"; }
 .nav-link[routerLink="/payment"]::before { content: "💳"; }
+.nav-link[routerLink="/home"][fragment="countryid"]::before { content: "🌍"; }
+
 
 
 /* User menu styles */
