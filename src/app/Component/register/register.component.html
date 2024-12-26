@@ -1,50 +1,58 @@
 <!-- register.component.html -->
 <div class="register-container">
   <div class="register-box">
-    <div class="image-side">
-      <img src="/assets/register.jpg" alt="Registration Image">
-    </div>
     <div class="form-side">
-      <h2>Create an Account</h2>
+      <div class="brand">
+        <i class="fas fa-paper-plane"></i>
+        <h1>Welcome Back</h1>
+        <p>Create your account and start your journey</p>
+      </div>
+
       <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
         <div class="form-group">
-          <label for="username">Username</label>
-          <input 
-            type="text" 
-            id="username" 
-            name="username" 
-            [(ngModel)]="credentials.username" 
-            required 
-            class="form-control"
-            placeholder="Enter your username"
-          >
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="credentials.username"
+            required
+            placeholder="Username"
+          />
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            [(ngModel)]="credentials.password" 
-            required 
-            class="form-control"
-            placeholder="Enter your password"
-          >
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="credentials.password"
+            required
+            placeholder="Password"
+          />
         </div>
 
         <div *ngIf="errorMessage" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
           {{ errorMessage }}
         </div>
 
-        <button type="submit" class="btn-register" [disabled]="registerForm.invalid">
-          Register
+        <button type="submit" [disabled]="registerForm.invalid">
+          <span>Create Account</span>
+          <i class="fas fa-arrow-right"></i>
         </button>
 
-        <p class="login-link">
-          Already have an account? <a (click)="switchToLogin()">Login here</a>
-        </p>
+        <div class="login-link">
+          Already have an account?
+          <a (click)="switchToLogin()">Sign In</a>
+        </div>
       </form>
+    </div>
+
+    <div class="image-side">
+      <div class="overlay"></div>
+      <img src="/assets/register.jpg" alt="Registration" />
     </div>
   </div>
 </div>

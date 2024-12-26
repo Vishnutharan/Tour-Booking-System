@@ -1,34 +1,78 @@
-<div class="login-container">
-  <div class="login-box">
-    <div class="image-side">
-      <img src="/assets/login.jpg" alt="Login Image">
-    </div>
-    <div class="form-side">
-      <div class="login-header">
-        <h2>Tour Booking Login</h2>
+<div class="login-wrapper">
+  <div class="login-container">
+    <div class="login-content">
+      <div class="login-left">
+        <div class="welcome-text">
+          <h1>Welcome Back</h1>
+          <p>Experience your dream destinations with us</p>
+        </div>
+        <div class="animated-bg"></div>
       </div>
 
-      <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" [(ngModel)]="credentials.username" required class="form-control" placeholder="Enter your username">
+      <div class="login-form-container">
+        <div class="form-header">
+          <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+          </div>
+          <h2>Sign In</h2>
+          <p>Enter your credentials to continue</p>
         </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" [(ngModel)]="credentials.password" required class="form-control" placeholder="Enter your password">
-        </div>
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+          <div class="input-group">
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                [(ngModel)]="credentials.username"
+                required
+                placeholder="Username"
+              />
+            </div>
 
-        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                [(ngModel)]="credentials.password"
+                required
+                placeholder="Password"
+              />
+            </div>
+          </div>
 
-        <div class="form-actions">
-          <button type="submit" class="btn-login" [disabled]="loginForm.invalid">Login</button>
+          <div class="form-options">
+            <label class="remember-me">
+              <input type="checkbox" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+          </div>
 
-          <p class="signup-link">
-            Don't have an account? <a (click)="switchToRegister()">Register here</a>
-          </p>
-        </div>
-      </form>
+          <div *ngIf="errorMessage" class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ errorMessage }}
+          </div>
+
+          <button
+            type="submit"
+            class="login-btn"
+            [disabled]="loginForm.invalid"
+          >
+            <span>Login</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+
+          <div class="register-link">
+            Don't have an account?
+            <a (click)="switchToRegister()">Create Account</a>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

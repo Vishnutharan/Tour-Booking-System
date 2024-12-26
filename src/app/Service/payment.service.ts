@@ -116,7 +116,7 @@ export class PaymentService {
 
   async createPaymentIntent(amount: number): Promise<string> {
     try {
-      const response = await fetch('https://localhost:7140/api/Payment/create-checkout-session', {
+      const response = await fetch('https://localhost:7063/api/Payment/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
