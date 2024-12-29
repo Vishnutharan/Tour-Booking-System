@@ -5,6 +5,8 @@ export interface Review {
   rating: number;
   reviewText: string;
   createdAt?: Date;
+  userImage?: string;  // Optional property for user avatar
+  date: Date;   
 }
 
 export interface Skill {

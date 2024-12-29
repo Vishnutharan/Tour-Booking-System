@@ -20,6 +20,7 @@ export class PaymentService {
     this.unmountCardElement();
   }
 
+  // Initializes Stripe with the public key from your environment.
   private async initStripe() {
     try {
       const stripePublicKey = environment.stripe?.publicKey;
@@ -40,6 +41,7 @@ export class PaymentService {
     }
   }
 
+  // Attaches the Stripe Card Element to the DOM. It creates the input field for card details.
   mountCardElement(elementId: string): StripeCardElement | null {
     if (!this.elements) {
       console.error('Stripe elements not initialized');
@@ -97,6 +99,7 @@ export class PaymentService {
     }
   }
 
+  // Cleans up the card element when not in use.
   unmountCardElement(): void {
     if (this.cardElement && this.elementMounted.value) {
       try {
@@ -109,11 +112,13 @@ export class PaymentService {
       }
     }
   }
-
+ 
+  // Checks whether the card element is currently displayed.
   isElementMounted(): boolean {
     return this.elementMounted.value;
   }
 
+  // Calls the backend to create a PaymentIntent with the amount and currency. It receives the clientSecret from Stripe, which is used to confirm the payment.
   async createPaymentIntent(amount: number): Promise<string> {
     try {
       const response = await fetch('https://localhost:7063/api/Payment/create-checkout-session', {
@@ -144,6 +149,7 @@ export class PaymentService {
     }
   }
 
+  // Finalizes the payment on the client side using the clientSecret and card details.
   async handleCardPayment(clientSecret: string, data?: any): Promise<any> {
     if (!this.stripe || !this.cardElement) {
       throw new Error('Stripe not fully initialized');

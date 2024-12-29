@@ -54,6 +54,11 @@ export class CountryDetailsComponent implements OnInit {
     this.travelService.removeFromCart(placeId);
   }
 
+  resetCart(): void {
+    this.cartItems = [];
+    this.totalAmount = 0;
+    this.travelService.clearCart();
+  }
   updateQuantity(placeId: string, quantity: number): void {
     if (quantity > 0) {
       this.travelService.updateQuantity(placeId, quantity);

@@ -12,14 +12,13 @@
   <div class="hero-container">
     <div class="hero-content">
       <h1 class="hero-title">
-        Global<br />
-        teamwork<br />
+        Way to Go <br />
+        Travel<br />
         made possible.
       </h1>
       <p class="hero-description">
-        Our Global Growth Platform™ offers your business a new way to grow by
-        making it easier to build and manage teams in 180+ countries and
-        counting.
+        you like the idea of focusing on escaping the ordinary and wandering into extraordinary experiences.
+        You could even add a really strong call to action, like "Start your adventure now!" to get people excited about booking a trip
       </p>
       <div class="hero-buttons">
         <button class="btn btn-primary">Book a Demo</button>
@@ -38,15 +37,10 @@
     <img src="/assets/tourbook4.webp" alt="Profile" class="profile-image" />
   </div>
   <div class="text-content">
-    <h1 class="title">About Our Travel Booking System</h1>
+    <h1 class="title">About</h1>
     <p class="description">
-      Welcome to our Travel Booking System, your ultimate gateway to seamless
-      travel experiences. We're passionate about transforming travel planning
-      into an effortless, exciting journey. Our platform offers comprehensive
-      booking solutions for flights, hotels, car rentals, and curated tour
-      packages, designed to cater to both business travelers and vacation
-      enthusiasts.
-    </p>
+      Welcome to our Way to Go Travel Booking System,Way to Go Travels is your passport to adventure. We believe everyone deserves to experience the world, and we're here to make that happen.
+      With our hand-picked destinations and expert guides, you'll discover unforgettable journeys that stay with you a lifetime.
     <div class="feature-cards">
       <div class="feature-card">
         <div class="icon-container">
@@ -69,10 +63,10 @@
             />
           </svg>
         </div>
-        <h3 class="feature-title">Global Reach</h3>
+        <h3 class="feature-title">Global Support</h3>
         <p class="feature-description">
-          Explore destinations worldwide with our extensive network of travel
-          partners.
+          "Experience seamless travel with our global support network. 
+          Our team is available worldwide to assist you with any questions or concerns, ensuring a smooth and enjoyable journey no matter where you are." 
         </p>
       </div>
       <div class="feature-card">
@@ -95,8 +89,9 @@
         </div>
         <h3 class="feature-title">Best Prices</h3>
         <p class="feature-description">
-          Competitive pricing and exclusive deals to maximize your travel
-          budget.
+          "Find incredible deals and save on your next adventure. 
+          We negotiate the best prices with our partners to ensure you get the most value for your money. 
+          Travel smarter with Way to Go Travels."
         </p>
       </div>
       <div class="feature-card">
@@ -120,9 +115,8 @@
         </div>
         <h3 class="feature-title">24/7 Support</h3>
         <p class="feature-description">
-          Round-the-clock customer service to assist you at every step of your
-          journey.
-        </p>
+          "Our dedicated team is available around the clock to assist you with any questions or concerns. 
+          We're here to ensure your travel experience is seamless and enjoyable."        </p>
       </div>
       <!-- <div class="feature-card">
         <div class="icon-container">
@@ -203,56 +197,56 @@
 
   <div class="image-grid">
     <div class="gallery-item">
-      <img src="/assets/tourbook1.webp" alt="Image 1" class="gallery-image" />
+      <img src="/assets/img2.jpg" alt="Image 1" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 1</span>
       </div>
     </div>
 
     <div class="gallery-item">
-      <img src="/assets/tourbook5.webp" alt="Image 2" class="gallery-image" />
+      <img src="/assets/img3.jpg" alt="Image 2" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 2</span>
       </div>
     </div>
 
     <div class="gallery-item">
-      <img src="/assets/tourbook6.webp" alt="Image 3" class="gallery-image" />
+      <img src="/assets/img4.jpg" alt="Image 3" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 3</span>
       </div>
     </div>
 
     <div class="gallery-item">
-      <img src="/assets/tourbook1.webp" alt="Image 4" class="gallery-image" />
+      <img src="/assets/img5.jpg" alt="Image 4" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 4</span>
       </div>
     </div>
 
     <div class="gallery-item">
-      <img src="/assets/tourbook1.webp" alt="Image 5" class="gallery-image" />
+      <img src="/assets/img6.jpg" alt="Image 5" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 5</span>
       </div>
     </div>
 
     <div class="gallery-item">
-      <img src="/assets/tourbook1.webp" alt="Image 6" class="gallery-image" />
+      <img src="/assets/img7.jpg" alt="Image 6" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 6</span>
       </div>
     </div>
 
     <div class="gallery-item">
-      <img src="/assets/tourbook1.webp" alt="Image 6" class="gallery-image" />
+      <img src="/assets/img8.jpg" alt="Image 6" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 6</span>
       </div>
     </div>
 
     <div class="gallery-item">
-      <img src="/assets/tourbook1.webp" alt="Image 6" class="gallery-image" />
+      <img src="/assets/img9.jpg" alt="Image 6" class="gallery-image" />
       <div class="image-overlay">
         <span class="overlay-text">Image 6</span>
       </div>
@@ -261,74 +255,90 @@
 </div>
 
 <!-- Review -->
-<div class="review-container">
-  <section class="review-form-section">
-    <h2 class="hed2">Write a Review</h2>
-    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <div class="form-group">
-        <label for="customerName" class="block mb-1">Name</label>
-        <input
-          id="customerName"
-          type="text"
-          formControlName="customerName"
-          class="w-full p-2 border rounded"
-          [ngClass]="{'border-red-500': submitted && f['customerName'].errors}"
-        />
-      </div>
-
-      <div class="form-group">
-        <label class="block mb-1">Rating</label>
-        <div class="flex space-x-1">
-          <button
-            *ngFor="let star of [1,2,3,4,5]"
-            type="button"
-            (click)="setRating(star)"
-            class="text-2xl"
-            [class.text-yellow-400]="star <= (reviewForm.get('rating')?.value || 0)"
-            [class.text-gray-300]="star > (reviewForm.get('rating')?.value || 0)"
-          >
-            ★
-          </button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="reviewText" class="block mb-1">Your Review</label>
-        <textarea
-          id="reviewText"
-          formControlName="reviewText"
-          class="w-full p-2 border rounded h-24"
-          [ngClass]="{'border-red-500': submitted && f['reviewText'].errors}"
-        ></textarea>
-      </div>
-
-      <button
-        type="submit"
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Submit Review
-      </button>
-    </form>
-  </section>
-
-  <section class="mt-8">
-    <h2 class="text-2xl font-bold mb-4">Recent Reviews</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div *ngFor="let review of reviews" class="border rounded p-4 shadow-sm">
-        <div class="flex justify-between items-center mb-2">
-          <h3 class="font-semibold">{{ review.customerName }}</h3>
-          <div class="flex">
-            <span
-              *ngFor="let star of getStars(review.rating)"
-              class="text-yellow-400"
-              >★</span
-            >
-          </div>
-        </div>
-        <p class="text-gray-600">{{ review.reviewText }}</p>
-      </div>
-    </div>
-  </section>
+<div class="customer-review-wrapper">   
+  <section class="review-submission-block">     
+    <h2 class="review-section-heading">Share Your Experience</h2>     
+    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="customer-feedback-form">       
+      <div class="reviewer-profile-container">         
+        <div class="profile-image-uploader">           
+          <div class="profile-image-preview">             
+            <img [src]="imagePreview || 'assets/default-avatar.png'" alt="User Avatar" class="reviewer-profile-pic">           
+          </div>           
+          <input              
+            type="file"              
+            id="imageUpload"              
+            accept="image/*"              
+            (change)="onImageSelected($event)"             
+            class="profile-image-input"           
+          >           
+          <label for="imageUpload" class="profile-upload-btn">Choose Photo</label>         
+        </div>          
+        <div class="input-field-wrapper">           
+          <label for="customerName" class="input-field-label">Your Name</label>           
+          <input             
+            id="customerName"             
+            type="text"             
+            formControlName="customerName"             
+            class="reviewer-name-input"             
+            [ngClass]="{'reviewer-input-error': submitted && f['customerName'].errors}"           
+          />         
+        </div>       
+      </div>        
+      <div class="rating-field-wrapper">         
+        <label class="rating-field-label">Rating</label>         
+        <div class="star-rating-container">           
+          <button             
+            *ngFor="let star of [1,2,3,4,5]"             
+            type="button"             
+            (click)="setRating(star)"             
+            class="star-rating-btn"             
+            [class.star-active]="star <= (reviewForm.get('rating')?.value || 0)"           
+          >             
+            <i class="fas fa-star"></i>           
+          </button>         
+        </div>       
+      </div>        
+      <div class="review-text-wrapper">         
+        <label for="reviewText" class="review-text-label">Your Review</label>         
+        <textarea           
+          id="reviewText"           
+          formControlName="reviewText"           
+          class="review-content-input"           
+          [ngClass]="{'review-input-error': submitted && f['reviewText'].errors}"           
+          placeholder="Share your thoughts..."         
+        ></textarea>       
+      </div>        
+      <button type="submit" class="review-submit-btn">         
+        <i class="fas fa-paper-plane"></i>         
+        Submit Review       
+      </button>     
+    </form>   
+  </section>    
+  <section class="reviews-display-block">     
+    <h2 class="reviews-list-heading">What People Say</h2>     
+    <div class="reviews-display-grid">       
+      <div *ngFor="let review of reviews" class="individual-review-card">         
+        <div class="review-card-header">           
+          <div class="reviewer-details-container">             
+            <img [src]="review.userImage || 'assets/default-avatar.png'" alt="Reviewer" class="review-author-avatar">             
+            <div class="reviewer-meta-info">               
+              <h3 class="review-author-name">{{ review.customerName }}</h3>               
+              <div class="review-rating-stars">                 
+                <i *ngFor="let star of getStars(review.rating)"                     
+                  class="fas fa-star"                    
+                  [class.star-filled]="star <= review.rating">                 
+                </i>               
+              </div>             
+            </div>           
+          </div>           
+          <div class="review-timestamp">             
+            {{ review.date | date:'mediumDate' }}           
+          </div>         
+        </div>         
+        <p class="review-content-text">{{ review.reviewText }}</p>       
+      </div>     
+    </div>   
+  </section> 
 </div>
 
 <div class="location-info-section">

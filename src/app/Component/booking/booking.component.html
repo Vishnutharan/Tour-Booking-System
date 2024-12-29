@@ -1,36 +1,34 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <div class="hero-section">
-        <img src="/assets/tourbook1.webp" alt="Discover the most engaging places" />
-        <div class="hero-content">
-          <h1>Discover the most engaging places</h1>
-          <p>Natural beauty</p>
-          <div class="input-group">
-            <div class="relative">
-              <input type="text" placeholder="Date from" (click)="showDatePicker = !showDatePicker" />
-              <div class="absolute" *ngIf="showDatePicker">
-                <!-- Date picker content -->
-              </div>
-            </div>
-            <div class="relative">
-              <input type="text" placeholder="Guests" (click)="showGuestPicker = !showGuestPicker" />
-              <div class="absolute" *ngIf="showGuestPicker">
-                <!-- Guest picker content -->
-              </div>
-            </div>
-            <div class="relative">
-              <input type="text" placeholder="Destination" (click)="showDestinationPicker = !showDestinationPicker" />
-              <div class="absolute" *ngIf="showDestinationPicker">
-                <!-- Destination picker content -->
-              </div>
-            </div>
-            <button>
-              Explore Now
-            </button>
-          </div>
+<div class="hero-container">
+  <img src="/assets/tourbook1.webp" alt="Discover engaging places" class="hero-image">
+  <div class="overlay"></div>
+  
+  <div class="hero-content">
+    <h1 class="hero-title">Discover the most engaging places</h1>
+    <p class="hero-subtitle">Natural beauty</p>
+    
+    <div class="search-container">
+      <div class="search-group">
+        <input type="text" class="search-input" placeholder="Date from">
+        <div class="picker-dropdown">
+          <!-- Date picker content -->
         </div>
       </div>
+      
+      <div class="search-group">
+        <input type="text" class="search-input" placeholder="Guests">
+        <div class="picker-dropdown">
+          <!-- Guest picker content -->
+        </div>
+      </div>
+      
+      <div class="search-group">
+        <input type="text" class="search-input" placeholder="Destination">
+        <div class="picker-dropdown">
+          <!-- Destination picker content -->
+        </div>
+      </div>
+      
+      <button class="explore-btn">Explore Now</button>
     </div>
   </div>
 </div>

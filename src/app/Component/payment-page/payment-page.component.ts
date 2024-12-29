@@ -20,7 +20,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     tax: 0,
     total: 0
   };
-
+ 
   constructor(
     private fb: FormBuilder,
     private paymentService: PaymentService,
@@ -44,6 +44,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     this.paymentService.unmountCardElement();
   }
 
+  // Ensures the Stripe Card Element is mounted. It also adds a listener for card errors or validation updates.
   private setupCardElement(): void {
     // Ensure the element is only mounted once
     if (!this.paymentService.isElementMounted()) {
@@ -60,6 +61,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  //  Loads the cart items to display a summary on the payment page.
   private loadCartItems(): void {
     this.travelService.getCartItems().subscribe(items => {
       this.cartItems = items;
@@ -67,6 +69,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Same as the cart file – calculates totals for display and payment processing.
   private calculateTotals(): void {
     this.orderSummary.subtotal = this.cartItems.reduce(
       (total, item) => total + (item.cost * item.quantity),
@@ -80,19 +83,22 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
       amount: this.orderSummary.total
     });
   }
+
+  // Handles the payment process
+  // Validates the form.
   async onSubmit() {
     if (this.paymentForm.invalid) {
       return;
     }
-
     this.loading = true;
-
     try {
       const { email, name } = this.paymentForm.value;
       const amount = Math.round(this.orderSummary.total * 100); // Convert to cents
 
+      // Calls createPaymentIntent to get the clientSecret.
       const clientSecret = await this.paymentService.createPaymentIntent(amount);
 
+      // Calls handleCardPayment to finalize the payment.
       const result = await this.paymentService.handleCardPayment(clientSecret, {
         payment_method_data: {
           billing_details: {

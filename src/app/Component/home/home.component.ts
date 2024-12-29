@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   submitted = false;
   submitError = false;
   countries: Country[] = [];
+  imagePreview: string | null = null;
 
   constructor(
     private http: HttpClient,
@@ -40,7 +41,9 @@ export class HomeComponent implements OnInit {
       customerName: ['', Validators.required],
       rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
       reviewText: ['', Validators.required],
-      tourPackageId: [1]
+      tourPackageId: [1],
+      userImage: [''],  // Add this
+      date: [new Date()]  // Add this
     });
 
     this.travelService.getCountries().subscribe((countries) => {
@@ -48,6 +51,19 @@ export class HomeComponent implements OnInit {
     });
   }
 
+ onImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+        this.reviewForm.patchValue({
+          userImage: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
   private getStoredReviews(): Review[] {
     const stored = localStorage.getItem('reviews');
     return stored ? JSON.parse(stored) : [];
@@ -60,10 +76,15 @@ export class HomeComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     if (this.reviewForm.valid) {
-      const newReview = this.reviewForm.value;
+      const newReview: Review = {
+        ...this.reviewForm.value,
+        date: new Date(),
+        userImage: this.imagePreview
+      };
       this.reviews.unshift(newReview);
       this.storeReviews(this.reviews);
       this.reviewForm.reset({ tourPackageId: 1, rating: 0 });
+      this.imagePreview = null;
       this.submitted = false;
     }
   }

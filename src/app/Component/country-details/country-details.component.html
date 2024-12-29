@@ -46,9 +46,9 @@
         <div class="cart-items" *ngIf="cartItems.length > 0">
           <div class="cart-item" *ngFor="let item of cartItems">
             <img [src]="item.image" [alt]="item.name">
-            <div class="item-details">
+          <div class="item-details">
               <h3>{{ item.name }}</h3>
-              <p>{{ item.details }}</p>
+               <!--  <p>{{ item.details }}</p> -->
               <div class="quantity-controls">
                 <button (click)="updateQuantity(item.placeId, item.quantity - 1)">-</button>
                 <span>{{ item.quantity }}</span>
@@ -57,12 +57,13 @@
               <p class="item-total">${{ item.cost * item.quantity }}</p>
               <button class="remove-btn" (click)="removeFromCart(item.placeId)">Remove</button>
             </div>
-          </div>
+           </div>
           <div class="cart-summary">
             <h3>Total Amount: ${{ totalAmount }}</h3>
             <div class="action-buttons">
-              <button class="print-btn" (click)="printItinerary()">Print Itinerary</button>
+              <!-- <button class="print-btn" (click)="printItinerary()">Print Itinerary</button> -->
               <button class="payment-btn" routerLink="/paymentonline" (click)="proceedToPayment()">Proceed to Payment</button>
+              <button class="payment-btn"(click)="resetCart()">Reset</button>
             </div>
           </div>
         </div>
