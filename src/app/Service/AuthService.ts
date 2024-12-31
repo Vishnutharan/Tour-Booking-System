@@ -2,56 +2,53 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LoginCredentials, LoginResponse } from '../Model/auth.models';
+import { LoginDto, LoginResponse } from 'src/app/Model/auth.models';
 import { Router } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  isAuthenticated() {
-    throw new Error('Method not implemented.');
-  }
   private apiUrl = 'https://localhost:7063/api/Auth';
   private currentUserSubject = new BehaviorSubject<string | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
+  constructor(private http: HttpClient, private router: Router) {
+    // Initialize user state from stored token
     const token = localStorage.getItem('authToken');
     if (token) {
       this.currentUserSubject.next(this.getUsernameFromToken(token));
     }
   }
 
-  register(credentials: LoginCredentials): Observable<any> {
+  // User registration
+  register(credentials: LoginDto): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, credentials);
   }
 
-  login(credentials: LoginCredentials): Observable<LoginResponse> {
+  // User login with token handling
+  login(credentials: LoginDto): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
-        if (response && response.token) {
+        if (response?.token) {
           localStorage.setItem('authToken', response.token);
-          const username = this.getUsernameFromToken(response.token);
-          this.currentUserSubject.next(username);
+          this.currentUserSubject.next(this.getUsernameFromToken(response.token));
         }
       })
     );
   }
 
+  // User logout and cleanup
   logout(): void {
     localStorage.removeItem('authToken');
     this.currentUserSubject.next(null);
     this.router.navigate(['/home']);
   }
 
+  // Check authentication status
   isLoggedIn(): boolean {
     return !!localStorage.getItem('authToken');
   }
 
+  // Extract username from JWT token
   private getUsernameFromToken(token: string): string | null {
     try {
       const base64Url = token.split('.')[1];
@@ -63,6 +60,7 @@ export class AuthService {
     }
   }
 
+  // Get current username
   getCurrentUsername(): string | null {
     return this.currentUserSubject.value;
   }

@@ -8,7 +8,6 @@ import { LoginComponent } from './Component/login/login.component';
 import { RegisterComponent } from './Component/register/register.component';
 import { HomeComponent } from './Component/home/home.component';
 import { BookingComponent } from './Component/booking/booking.component';
-import { PaymentComponent } from './Component/payment/payment.component';
 import { TravelPackagesComponent } from './Component/travel-packages/travel-packages.component';
 import { CountriesListComponent } from './Component/countries-list/countries-list.component';
 import { LucideAngularModule, Globe, Plane, Star } from 'lucide-angular';
@@ -24,7 +23,6 @@ import { BookingConfirmationComponent } from './Component/booking-confirmation/b
     HomeComponent,
     BookingComponent,
     LoginComponent,
-    PaymentComponent,
     TravelPackagesComponent,
     CountriesListComponent,
     CountryDetailsComponent,

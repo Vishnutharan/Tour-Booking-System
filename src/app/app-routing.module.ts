@@ -4,7 +4,6 @@ import { LoginComponent } from './Component/login/login.component';
 import { RegisterComponent } from './Component/register/register.component';
 import { HomeComponent } from './Component/home/home.component';
 import { BookingComponent } from './Component/booking/booking.component';
-import { PaymentComponent } from './Component/payment/payment.component';
 import { TravelPackagesComponent } from './Component/travel-packages/travel-packages.component';
 import { CountriesListComponent } from './Component/countries-list/countries-list.component';
 import { CountryDetailsComponent } from './Component/country-details/country-details.component';
@@ -16,7 +15,6 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'booking', component: BookingComponent },
-  { path: 'payment', component: PaymentComponent },
   { path: 'paymentonline', component: PaymentPageComponent },
   { path: 'tpack', component: TravelPackagesComponent },
   { path: 'country', component: CountriesListComponent },

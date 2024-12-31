@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginCredentials } from 'src/app/Model/auth.models';
+import { LoginDto } from 'src/app/Model/auth.models';
 import { AuthService } from 'src/app/Service/AuthService';
 
 @Component({
@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/Service/AuthService';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  credentials: LoginCredentials = {
+  credentials: LoginDto = {
     username: '',
     password: ''
   };

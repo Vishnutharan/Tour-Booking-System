@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CartItem } from 'src/app/Interface/travel.interface';
 import { PaymentService } from 'src/app/Service/payment.service';
 import { TravelService } from 'src/app/Service/travel.service';
+import { AuthService } from 'src/app/Service/AuthService';
 
 @Component({
   selector: 'app-payment-page',
@@ -25,6 +26,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private paymentService: PaymentService,
     private travelService: TravelService,
+    private authservice:AuthService,
     private router: Router
   ) {
     this.paymentForm = this.fb.group({
@@ -69,6 +71,8 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     });
   }
 
+
+
   // Same as the cart file – calculates totals for display and payment processing.
   private calculateTotals(): void {
     this.orderSummary.subtotal = this.cartItems.reduce(
@@ -90,15 +94,18 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     if (this.paymentForm.invalid) {
       return;
     }
+      // Check if the user is logged in
+    this.checkUserLogin(); // Ensures user login before proceeding
+  
     this.loading = true;
     try {
       const { email, name } = this.paymentForm.value;
       const amount = Math.round(this.orderSummary.total * 100); // Convert to cents
-
-      // Calls createPaymentIntent to get the clientSecret.
+  
+      // Calls createPaymentIntent to get the clientSecret
       const clientSecret = await this.paymentService.createPaymentIntent(amount);
-
-      // Calls handleCardPayment to finalize the payment.
+  
+      // Calls handleCardPayment to finalize the payment
       const result = await this.paymentService.handleCardPayment(clientSecret, {
         payment_method_data: {
           billing_details: {
@@ -107,7 +114,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
           }
         }
       });
-
+  
       if (result.success) {
         await this.travelService.clearCart();
         this.router.navigate(['/booking-confirmation']);
@@ -121,4 +128,15 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
       this.loading = false;
     }
   }
-}
+  
+  private checkUserLogin(): void {
+    if (this.authservice.isLoggedIn()) {
+      console.log('User is logged in, proceeding with payment...');
+    } else {
+      console.error('User is not logged in!');
+      alert('You must be logged in to proceed with the payment.');
+      this.router.navigate(['/login']); // Navigate to the login page or show a login popup
+      throw new Error('User not logged in'); // Prevent further execution if not logged in
+    }
+  }
+}  
