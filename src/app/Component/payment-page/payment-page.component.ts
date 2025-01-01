@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CartItem } from 'src/app/Interface/travel.interface';
 import { PaymentService } from 'src/app/Service/payment.service';
 import { TravelService } from 'src/app/Service/travel.service';
 import { AuthService } from 'src/app/Service/AuthService';
-
+import { CartItem } from 'src/app/Model/travel.models';
 @Component({
   selector: 'app-payment-page',
   templateUrl: './payment-page.component.html',

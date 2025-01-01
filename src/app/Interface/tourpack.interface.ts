@@ -1,30 +1,30 @@
-export interface Review {
-  id?: number;
-  tourPackageId: number;
-  customerName: string;
-  rating: number;
-  reviewText: string;
-  createdAt?: Date;
-  userImage?: string;  // Optional property for user avatar
-  date: Date;   
-}
+// export interface Review {
+//   id?: number;
+//   tourPackageId: number;
+//   customerName: string;
+//   rating: number;
+//   reviewText: string;
+//   createdAt?: Date;
+//   userImage?: string;  // Optional property for user avatar
+//   date: Date;   
+// }
 
-export interface Skill {
-  icon: string;
-  title: string;
-  description: string;
-}
+// export interface Skill {
+//   icon: string;
+//   title: string;
+//   description: string;
+// }
 
-export interface SocialLink {
-  icon: string;
-  url: string;
-}
+// export interface SocialLink {
+//   icon: string;
+//   url: string;
+// }
 
-export interface TourPackage {
-  id: number;
-  title: string;
-  description: string;
-  src: string;
-  category?: string;
-  price?: number;
-}
+// export interface TourPackage {
+//   id: number;
+//   title: string;
+//   description: string;
+//   src: string;
+//   category?: string;
+//   price?: number;
+// }

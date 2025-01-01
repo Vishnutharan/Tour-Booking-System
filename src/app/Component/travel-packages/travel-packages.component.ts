@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Country } from 'src/app/Interface/travel.interface';
+import { Country } from 'src/app/Model/travel.models';
 import { TravelService } from 'src/app/Service/travel.service';
 
   @Component({

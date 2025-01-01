@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder,FormGroup,Validators,ReactiveFormsModule,} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TravelService } from 'src/app/Service/travel.service';
-import { Country } from 'src/app/Interface/travel.interface';
+import { Country } from 'src/app/Model/travel.models';
 import { Router } from '@angular/router';
-import { Review,Skill,SocialLink,TourPackage} from 'src/app/Interface/tourpack.interface';
+import { Review,Skill,SocialLink,TourPackage} from 'src/app/Model/travel.models';
 
 @Component({
   selector: 'app-home',

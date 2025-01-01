@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Country, TouristPlace, CartItem } from 'src/app/Interface/travel.interface';
+import { Country, TouristPlace, CartItem } from '../Model/travel.models';
 import { mockCountries } from '../mock-data/mock-countries';
 import { mockTouristPlaces } from '../mock-data/mock-tourist-places';
 
@@ -41,25 +41,32 @@ export class TravelService {
 // If it doesn't, it creates a new CartItem using the information from the TouristPlace object (like name, cost, etc.) and adds it to the cart.
 
 addToCart(place: TouristPlace): void {
-    const currentItems = this.cartItems.value;
-    const existingItem = currentItems.find(item => item.placeId === place.id);
+  const currentItems = this.cartItems.value;
+  const existingItem = currentItems.find(item => item.placeId === place.id);
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-      this.cartItems.next([...currentItems]);
-    } else {
-      const newItem: CartItem = {
-        placeId: place.id,
-        countryId: place.countryId,
-        name: place.name,
-        cost: place.cost,
-        quantity: 1,
-        details: place.description,
-        image: place.imageUrl
-      };
-      this.cartItems.next([...currentItems, newItem]);
-    }
+  if (existingItem) {
+    // If the item already exists in the cart, increment the quantity
+    existingItem.quantity += 1;
+    this.cartItems.next([...currentItems]);
+  } else {
+    // If the item does not exist, create a new item with all required fields
+    const newItem: CartItem = {
+      placeId: place.id,
+      countryId: place.countryId,
+      name: place.name,
+      cost: place.cost,
+      quantity: 1,
+      details: place.description, // Assuming 'description' is the same as 'details'
+      image: place.imageUrl,
+      description: place.description, // Explicitly add 'description'
+      rating: place.rating || 0, // Default to 0 if not provided
+      highlights: place.highlights || [], // Default to an empty array if not provided
+      bestTimeToVisit: place.bestTimeToVisit || 'Not specified', // Default message
+      duration: place.duration || 'Unknown' // Default to 'Unknown' if not provided
+    };
+    this.cartItems.next([...currentItems, newItem]);
   }
+}
 
   removeFromCart(placeId: string): void {
     const currentItems = this.cartItems.value;

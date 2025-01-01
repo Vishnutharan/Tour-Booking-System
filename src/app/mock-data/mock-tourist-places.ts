@@ -1,4 +1,4 @@
-import { TouristPlace } from 'src/app/Interface/travel.interface';
+import { TouristPlace } from 'src/app/Model/travel.models';
 
 export const mockTouristPlaces: TouristPlace[] = [
   {

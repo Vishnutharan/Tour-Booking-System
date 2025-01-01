@@ -1,4 +1,4 @@
-import { Country } from 'src/app/Interface/travel.interface';
+import { Country } from '../Model/travel.models';
 
 export const mockCountries: Country[] = [
   {

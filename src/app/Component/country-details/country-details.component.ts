@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TravelService } from 'src/app/Service/travel.service';
-import { CartItem, Country, TouristPlace } from 'src/app/Interface/travel.interface';
+import { CartItem, Country, TouristPlace } from 'src/app/Model/travel.models';
 
 @Component({
   selector: 'app-country-details',
@@ -77,5 +77,9 @@ export class CountryDetailsComponent implements OnInit {
   proceedToPayment(): void {
     // Implement payment gateway integration
     console.log('Proceeding to payment');
+  }
+
+  confirmBooking():void {
+    
   }
 }

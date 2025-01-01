@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TravelService } from 'src/app/Service/travel.service';
-import { Country } from 'src/app/Interface/travel.interface';
 import { faGlobe, faPlane, faStar } from '@fortawesome/free-solid-svg-icons';
+import { Country } from 'src/app/Model/travel.models';
 
 @Component({
   selector: 'app-countries-list',

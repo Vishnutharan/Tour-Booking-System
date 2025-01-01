@@ -9,6 +9,7 @@ import { CountriesListComponent } from './Component/countries-list/countries-lis
 import { CountryDetailsComponent } from './Component/country-details/country-details.component';
 import { PaymentPageComponent } from './Component/payment-page/payment-page.component';
 import { BookingConfirmationComponent } from './Component/booking-confirmation/booking-confirmation.component';
+import { ConfirmBookingComponent } from './Component/confirm-booking/confirm-booking.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +21,7 @@ const routes: Routes = [
   { path: 'country', component: CountriesListComponent },
   { path: 'country/:id', component: CountryDetailsComponent },
   { path: 'booking-confirmation', component: BookingConfirmationComponent },
-
+  { path: 'confirmbooking',component:ConfirmBookingComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Optional default route
 ];
 @NgModule({

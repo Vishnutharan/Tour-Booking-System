@@ -14,6 +14,7 @@ import { LucideAngularModule, Globe, Plane, Star } from 'lucide-angular';
 import { CountryDetailsComponent } from './Component/country-details/country-details.component';
 import { PaymentPageComponent } from './Component/payment-page/payment-page.component';
 import { BookingConfirmationComponent } from './Component/booking-confirmation/booking-confirmation.component';
+import { ConfirmBookingComponent } from './Component/confirm-booking/confirm-booking.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { BookingConfirmationComponent } from './Component/booking-confirmation/b
     CountryDetailsComponent,
     PaymentPageComponent,
     BookingConfirmationComponent,
+    ConfirmBookingComponent,
   ],
   imports: [
     BrowserModule,
