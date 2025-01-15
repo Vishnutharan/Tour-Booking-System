@@ -10,6 +10,7 @@ export class AuthService {
   private apiUrl = 'https://localhost:7063/api/Auth';
   private currentUserSubject = new BehaviorSubject<string | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private userId: string | null = null; // Variable to store user ID
 
   constructor(private http: HttpClient, private router: Router) {
     // Initialize user state from stored token
@@ -26,14 +27,18 @@ export class AuthService {
 
   // User login with token handling
   login(credentials: LoginDto): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
-      tap(response => {
-        if (response?.token) {
-          localStorage.setItem('authToken', response.token);
-          this.currentUserSubject.next(this.getUsernameFromToken(response.token));
-        }
-      })
-    );
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/login`, credentials)
+      .pipe(
+        tap((response) => {
+          if (response?.token) {
+            localStorage.setItem('authToken', response.token);
+            this.currentUserSubject.next(
+              this.getUsernameFromToken(response.token)
+            );
+          }
+        })
+      );
   }
 
   // User logout and cleanup
@@ -60,8 +65,25 @@ export class AuthService {
     }
   }
 
+   // Extract user ID from JWT token
+   private getUserIdFromToken(token: string): string | null {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace('-', '+').replace('_', '/');
+      const payload = JSON.parse(window.atob(base64));
+      return payload.sub; // Assuming 'sub' contains the user ID
+    } catch {
+      return null;
+    }
+  }
+
   // Get current username
   getCurrentUsername(): string | null {
     return this.currentUserSubject.value;
+  }
+
+   // Get user ID
+   getUserId(): string | null {
+    return this.userId;
   }
 }

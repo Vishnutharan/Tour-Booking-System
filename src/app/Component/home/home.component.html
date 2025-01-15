@@ -118,75 +118,6 @@
           "Our dedicated team is available around the clock to assist you with any questions or concerns. 
           We're here to ensure your travel experience is seamless and enjoyable."        </p>
       </div>
-      <!-- <div class="feature-card">
-        <div class="icon-container">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="icon headphones-icon"
-          >
-            <path
-              d="M3 11h18a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2v-5h-4v5h-4v-5H3v-6a2 2 0 0 1 2-2zm0-5v5h18V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"
-            />
-          </svg>
-        </div>
-        <h3 class="feature-title">24/7 Support</h3>
-        <p class="feature-description">
-          Round-the-clock customer service to assist you at every step of your
-          journey.
-        </p>
-     </div> -->
-    </div>
-  </div>
-</div>
-
-<!-- Countries Section -->
-<div id="countryid" class="contentcontry">
-  <header class="text-center mb-12">
-    <h1 class="text-4xl font-bold mb-4">Discover Your Next Adventure</h1>
-  </header>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    <div
-      *ngFor="let country of countries"
-      class="bg-white rounded-lg shadow-lg overflow-hidden"
-    >
-      <img
-        [src]="country.imageUrl"
-        [alt]="country.name"
-        class="w-full h-48 object-cover"
-      />
-
-      <div class="p-6">
-        <div class="flex items-center mb-4">
-          <lucide-icon name="globe" class="text-blue-500 mr-2"></lucide-icon>
-          <h2 class="text-xl font-semibold">{{ country.name }}</h2>
-        </div>
-
-        <p class="text-gray-600 mb-4">{{ country.description }}</p>
-
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <lucide-icon name="star" class="text-yellow-400 mr-1"></lucide-icon>
-            <span class="text-gray-700">{{ country.featuredScore }}/5</span>
-          </div>
-
-          <button
-            (click)="navigateToCountryDetails(country.id)"
-            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            <lucide-icon name="plane" class="mr-2"></lucide-icon>
-            Explore Destinations
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -254,15 +185,71 @@
   </div>
 </div>
 
+<!-- Our Services -->
+<div class="container">
+  <h1>Our Services</h1>
+  <div class="services-grid">
+      <div class="service-card">
+          <div class="service-icon web">
+              <img src="/assets/tr1.webp" alt="Web Design Icon">
+          </div>
+          <h3>Custom Travel Packages</h3>
+          <p>Build your dream vacation with tailored travel packages designed to suit your preferences and budget, ensuring a personalized journey every time.</p>
+        </div>
+      
+      <div class="service-card">
+          <div class="service-icon">
+              <img src="/assets/tr2.webp" alt="Digital Marketing Icon">
+          </div>
+          <h3>Adventure Tours</h3>
+          <p>Join our expertly guided tours to explore hidden gems and thrilling adventures, perfect for the adrenaline seekers and culture enthusiasts alike.</p>
+        </div>
+      
+      <div class="service-card">
+          <div class="service-icon">
+              <img src="/assets/tr3.webp" alt="Mobile Apps Icon">
+          </div>
+          <h3>Flight and Hotel Booking</h3>
+          <p>Access competitive rates for flights and hotels worldwide with our seamless booking system that makes travel logistics effortless.</p>
+        </div>
+      
+      <div class="service-card">
+          <div class="service-icon">
+              <img src="/assets/tr4.webp" alt="SEO Icon">
+          </div>
+          <h3>Luxury Cruises</h3>
+          <p>Experience the epitome of luxury and relaxation with our exclusive cruise packages, offering exquisite dining, entertainment, and scenic views.</p>
+        </div>
+      
+      <div class="service-card">
+          <div class="service-icon">
+              <img src="/assets/tr1.webp" alt="Graphic Design Icon">
+          </div>
+          <h3>Group and Corporate Travel</h3>
+          <p>Organize stress-free group and corporate travels with customized itineraries that meet your organization's needs for team retreats, conferences, or incentive trips.</p>
+        </div>
+      
+      <div class="service-card">
+          <div class="service-icon">
+              <img src="/assets/tr5.webp" alt="Business Consultancy Icon">
+          </div>
+          <h3>Travel Insurance</h3>
+          <p>Travel with peace of mind knowing you are covered with our comprehensive travel insurance plans that protect against unexpected events.</p>
+        </div>
+  </div>
+</div>
+
+
 <!-- Review -->
-<div class="customer-review-wrapper">   
+<div class="customer-review-wrapper" style="text-align: center;">
+  <h1>Review</h1>
   <section class="review-submission-block">     
     <h2 class="review-section-heading">Share Your Experience</h2>     
     <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="customer-feedback-form">       
       <div class="reviewer-profile-container">         
         <div class="profile-image-uploader">           
           <div class="profile-image-preview">             
-            <img [src]="imagePreview || 'assets/default-avatar.png'" alt="User Avatar" class="reviewer-profile-pic">           
+            <img [src]="imagePreview || 'assets/default-avatar.png'" alt="" class="reviewer-profile-pic">           
           </div>           
           <input              
             type="file"              
@@ -341,6 +328,63 @@
   </section> 
 </div>
 
+<!-- User Details -->
+<div class="form-container" *ngIf="authService.isLoggedIn(); else loginMessage">
+  <form [formGroup]="userForm" (ngSubmit)="onUserSubmit()" class="user-form">
+    <h2>Personal Information</h2>
+
+    <div class="form-group" *ngFor="let field of personalFields">
+      <label [for]="field.id">{{ field.label }}</label>
+      <input
+        *ngIf="field.type !== 'select'"
+        [id]="field.id"
+        [type]="field.type"
+        [formControlName]="field.id"
+        [class.invalid]="isFieldInvalid(field.id)"
+      />
+      <select
+        *ngIf="field.type === 'select'"
+        [id]="field.id"
+        [formControlName]="field.id"
+        [class.invalid]="isFieldInvalid(field.id)"
+      >
+        <option value="" disabled>{{ field.placeholder }}</option>
+        <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
+      </select>
+      <span class="error-message" *ngIf="isFieldInvalid(field.id)">
+        {{ field.errorMessage }}
+      </span>
+    </div>
+
+    <h2>Contact Information</h2>
+
+    <div class="form-group" *ngFor="let field of contactFields">
+      <label [for]="field.id">{{ field.label }}</label>
+      <input
+        [id]="field.id"
+        [type]="field.type"
+        [formControlName]="field.id"
+        [class.invalid]="isFieldInvalid(field.id)"
+      />
+      <span class="error-message" *ngIf="isFieldInvalid(field.id)">
+        {{ field.errorMessage }}
+      </span>
+    </div>
+
+    <button type="submit" [disabled]="!userForm.valid" class="submit-btn">
+      Submit
+    </button>
+  </form>
+</div>
+<ng-template #loginMessage>
+  <div class="login-message">
+    <p>Please log in to access the user information form.</p>
+    <button (click)="navigateToLogin()" class="login-btn">Go to Login</button>
+  </div>
+</ng-template>
+
+
+<!-- location  -->
 <div class="location-info-section">
   <h3 class="map-heading">Our Location</h3>
   <div class="map-container">
@@ -353,7 +397,6 @@
     ></iframe>
   </div>
 </div>
-
 <!-- Footer -->
 <div id="contact" class="site-footer">
   <div class="social-icons-area">

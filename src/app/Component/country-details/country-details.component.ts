@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TravelService } from 'src/app/Service/travel.service';
-import { CartItem, Country, TouristPlace } from 'src/app/Model/travel.models';
+import { BookingDetails,CartItem,Country,TouristPlace,} from 'src/app/Model/travel.models';
 
 @Component({
   selector: 'app-country-details',
@@ -14,10 +14,18 @@ export class CountryDetailsComponent implements OnInit {
   touristPlaces: TouristPlace[] = [];
   cartItems: CartItem[] = [];
   totalAmount = 0;
+  bookingDetails: BookingDetails = {
+    name: '',
+    email: '',
+    phone: '',
+    dateOfTravel: new Date(),
+    numberOfPeople: 1,
+  };
 
   constructor(
-    private route: ActivatedRoute,
-    private travelService: TravelService
+    private route: ActivatedRoute, //The Route provides the details, like parameters or data, that are passed to the component when navigating
+    private travelService: TravelService,
+    private router:Router //The Router handles navigation between components
   ) {}
 
   ngOnInit(): void {
@@ -28,19 +36,19 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   private loadCountryDetails(): void {
-    this.travelService.getCountryById(this.countryId).subscribe(details => {
+    this.travelService.getCountryById(this.countryId).subscribe((details) => {
       this.countryDetails = details;
     });
   }
 
   private loadTouristPlaces(): void {
-    this.travelService.getTouristPlaces(this.countryId).subscribe(places => {
+    this.travelService.getTouristPlaces(this.countryId).subscribe((places) => {
       this.touristPlaces = places;
     });
   }
 
   private loadCartItems(): void {
-    this.travelService.getCartItems().subscribe(items => {
+    this.travelService.getCartItems().subscribe((items) => {
       this.cartItems = items;
       this.calculateTotal();
     });
@@ -66,8 +74,10 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   calculateTotal(): void {
-    this.totalAmount = this.cartItems.reduce((total, item) => 
-      total + (item.cost * item.quantity), 0);
+    this.totalAmount = this.cartItems.reduce(
+      (total, item) => total + item.cost * item.quantity,
+      0
+    );
   }
 
   printItinerary(): void {
@@ -79,7 +89,16 @@ export class CountryDetailsComponent implements OnInit {
     console.log('Proceeding to payment');
   }
 
-  confirmBooking():void {
-    
+  confirmBooking(): void {
+    this.travelService.confirmBooking(this.bookingDetails).subscribe({
+      next: response => {
+        console.log('Booking confirmed:', response);
+        this.resetCart();
+        this.router.navigate(['/confirmbooking']);
+      },
+      error: error => {
+        console.error('Booking failed:', error);
+      }
+    });
   }
 }

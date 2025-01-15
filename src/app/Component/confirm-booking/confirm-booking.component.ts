@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem, Country, TouristPlace } from 'src/app/Model/travel.models';
+import { AuthService } from 'src/app/Service/AuthService';
 import { TravelService } from 'src/app/Service/travel.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class ConfirmBookingComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalAmount = 0;
   
-  constructor(private route: ActivatedRoute,private travelservice: TravelService ) { }
+  constructor(private route: ActivatedRoute,private travelservice: TravelService, private authservice:AuthService ) { }
 
   ngOnInit(): void {
     this.countryID = this.route.snapshot.paramMap.get('id')!;
@@ -47,6 +48,8 @@ export class ConfirmBookingComponent implements OnInit {
   private calculateTotal():void{
     this.totalAmount = this.cartItems.reduce((acc,item)=>acc+(item.cost*item.quantity),0);
   }
+
+  
 
   removeFromCart(placeId: string): void {
     this.travelservice.removeFromCart(placeId);

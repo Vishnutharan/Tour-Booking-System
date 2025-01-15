@@ -1,24 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TravelService } from 'src/app/Service/travel.service';
+import { Country } from 'src/app/Model/travel.models';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.css']
+  styleUrls: ['./booking.component.css'],
 })
-export class BookingComponent {
-  showDatePicker = false;
-  showGuestPicker = false;
-  showDestinationPicker = false;
+export class BookingComponent implements OnInit {
+  countries: Country[] = [];
 
-  toggleDatePicker() {
-    this.showDatePicker = !this.showDatePicker;
+  constructor(private travelService: TravelService, private router: Router) {}
+
+  ngOnInit(): void {
+    // Fetch countries on initialization
+    this.travelService.getCountries().subscribe((countries) => {
+      this.countries = countries;
+    });
   }
 
-  toggleGuestPicker() {
-    this.showGuestPicker = !this.showGuestPicker;
-  }
-
-  toggleDestinationPicker() {
-    this.showDestinationPicker = !this.showDestinationPicker;
+  // Navigate to detailed page of the country
+  navigateToCountryDetails(countryId: string): void {
+    this.router.navigate(['/country', countryId]);
   }
 }
