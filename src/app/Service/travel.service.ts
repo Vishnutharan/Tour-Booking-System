@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import {
-  Country,
-  TouristPlace,
-  CartItem,
-  BookingDetails,
-} from '../Model/travel.models';
+import { Country,TouristPlace,CartItem,BookingDetails,} from '../Model/travel.models';
 import { mockCountries } from '../mock-data/mock-countries';
 import { mockTouristPlaces } from '../mock-data/mock-tourist-places';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from './AuthService';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +15,8 @@ export class TravelService {
   private mockTouristPlaces = mockTouristPlaces;
   private cartItems = new BehaviorSubject<CartItem[]>([]);
 
-  constructor(private http: HttpClient) {} // Inject HttpClient service
+  constructor(private http: HttpClient,private authService: AuthService
+  ) {} // Inject HttpClient service
 
   resetCart() {
     throw new Error('Method not implemented.');
@@ -104,19 +101,41 @@ export class TravelService {
       (total, item) => total + item.cost * item.quantity,
       0
     );
+    
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
 
     const booking = {
-      ...bookingDetails,// ...bookingDetails: It takes all properties of the bookingDetails object and includes them in the booking object.
-      totalAmount: totalAmount,
-      items: currentItems.map((item) => ({
+      userId: userId,
+      bookingDetails: {
+        ...bookingDetails,
+        totalAmount: totalAmount,
+        tax: totalAmount * 0.1,
+        finalAmount: totalAmount * 1.1,
+        bookingDate: new Date(),
+        status: 'Pending'
+      },
+      placesitems: currentItems.map(item => ({
         placeId: item.placeId,
         countryId: item.countryId,
         name: item.name,
         cost: item.cost,
         quantity: item.quantity,
-      })),
+        totalCost: item.cost * item.quantity
+      }))
     };
 
-    return this.http.post(`${this.apiUrl}/booking`, booking);
+    return this.http.post(`${this.apiUrl}/Booking/create`, booking);
+  }
+
+  getUserBookings(): Observable<any> {
+    const userId = this.authService.getUserId();
+    return this.http.get(`${this.apiUrl}/Booking/user/${userId}`);
+  }
+
+  getBookingById(bookingId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/Booking/${bookingId}`);
   }
 }

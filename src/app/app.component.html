@@ -5,18 +5,24 @@
     <a routerLink="/home" fragment="about" class="nav-link">About</a>
     <a routerLink="/home" fragment="gallery" class="nav-link">Gallery</a>
     <a routerLink="/booking" class="nav-link">Booking</a>
-    <!-- <a routerLink="/tpack" class="nav-link">Travel Pack</a> -->
-    <a routerLink="/home" fragment="countryid" class="nav-link">Country</a>
+    <a routerLink="/recommendation" class="nav-link">Recommendation</a>
+    <!-- <a routerLink="/home" fragment="countryid" class="nav-link">Country</a> -->
     <a routerLink="/home" fragment="contact" class="nav-link">Contact</a>
-
     <ng-container *ngIf="!authService.isLoggedIn(); else loggedInMenu">
+      <div class="language-select">
+        <label for="language"></label>
+        <select id="language" name="language">
+          <option value="es">English</option>
+          <option value="es">Tamil</option>
+          <option value="fr">Sihala</option>
+          <option value="de">Hindi</option>
+          <!-- Add more languages as needed -->
+        </select>
+      </div>
+      <a routerLink="/paymentonline" class="nav-link">Pay</a>
       <a routerLink="/login" class="nav-link auth">Login</a>
       <a routerLink="/register" class="nav-link auth">Register</a>
-      <!-- <a routerLink="/payment" fragment="home" class="nav-link">Pay</a> -->
-      <a routerLink="/paymentonline" class="nav-link">Pay Cards</a>
-
     </ng-container>
-
     <ng-template #loggedInMenu>
       <div class="user-menu">
         <a (click)="toggleLogoutDropdown()" class="nav-link auth username">
@@ -29,8 +35,7 @@
     </ng-template>
   </nav>
   <button class="menu-toggle">
-    <span class="bar"></span>
-    <span class="bar"></span>
+    <span class="bar"></span> <span class="bar"></span>
     <span class="bar"></span>
   </button>
 </div>

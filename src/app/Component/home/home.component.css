@@ -347,7 +347,7 @@
 
 .gallery-area {
   padding: 40px;
-  background: linear-gradient(45deg, #0a192f, #022c43);
+  background: #010730;
 
 }
 
@@ -1096,7 +1096,7 @@ input.invalid, select.invalid {
 }
 /* Footer Styles */
 .site-footer {
-  background: #333;
+  background: #010730;
   color: white;
   padding: 40px 0;
   text-align: center;
