@@ -11,14 +11,17 @@ import { Country } from 'src/app/Model/travel.models';
 })
 export class CountriesListComponent implements OnInit {
   countries: Country[] = [];
-  constructor(private router: Router, private travelService: TravelService) {}
+
+  constructor(private travelService: TravelService, private router: Router) {}
 
   ngOnInit(): void {
+    // Fetch countries on initialization
     this.travelService.getCountries().subscribe((countries) => {
       this.countries = countries;
     });
   }
 
+  // Navigate to detailed page of the country
   navigateToCountryDetails(countryId: string): void {
     this.router.navigate(['/country', countryId]);
   }

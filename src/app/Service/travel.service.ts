@@ -1,6 +1,8 @@
+// src/app/Service/travel.service.ts
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Country,TouristPlace,CartItem,BookingDetails,} from '../Model/travel.models';
+import { Country, TouristPlace, CartItem, BookingDetails } from '../Model/travel.models';
 import { mockCountries } from '../mock-data/mock-countries';
 import { mockTouristPlaces } from '../mock-data/mock-tourist-places';
 import { HttpClient } from '@angular/common/http';
@@ -15,24 +17,20 @@ export class TravelService {
   private mockTouristPlaces = mockTouristPlaces;
   private cartItems = new BehaviorSubject<CartItem[]>([]);
 
-  constructor(private http: HttpClient,private authService: AuthService
-  ) {} // Inject HttpClient service
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
-  resetCart() {
-    throw new Error('Method not implemented.');
-  }
-
-  // Fetch countries && display a list of countries.
   getCountries(): Observable<Country[]> {
     return of(this.mockCountries);
   }
 
-  // Fetch country details by ID && display the details of a specific country.
   getCountryById(id: string): Observable<Country> {
-    const country = this.mockCountries.find((c) => c.id === id);
+    const country = this.mockCountries.find((c) => c.countryId === id);
     return of(country!);
   }
-  // display a list of TouristPlace.
+
   getTouristPlaces(countryId: string): Observable<TouristPlace[]> {
     return of(
       this.mockTouristPlaces.filter((place) => place.countryId === countryId)
@@ -43,38 +41,36 @@ export class TravelService {
     return this.cartItems.asObservable();
   }
 
-  // It uses this object to check if the place already exists in the cart.
-  // If it does, it updates the quantity of that item.
-  // If it doesn't, it creates a new CartItem using the information from the TouristPlace object (like name, cost, etc.) and adds it to the cart.
-
   addToCart(place: TouristPlace): void {
     const currentItems = this.cartItems.value;
-    const existingItem = currentItems.find((item) => item.placeId === place.id);
-
+    const existingItem = currentItems.find((item) => item.placeId === place.placeId);
+  
     if (existingItem) {
-      // If the item already exists in the cart, increment the quantity
       existingItem.quantity += 1;
       this.cartItems.next([...currentItems]);
     } else {
-      // If the item does not exist, create a new item with all required fields
       const newItem: CartItem = {
-        placeId: place.id,
+        placeId: place.placeId,
         countryId: place.countryId,
         name: place.name,
         cost: place.cost,
         quantity: 1,
-        details: place.description, // Assuming 'description' is the same as 'details'
-        image: place.imageUrl,
-        description: place.description, // Explicitly add 'description'
-        rating: place.rating || 0, // Default to 0 if not provided
-        highlights: place.highlights || [], // Default to an empty array if not provided
-        bestTimeToVisit: place.bestTimeToVisit || 'Not specified', // Default message
-        duration: place.duration || 'Unknown', // Default to 'Unknown' if not provided
+        details: place.description,
+        imageUrl: place.imageUrl,
+        image: place.imageUrl,  // Added this line to satisfy the CartItem interface
+        description: place.description,
+        rating: place.rating,
+        highlights: place.highlights,
+        bestTimeToVisit: place.bestTimeToVisit,
+        duration: place.duration,
+        accommodation: place.accommodation,
+        travelDetails: place.travelDetails,
+        checkIn: place.checkIn,
+        checkOut: place.checkOut
       };
       this.cartItems.next([...currentItems, newItem]);
     }
   }
-
   removeFromCart(placeId: string): void {
     const currentItems = this.cartItems.value;
     this.cartItems.next(
@@ -137,5 +133,9 @@ export class TravelService {
 
   getBookingById(bookingId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/Booking/${bookingId}`);
+  }
+
+  resetCart(): void {
+    this.cartItems.next([]);
   }
 }
