@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, Renderer2 } from '@angular/core';
+import {Component,AfterViewInit,ElementRef,ViewChild,Renderer2,} from '@angular/core';
 import { AuthService } from './Service/AuthService';
 import { Router } from '@angular/router';
 
@@ -28,7 +28,10 @@ export class AppComponent implements AfterViewInit {
       });
     }
   }
-
+  onLanguageChange(event: Event): void {
+    const selectedRoute = (event.target as HTMLSelectElement).value;
+    this.router.navigate([selectedRoute]);
+  }
   toggleLogoutDropdown() {
     this.showLogoutDropdown = !this.showLogoutDropdown;
   }

@@ -3,101 +3,36 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/Service/AuthService';
 
 @Component({
-  selector: 'app-tamil',
-  templateUrl: './tamil.component.html',
-  styleUrls: ['./tamil.component.css'],
+  selector: 'app-hindi',
+  templateUrl: './hindi.component.html',
+  styleUrls: ['./hindi.component.css']
 })
-export class TamilComponent implements OnInit {
-  reviewForm!: FormGroup;
+export class HindiComponent implements OnInit {
+ reviewForm!: FormGroup;
   reviews: any[] = [];
   submitted = false;
   userForm!: FormGroup;
   imagePreview: string | null = null;
 
   personalFields = [
-    {
-      id: 'firstName',
-      label: 'First Name',
-      type: 'text',
-      errorMessage: 'First name is required',
-    },
-    {
-      id: 'lastName',
-      label: 'Last Name',
-      type: 'text',
-      errorMessage: 'Last name is required',
-    },
-    {
-      id: 'dateOfBirth',
-      label: 'Date of Birth',
-      type: 'date',
-      errorMessage: 'Date of birth is required',
-    },
-    {
-      id: 'gender',
-      label: 'Gender',
-      type: 'select',
-      placeholder: 'Select Gender',
-      options: ['Male', 'Female', 'Other'],
-      errorMessage: 'Gender is required',
-    },
-    {
-      id: 'nationality',
-      label: 'Nationality',
-      type: 'text',
-      errorMessage: 'Nationality is required',
-    },
+    { id: 'firstName', label: 'First Name', type: 'text', errorMessage: 'First name is required' },
+    { id: 'lastName', label: 'Last Name', type: 'text', errorMessage: 'Last name is required' },
+    { id: 'dateOfBirth', label: 'Date of Birth', type: 'date', errorMessage: 'Date of birth is required' },
+    { id: 'gender', label: 'Gender', type: 'select', placeholder: 'Select Gender', options: ['Male', 'Female', 'Other'], errorMessage: 'Gender is required' },
+    { id: 'nationality', label: 'Nationality', type: 'text', errorMessage: 'Nationality is required' },
   ];
 
   contactFields = [
-    {
-      id: 'email',
-      label: 'Email',
-      type: 'email',
-      errorMessage: 'Valid email is required',
-    },
-    {
-      id: 'phone',
-      label: 'Phone Number',
-      type: 'tel',
-      errorMessage: 'Valid phone number is required',
-    },
-    {
-      id: 'street',
-      label: 'Street Address',
-      type: 'text',
-      errorMessage: 'Street address is required',
-    },
-    {
-      id: 'city',
-      label: 'City',
-      type: 'text',
-      errorMessage: 'City is required',
-    },
-    {
-      id: 'state',
-      label: 'State',
-      type: 'text',
-      errorMessage: 'State is required',
-    },
-    {
-      id: 'zipCode',
-      label: 'ZIP Code',
-      type: 'text',
-      errorMessage: 'Valid ZIP code is required',
-    },
-    {
-      id: 'country',
-      label: 'Country',
-      type: 'text',
-      errorMessage: 'Country is required',
-    },
+    { id: 'email', label: 'Email', type: 'email', errorMessage: 'Valid email is required' },
+    { id: 'phone', label: 'Phone Number', type: 'tel', errorMessage: 'Valid phone number is required' },
+    { id: 'street', label: 'Street Address', type: 'text', errorMessage: 'Street address is required' },
+    { id: 'city', label: 'City', type: 'text', errorMessage: 'City is required' },
+    { id: 'state', label: 'State', type: 'text', errorMessage: 'State is required' },
+    { id: 'zipCode', label: 'ZIP Code', type: 'text', errorMessage: 'Valid ZIP code is required' },
+    { id: 'country', label: 'Country', type: 'text', errorMessage: 'Country is required' },
   ];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    public authService: AuthService
-  ) {}
+  constructor(private formBuilder: FormBuilder,public  authService: AuthService  ) {}
 
   ngOnInit(): void {
     this.reviewForm = this.formBuilder.group({
@@ -119,10 +54,7 @@ export class TamilComponent implements OnInit {
       street: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      zipCode: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')],
-      ],
+      zipCode: ['', [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]],
       country: ['', Validators.required],
     });
   }

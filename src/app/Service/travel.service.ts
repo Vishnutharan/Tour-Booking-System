@@ -91,18 +91,58 @@ export class TravelService {
     this.cartItems.next([]);
   }
 
+  // confirmBooking(bookingDetails: BookingDetails): Observable<any> {
+  //   const currentItems = this.cartItems.value;
+  //   const totalAmount = currentItems.reduce(
+  //     (total, item) => total + item.cost * item.quantity,
+  //     0
+  //   );
+  
+  //   const userId = this.authService.getUserId();
+  //   if (!userId) {
+  //     throw new Error('User not authenticated');
+  //   }
+  
+  //   const booking = {
+  //     userId: userId,
+  //     bookingDetails: {
+  //       ...bookingDetails,
+  //       totalAmount: totalAmount,
+  //       tax: totalAmount * 0.1,
+  //       finalAmount: totalAmount * 1.1,
+  //       bookingDate: new Date(),
+  //       status: 'Pending'
+  //     },
+  //     placesitems: currentItems.map((item) => ({
+  //       placeId: item.placeId,
+  //       countryId: item.countryId,
+  //       name: item.name,
+  //       cost: item.cost,
+  //       quantity: item.quantity,
+  //       totalCost: item.cost * item.quantity
+  //     }))
+  //   };
+  
+  //   return this.http.post(`${this.apiUrl}/Booking/create`, booking);
+  // }
+
   confirmBooking(bookingDetails: BookingDetails): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User not authenticated. Token is missing.');
+    }
+  
     const currentItems = this.cartItems.value;
     const totalAmount = currentItems.reduce(
       (total, item) => total + item.cost * item.quantity,
       0
     );
-    
+  
     const userId = this.authService.getUserId();
     if (!userId) {
-      throw new Error('User not authenticated');
+      throw new Error('User ID could not be extracted from token.');
     }
-
+  
     const booking = {
       userId: userId,
       bookingDetails: {
@@ -111,20 +151,22 @@ export class TravelService {
         tax: totalAmount * 0.1,
         finalAmount: totalAmount * 1.1,
         bookingDate: new Date(),
-        status: 'Pending'
+        status: 'Pending',
       },
-      placesitems: currentItems.map(item => ({
+      placesitems: currentItems.map((item) => ({
         placeId: item.placeId,
         countryId: item.countryId,
         name: item.name,
         cost: item.cost,
         quantity: item.quantity,
-        totalCost: item.cost * item.quantity
-      }))
+        totalCost: item.cost * item.quantity,
+      })),
     };
-
-    return this.http.post(`${this.apiUrl}/Booking/create`, booking);
+  
+    return this.http.post(`${this.apiUrl}/create`, booking);
   }
+  
+  
 
   getUserBookings(): Observable<any> {
     const userId = this.authService.getUserId();

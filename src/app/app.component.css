@@ -1,8 +1,8 @@
 /* Import Font Awesome for icons */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
 
 /* Custom font import */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 /* Reset and base styles */
 * {
@@ -12,7 +12,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Navbar styles */
@@ -46,7 +46,7 @@ body {
   }
   50% {
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-                 0 0 30px rgba(255, 255, 255, 0.4);
+      0 0 30px rgba(255, 255, 255, 0.4);
   }
   100% {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
@@ -75,46 +75,46 @@ body {
 
 /* Icons for nav links */
 .nav-link::before {
-  font-family: 'Font Awesome 6 Free';
+  font-family: "Font Awesome 6 Free";
   font-weight: 900;
   margin-right: 5px;
 }
 
 .nav-link[routerLink="/home"][fragment="home"]::before {
-  content: '\f015'; /* Home icon */
+  content: "\f015"; /* Home icon */
 }
 
 .nav-link[routerLink="/home"][fragment="about"]::before {
-  content: '\f05a'; /* Info icon */
+  content: "\f05a"; /* Info icon */
 }
 
 .nav-link[routerLink="/home"][fragment="gallery"]::before {
-  content: '\f03e'; /* Gallery icon */
+  content: "\f03e"; /* Gallery icon */
 }
 
 .nav-link[routerLink="/country"]::before {
-  content: '\f073'; /* Calendar icon */
+  content: "\f073"; /* Calendar icon */
 }
 
 .nav-link[routerLink="/recommendation"]::before {
-  content: '\f004'; /* Heart icon */
+  content: "\f004"; /* Heart icon */
 }
 
 .nav-link[routerLink="/home"][fragment="countryid"]::before {
-  content: '\f0ac'; /* Globe icon */
+  content: "\f0ac"; /* Globe icon */
 }
 
 .nav-link[routerLink="/home"][fragment="contact"]::before {
-  content: '\f0e0'; /* Envelope icon */
+  content: "\f0e0"; /* Envelope icon */
 }
 
 .nav-link[routerLink="/paymentonline"]::before {
-  content: '\f09d'; /* Credit-card icon */
+  content: "\f09d"; /* Credit-card icon */
 }
 
 /* Hover Animation */
 .nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 50%;
@@ -156,8 +156,8 @@ body {
 }
 
 .username::after {
-  content: '\f107';
-  font-family: 'Font Awesome 6 Free';
+  content: "\f107";
+  font-family: "Font Awesome 6 Free";
   font-weight: 900;
 }
 
@@ -222,13 +222,18 @@ body {
 
 /* Loading Animation for Pay Cards */
 .nav-link[routerLink="/paymentonline"]::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   animation: paymentShine 2s infinite;
 }
 
@@ -286,7 +291,8 @@ body {
 }
 
 @keyframes iconBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {

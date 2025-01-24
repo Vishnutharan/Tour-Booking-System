@@ -13,6 +13,10 @@ import { BookingDetailsComponent } from './Component/booking-details/booking-det
 import { AuthGuard } from './Guard/AuthGuard';
 import { FinalAddtoCartComponent } from './Component/final-addto-cart/final-addto-cart.component';
 import { CountryAddtocartComponent } from './Component/country-addtocart/country-addtocart.component';
+import { TamilComponent } from './Component/Language/tamil/tamil.component';
+import { SinhalaComponent } from './Component/Language/sinhala/sinhala.component';
+import { HindiComponent } from './Component/Language/hindi/hindi.component';
+import { ChinesComponent } from './Component/Language/chines/chines.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,7 +31,12 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Optional default route
   { path: 'booking-form', component: BookingFormComponent, canActivate: [AuthGuard]},
   { path: 'booking-list', component: BookingListComponent, canActivate:[AuthGuard]},
-  { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [AuthGuard]}
+  { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [AuthGuard]},
+  { path: 'Tamil', component:TamilComponent},
+  { path: 'Sinhala', component:SinhalaComponent},
+  { path: 'Hindi', component:HindiComponent},
+  { path: 'Chinese', component:ChinesComponent},
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

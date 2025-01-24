@@ -1,0 +1,148 @@
+<!-- trip-summary.component.html -->
+<div class="trip-summary-overlay">
+  <div class="trip-summary-popup">
+    <div class="popup-container">
+      <div class="popup-header">
+        <h2>Your Dream Itinerary</h2>
+        <button class="close-btn" (click)="onClosePopup()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="cart-items-scroll" *ngIf="cartItems.length > 0">
+        <div 
+          class="cart-item" 
+          *ngFor="let item of cartItems; let i = index"
+          [style.animation-delay]="i * 0.1 + 's'"
+        >
+          <div class="item-content">
+            <div class="item-image">
+              <img [src]="item.imageUrl" [alt]="item.name" />
+            </div>
+            
+            <div class="item-details">
+              <h3>{{ item.name }}</h3>
+              
+              <div class="detail-grid">
+                <div class="detail-group">
+                  <span class="label">Cost (per item)</span>
+                  <span class="value">${{ item.cost | number: '1.2-2' }}</span>
+                </div>
+                <div class="detail-group">
+                  <span class="label">Total Cost</span>
+                  <span class="value">${{ item.cost * item.quantity | number: '1.2-2' }}</span>
+                </div>
+                <div class="detail-group">
+                  <span class="label">Quantity</span>
+                  <span class="value">{{ item.quantity }}</span>
+                </div>
+              </div>
+
+              <div class="description">
+                <p>{{ item.description }}</p>
+              </div>
+
+              <div class="detail-grid">
+                <div class="detail-group">
+                  <span class="label">Rating</span>
+                  <span class="value">{{ item.rating }}</span>
+                </div>
+                <div class="detail-group">
+                  <span class="label">Best Time to Visit</span>
+                  <span class="value">{{ item.bestTimeToVisit }}</span>
+                </div>
+                <div class="detail-group">
+                  <span class="label">Duration</span>
+                  <span class="value">{{ item.duration }}</span>
+                </div>
+              </div>
+
+              <div class="section-block">
+                <h4>Accommodation</h4>
+                <div class="detail-grid">
+                  <div class="detail-group">
+                    <span class="label">Hotel</span>
+                    <span class="value">{{ item.accommodation.hotelName }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">Room Type</span>
+                    <span class="value">{{ item.accommodation.roomType }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">Check In</span>
+                    <span class="value">{{ item.accommodation.checkInDate }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">Check Out</span>
+                    <span class="value">{{ item.accommodation.checkOutDate }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-block">
+                <h4>Travel Information</h4>
+                <div class="detail-grid">
+                  <div class="detail-group">
+                    <span class="label">Transportation</span>
+                    <span class="value">{{ item.travelDetails.transportationMode }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">Travel Duration</span>
+                    <span class="value">{{ item.travelDetails.travelDuration }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">Travel Cost</span>
+                    <span class="value">${{ item.travelDetails.cost | number: '1.2-2' }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-block highlights">
+                <h4>Trip Highlights</h4>
+                <ul>
+                  <li *ngFor="let highlight of item.highlights">{{ highlight }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-content">
+          <div class="summary-details">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span>${{ totalAmount | number: '1.2-2' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Tax (10%)</span>
+              <span>${{ totalAmount * 0.1 | number: '1.2-2' }}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <span>${{ totalAmount * 1.1 | number: '1.2-2' }}</span>
+            </div>
+          </div>
+          
+          <div class="popup-actions">
+            <button class="btn btn-primary" (click)="proceedToPay()">
+              Proceed to Pay
+            </button>
+            <button class="btn btn-secondary" (click)="onClosePopup()">
+              Back
+            </button>
+            <button class="btn btn-download" (click)="downloadInvoice()">
+              Download Invoice
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-cart" *ngIf="cartItems.length === 0">
+        <p>Your itinerary is empty</p>
+        <p>Start planning your dream vacation today!</p>
+      </div>
+    </div>
+  </div>
+</div>
