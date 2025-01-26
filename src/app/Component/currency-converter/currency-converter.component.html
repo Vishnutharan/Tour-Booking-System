@@ -1,0 +1,16 @@
+<div>
+  <h2>Currency Converter</h2>
+  <input [(ngModel)]="fromCurrency" placeholder="From Currency" />
+  <input [(ngModel)]="toCurrency" placeholder="To Currency" />
+  <input [(ngModel)]="amount" placeholder="Amount" type="number" />
+  <button (click)="convert()">Convert</button>
+
+  <div *ngIf="conversionResult">
+    <h3>Conversion Result</h3>
+    <p>From: {{ conversionResult.fromCurrency }}</p>
+    <p>To: {{ conversionResult.toCurrency }}</p>
+    <p>Amount: {{ conversionResult.amount }}</p>
+    <p>Converted Amount: {{ conversionResult.convertedAmount }}</p>
+    <p>Exchange Rate: {{ conversionResult.exchangeRate }}</p>
+  </div>
+</div>

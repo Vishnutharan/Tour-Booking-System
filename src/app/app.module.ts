@@ -22,6 +22,13 @@ import { SinhalaComponent } from './Component/Language/sinhala/sinhala.component
 import { HindiComponent } from './Component/Language/hindi/hindi.component';
 import { ChinesComponent } from './Component/Language/chines/chines.component';
 import { AuthInterceptor } from './Interceptor/AuthInterceptor';
+import { CurrencyConverterComponent } from './Component/currency-converter/currency-converter.component';
+import { CurrencyConverterService } from './Service/CurrencyConService';
+import { AuthService } from './Service/AuthService';
+import { BookingService } from './Service/BookingService';
+import { PaymentService } from './Service/payment.service';
+import { TravelService } from './Service/travel.service';
+import { UserService } from './Service/UserService';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +48,7 @@ import { AuthInterceptor } from './Interceptor/AuthInterceptor';
     SinhalaComponent,
     HindiComponent,
     ChinesComponent,
+    CurrencyConverterComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +58,10 @@ import { AuthInterceptor } from './Interceptor/AuthInterceptor';
     FormsModule,
     LucideAngularModule.pick({ Globe, Plane, Star }),
   ],
-  providers: [    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },  ],
+  providers: [    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, 
+    CurrencyConverterService, AuthService,
+    BookingService, PaymentService, TravelService, UserService
+   ],
   bootstrap: [AppComponent],
   
 })

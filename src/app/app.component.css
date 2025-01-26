@@ -56,7 +56,8 @@ body {
 /* Navigation Links */
 .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 0.8rem;
+  /* gap: 0.8rem; */
   align-items: center;
 }
 
@@ -139,7 +140,6 @@ body {
 }
 
 .auth:hover {
-  background: #3498db;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
 }
@@ -216,7 +216,7 @@ body {
 }
 
 .nav-link:hover {
-  color: #3498db;
+  color: #449c89;
   animation: buttonPulse 1s infinite;
 }
 
@@ -318,4 +318,32 @@ body {
   border: none;
   padding: 0.3rem 0.5rem;
   border-radius: 4px;
+}
+.admin-button {
+  background-color: #007bff; /* Blue background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Add some padding */
+  text-align: center; /* Center the text */
+  font-size: 16px; /* Increase font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  display: inline-flex; /* Flex layout */
+  align-items: center; /* Center items vertically */
+}
+
+.admin-button i {
+  margin-right: 8px; /* Add some space between icon and text */
+}
+
+.admin-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .admin-button {
+    font-size: 14px; /* Slightly smaller font on small screens */
+    padding: 8px 16px; /* Adjust padding on small screens */
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/stripe-js';
 import { environment } from '../Environment/environment';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class PaymentService {
   private cardElement: StripeCardElement | null = null;
   private elementMounted = new BehaviorSubject<boolean>(false);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.initStripe();
   }
 

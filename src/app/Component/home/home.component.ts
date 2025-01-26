@@ -1,22 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule,} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TravelService } from 'src/app/Service/travel.service';
 import { Country } from 'src/app/Model/travel.models';
 import { Router } from '@angular/router';
-import {
-  Review,
-  Skill,
-  SocialLink,
-  TourPackage,
-} from 'src/app/Model/travel.models';
+import { Review, Skill, SocialLink, TourPackage,} from 'src/app/Model/travel.models';
 import { AuthService } from 'src/app/Service/AuthService';
 
 @Component({

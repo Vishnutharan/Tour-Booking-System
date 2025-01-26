@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserInfo } from '../Model/UserInfo.models';
 
+@Injectable({ providedIn: 'root' })
 export class UserService {
 
   private apiUrl = 'https://localhost:7234/api/users';
