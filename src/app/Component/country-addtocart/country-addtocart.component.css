@@ -1,3 +1,4 @@
+/* Global Reset and Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -25,12 +26,12 @@ body {
 
 .container {
   display: flex;
-  margin-top: 64px;
+  margin-top: 80px; /* Increased top margin to account for navigation bar */
   min-height: calc(100vh - 60px);
 }
 
 .main-content {
-  width: 80%;
+  width: 75%;
   padding: 1.5rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -38,7 +39,7 @@ body {
 }
 
 .cart-section {
-  width: 20%;
+  width: 25%;
   background: #f8f9fa;
   padding: 1rem;
   border-left: 1px solid #dee2e6;
@@ -46,6 +47,42 @@ body {
   position: fixed;
   right: 0;
   overflow-y: auto;
+}
+
+.search-sort-bar {
+  position: fixed;
+  top: 74px; /* Accounts for navigation bar height */
+  left: 0;
+  width: 61%;
+  background-color: #fff;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-input {
+  padding: 0.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  width: 60%;
+}
+
+.sort-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.sort-button:hover {
+  background-color: #2980b9;
 }
 
 .place-card {
@@ -227,6 +264,11 @@ body {
       position: static;
       height: auto;
   }
+
+  .search-sort-bar {
+    position: static;
+    margin-bottom: 1rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -242,5 +284,44 @@ body {
   
   .date-inputs {
       flex-direction: column;
+  }
+}
+.container {
+  position: relative;
+}
+
+.search-sort-bar {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 75%;
+  background-color: #fff;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.main-content {
+  margin-top: 120px; /* Adjust based on search-sort-bar height */
+  gap: 2.5rem;
+}
+
+.search-sort-bar.hidden {
+  transform: translateY(-100%);
+}
+
+@media (max-width: 992px) {
+  .search-sort-bar {
+    position: static;
+    margin-bottom: 1rem;
+  }
+
+  .main-content {
+    margin-top: 0;
   }
 }

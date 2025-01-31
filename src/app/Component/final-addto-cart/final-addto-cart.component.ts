@@ -6,6 +6,8 @@ import { TravelService } from 'src/app/Service/travel.service';
 import { BookingService } from 'src/app/Service/BookingService';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { BookingRequest } from 'src/app/Model/bookingdetails';
+import { BookingDetails } from 'src/app/Model/bookingdetails';
 
 @Component({
   selector: 'app-final-addto-cart',
@@ -65,66 +67,47 @@ export class FinalAddtoCartComponent implements OnInit {
   }
 
   proceedToPay(): void {
-    const token = localStorage.getItem('authToken'); // Retrieve the token
-  
-    if (!token) {
-      // If no token, redirect to login
-      alert('You must log in before proceeding to pay.');
+    const userId = this.authservice.getUserId();
+    
+    if (!userId) {
       this.router.navigate(['/login']);
       return;
     }
   
-    // Validate the token (optional: can be moved to AuthService)
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT
-      const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-      if (payload.exp < currentTime) {
-        alert('Your session has expired. Please log in again.');
-        this.router.navigate(['/login']);
-        return;
-      }
-    } catch (error) {
-      console.error('Invalid token:', error);
-      alert('Invalid token. Please log in again.');
-      this.router.navigate(['/login']);
-      return;
-    }
+    const userInfo = localStorage.getItem('userDetails');
+    const user = userInfo ? JSON.parse(userInfo) : null;
   
-    // Prepare booking details
     const bookingDetails = {
-      touristPlaces: this.cartItems.map((item) => ({
+      userId: parseInt(userId),
+      bookingDate: new Date(),
+      status: 'Pending',
+      name: user?.name || '',
+      email: user?.email || '',
+      phone: user?.phone || '',
+      dateOfTravel: new Date(),
+      numberOfPeople: 1,
+      totalAmount: this.totalAmount,
+      tax: this.totalAmount * 0.1,
+      finalAmount: this.totalAmount * 1.1,
+      placess: JSON.stringify(this.cartItems.map(item => ({
         name: item.name,
         cost: item.cost,
         quantity: item.quantity,
-        description: item.description,
-        rating: item.rating,
-        highlights: item.highlights,
-        accommodation: item.accommodation,
-        travelDetails: item.travelDetails,
-      })),
-      totalAmount: this.totalAmount,
+        countryId: item.countryId,
+        placeId: item.placeId
+      })))
     };
-    
   
-    // Send the booking details along with the token
-    this.bookingService.createBooking(bookingDetails, token).subscribe(
-      (response) => {
-        alert('Booking created successfully!');
-        console.log('Booking response:', response); // Debug log
-        this.router.navigate(['/paymentonline']); // Redirect to payment page
+    this.bookingService.createBooking(bookingDetails).subscribe({
+      next: (response) => {
+        console.log('Booking successful:', response);
+        this.router.navigate(['/paymentonline']);
       },
-      (error) => {
-        if (error.status === 401) {
-          alert('Unauthorized! Please log in again.');
-          this.router.navigate(['/login']);
-        } else {
-          alert('Error creating booking: ' + error.message);
-          console.error('Booking error:', error); // Debug log
-        }
+      error: (error) => {
+        console.error('Booking error:', error);
       }
-    );
+    });
   }
-  
   
   
   downloadInvoice(): void {

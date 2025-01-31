@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Service/AuthService';
 import { BookingService } from 'src/app/Service/BookingService';
 import { CreateBookingResponse } from 'src/app/Model/bookingdetails';
+
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
@@ -13,8 +14,7 @@ export class BookingFormComponent implements OnInit {
   bookingForm: FormGroup;
   bookingSuccess: boolean = false;
   bookingError: string | null = null;
-  userId: string | null= null;
-
+  userId: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,17 +31,16 @@ export class BookingFormComponent implements OnInit {
       totalAmount: [0, Validators.required],
       tax: [0],
       finalAmount: [0],
-       places: [''],
+      places: [''],
     });
   }
 
   ngOnInit(): void {
-      this.userId = this.authService.getUserId();
-      console.log('User ID from Auth Service:', this.userId);
-
+    this.userId = this.authService.getUserId();
+    console.log('User ID from Auth Service:', this.userId);
+    
     if (!this.userId) {
-      // Handle the case where userId is not available
-       console.error('User ID not found, redirecting to Login.');
+      console.error('User ID not found, redirecting to Login.');
       this.router.navigate(['/login']);
       return;
     }
@@ -50,30 +49,14 @@ export class BookingFormComponent implements OnInit {
   onSubmit(): void {
     if (this.bookingForm.valid && this.userId) {
       this.bookingError = null;
-      const bookingData = this.bookingForm.value;
-      const booking = {
-        ...bookingData,
+      const bookingData = {
+        ...this.bookingForm.value,
         userId: this.userId,
         bookingDate: new Date(),
-        status: 'Pending',
+        status: 'Pending'
       };
-  
-      // Get the token from localStorage
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        console.error('No token found. User not logged in.');
-        this.bookingError = 'You must log in to proceed with the booking.';
-        this.router.navigate(['/login']);
-        return;
-      }
-  
-      // Prepare the headers
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-  
-      // Call the booking service with the booking data and headers
-      this.bookingService.createBooking(booking, token).subscribe({
+
+      this.bookingService.createBooking(bookingData).subscribe({
         next: (response: CreateBookingResponse) => {
           console.log('Booking created successfully', response);
           this.bookingSuccess = true;
@@ -90,18 +73,16 @@ export class BookingFormComponent implements OnInit {
       console.log('Form is not valid');
     }
   }
-  
 
-    calculateFinalAmount() {
-      const totalAmount = this.bookingForm.get('totalAmount')?.value || 0;
-      const taxRate = this.bookingForm.get('tax')?.value || 0;
-
-       const tax = totalAmount * (taxRate / 100);
-      const finalAmount = totalAmount + tax;
-
-      this.bookingForm.patchValue({
-           finalAmount: finalAmount
-      })
-    }
-
+  calculateFinalAmount() {
+    const totalAmount = this.bookingForm.get('totalAmount')?.value || 0;
+    const taxRate = this.bookingForm.get('tax')?.value || 0;
+    
+    const tax = totalAmount * (taxRate / 100);
+    const finalAmount = totalAmount + tax;
+    
+    this.bookingForm.patchValue({
+      finalAmount: finalAmount
+    });
+  }
 }

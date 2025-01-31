@@ -1,90 +1,79 @@
 <div class="container">
-  <main class="main-content">
-      <div class="place-card" *ngFor="let place of touristPlaces">
-          <img [src]="place.imageUrl" [alt]="place.name" class="place-image">
-          <div class="place-info">
-              <div class="place-header">
-                  <h2>{{place.name}}</h2>
-                  <div class="rating">
-                      <span>★★★★★</span>
-                      <span>{{place.rating}}</span>
-                  </div>
-              </div>
-
-              <p>{{place.description}}</p>
-
-              <div class="info-grid">
-                  <div class="info-box">
-                      <h3>Highlights</h3>
-                      <ul>
-                          <li *ngFor="let highlight of place.highlights">{{highlight}}</li>
-                      </ul>
-                  </div>
-
-                  <div class="info-box">
-                      <h3>Visit Information</h3>
-                      <p><strong>Best Time:</strong> {{place.bestTimeToVisit}}</p>
-                      <p><strong>Duration:</strong> {{place.duration}}</p>
-                  </div>
-
-                  <div class="info-box">
-                      <h3>Accommodation</h3>
-                      <p><strong>Hotel:</strong> {{place.accommodation.hotelName}}</p>
-                      <p><strong>Room Type:</strong> {{place.accommodation.roomType}}</p>
-                      
-                      <div class="date-inputs">
-                          <input type="date" class="date-input" placeholder="Check-in" [(ngModel)]="place.checkIn">
-                          <input type="date" class="date-input" placeholder="Check-out" [(ngModel)]="place.checkOut">
-                      </div>
-                  </div>
-
-                  <div class="info-box">
-                      <h3>Travel Details</h3>
-                      <p><strong>Transport:</strong> {{place.travelDetails.transportationMode}}</p>
-                      <p><strong>Duration:</strong> {{place.travelDetails.travelDuration}}</p>
-                  </div>
-              </div>
-
-              <div class="price-action">
-                  <span class="price">${{place.cost}}</span>
-                  <button class="add-to-cart" (click)="addToCart(place)">Add to Cart</button>
-              </div>
+    <div class="search-sort-bar">
+      <input type="text" [(ngModel)]="searchQuery" (keyup)="searchPlaces()" placeholder="Search Places..." class="search-input">
+      <button (click)="sortPlaces('price')" class="sort-button">Sort by Price</button>
+      <button (click)="sortPlaces('rating')" class="sort-button">Sort by Rating</button>
+    </div>
+    <main class="main-content">
+      <div class="place-card" *ngFor="let place of filteredTouristPlaces">
+        <img [src]="place.imageUrl" [alt]="place.name" class="place-image">
+        <div class="place-info">
+          <div class="place-header">
+            <h2>{{place.name}}</h2>
+            <div class="rating">
+              <span>★★★★★</span>
+              <span>{{place.rating}}</span>
+            </div>
           </div>
+          <p>{{place.description}}</p>
+          <div class="info-grid">
+            <div class="info-box">
+              <h3>Highlights</h3>
+              <ul>
+                <li *ngFor="let highlight of place.highlights">{{highlight}}</li>
+              </ul>
+            </div>
+            <div class="info-box">
+              <h3>Visit Information</h3>
+              <p><strong>Best Time:</strong> {{place.bestTimeToVisit}}</p>
+              <p><strong>Duration:</strong> {{place.duration}}</p>
+            </div>
+            <div class="info-box">
+              <h3>Accommodation</h3>
+              <p><strong>Hotel:</strong> {{place.accommodation.hotelName}}</p>
+              <p><strong>Room Type:</strong> {{place.accommodation.roomType}}</p>
+              <div class="date-inputs">
+                <input type="date" class="date-input" placeholder="Check-in" [(ngModel)]="place.checkIn">
+                <input type="date" class="date-input" placeholder="Check-out" [(ngModel)]="place.checkOut">
+              </div>
+            </div>
+            <div class="info-box">
+              <h3>Travel Details</h3>
+              <p><strong>Transport:</strong> {{place.travelDetails.transportationMode}}</p>
+              <p><strong>Duration:</strong> {{place.travelDetails.travelDuration}}</p>
+            </div>
+          </div>
+          <div class="price-action">
+            <span class="price">${{place.cost}}</span>
+            <button class="add-to-cart" (click)="addToCart(place)">Add to Cart</button>
+          </div>
+        </div>
       </div>
-  </main>
-
-  <aside class="cart-section">
+    </main>
+    <aside class="cart-section">
       <h2>Your Itinerary</h2>
-      
       <div *ngIf="cartItems.length > 0">
-          <div class="cart-item" *ngFor="let item of cartItems">
-              <img [src]="item.image" [alt]="item.name" class="cart-image">
-              <div class="cart-item-details">
-                  <h3>{{item.name}}</h3>
-                  <div class="cart-dates">
-                      <p>Check-in: {{item.checkIn | date}}</p>
-                      <p>Check-out: {{item.checkOut | date}}</p>
-                  </div>
-                  <p>${{item.cost}}</p>
-              </div>
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <img [src]="item.image" [alt]="item.name" class="cart-image">
+          <div class="cart-item-details">
+            <h3>{{item.name}}</h3>
+            <div class="cart-dates">
+              <p>Check-in: {{item.checkIn | date}}</p>
+              <p>Check-out: {{item.checkOut | date}}</p>
+            </div>
+            <p>${{item.cost}}</p>
           </div>
-
-          <div class="cart-total">
-              <h3>Total: ${{totalAmount}}</h3>
-              
-              <div class="cart-buttons">
-                  <button class="cart-button confirm-button" (click)="confirmBooking()"  routerLink ="/final-cart">
-                      Confirm Booking
-                  </button>
-                  <button class="cart-button reset-button" (click)="resetCart()">
-                      Reset Cart
-                  </button>
-              </div>
+        </div>
+        <div class="cart-total">
+          <h3>Total: ${{totalAmount}}</h3>
+          <div class="cart-buttons">
+            <button class="cart-button confirm-button" (click)="confirmBooking()" routerLink="/final-cart">Confirm Booking</button>
+            <button class="cart-button reset-button" (click)="resetCart()">Reset Cart</button>
           </div>
+        </div>
       </div>
-
       <div *ngIf="cartItems.length === 0">
-          <p>Your cart is empty</p>
+        <p>Your cart is empty</p>
       </div>
-  </aside>
-</div>
+    </aside>
+  </div>

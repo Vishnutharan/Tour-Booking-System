@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookingDetails, CartItem, Country, TouristPlace } from 'src/app/Model/travel.models';
 import { AuthService } from 'src/app/Service/AuthService';
@@ -14,6 +14,8 @@ export class CountryAddtocartComponent implements OnInit {
   countryDetails!: Country;
   touristPlaces: TouristPlace[] = [];
   cartItems: CartItem[] = [];
+  filteredTouristPlaces: TouristPlace[] = [];
+  searchQuery: string = '';
   totalAmount = 0;
   bookingDetails: BookingDetails = {
     name: '',
@@ -23,11 +25,16 @@ export class CountryAddtocartComponent implements OnInit {
     numberOfPeople: 1,
   };
 
+  private prevScrollPos: number = window.pageYOffset;
+  private searchSortBar: any; // To hold the reference to the DOM element
+
   constructor(
-    private route: ActivatedRoute, //The Route provides the details, like parameters or data, that are passed to the component when navigating
+    private route: ActivatedRoute,
     private travelService: TravelService,
-    private router:Router ,//The Router handles navigation between components,
-    private authService: AuthService //The AuthService provides methods for user authentication and authorization
+    private router: Router,
+    private authService: AuthService,
+    private renderer: Renderer2
+
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +53,7 @@ export class CountryAddtocartComponent implements OnInit {
   private loadTouristPlaces(): void {
     this.travelService.getTouristPlaces(this.countryId).subscribe((places) => {
       this.touristPlaces = places;
+      this.filteredTouristPlaces = places;
     });
   }
 
@@ -69,6 +77,7 @@ export class CountryAddtocartComponent implements OnInit {
     this.totalAmount = 0;
     this.travelService.clearCart();
   }
+
   updateQuantity(placeId: string, quantity: number): void {
     if (quantity > 0) {
       this.travelService.updateQuantity(placeId, quantity);
@@ -90,19 +99,50 @@ export class CountryAddtocartComponent implements OnInit {
     place.checkIn = new Date(checkIn);
     place.checkOut = new Date(checkOut);
   }
-  
+
   proceedToPayment(): void {
-    // Implement payment gateway integration
     console.log('Proceeding to payment');
   }
 
   confirmBooking(): void {
-    // Check if the user is authenticated
     if (!this.authService.isAuthenticated()) {
       console.error('User is not logged in. Redirecting to login page.');
-      this.router.navigate(['/login']); // Redirect to login page if not logged in
+      this.router.navigate(['/login']);
       return;
     }
+  }
+
+  sortPlaces(sortBy: string): void {
+    this.filteredTouristPlaces = [...this.touristPlaces];
+    if (sortBy === 'price') {
+      this.filteredTouristPlaces.sort((a, b) => a.cost - b.cost);
+    } else if (sortBy === 'rating') {
+      this.filteredTouristPlaces.sort((a, b) => b.rating - a.rating);
+    }
+  }
+
+  searchPlaces(): void {
+    if (!this.searchQuery) {
+      this.filteredTouristPlaces = this.touristPlaces;
+    } else {
+      this.filteredTouristPlaces = this.touristPlaces.filter(place => place.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    }
+  }
   
-  } 
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const currentScrollPos = window.pageYOffset;
+    if (!this.searchSortBar) {
+      this.searchSortBar = document.querySelector('.search-sort-bar');
+    }
+
+    if (currentScrollPos > 0) {  // Always hide if the user has scrolled from the top
+      this.renderer.addClass(this.searchSortBar, 'hidden');
+    } else {
+      this.renderer.removeClass(this.searchSortBar, 'hidden');
+    }
+
+    this.prevScrollPos = currentScrollPos;
+  }
+
 }

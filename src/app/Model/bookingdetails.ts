@@ -30,6 +30,7 @@ interface TourBookingDetails {
   finalAmount: number;
   tax: number;
 }
+
 interface PersonalDetails {
   name: string;
   email: string;
@@ -38,6 +39,7 @@ interface PersonalDetails {
   dateOfBirth?: Date;
   passportOrIdInfo?: string;
 }
+
 interface AccommodationDetails {
   hotelName?: string;
   roomType?: string;
@@ -47,8 +49,33 @@ interface AccommodationDetails {
   occupancyDetails?: string;
   specialRoomRequests?: string;
 }
-interface AdditionalInformation {
-  travelPreferences?: string;
-  dietaryRequirements?: string;
- 
+
+export interface UserDetails {
+  userDetailsId: number;  // Corresponds to UserDetailsID
+  firstName: string;
+  lastName: string;
+  email?: string;  // Optional field
+  dateOfBirth: Date;
+  gender: string;
+  nationality: string;
+  phone: string;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  createdAt: Date;
+}
+
+export interface BookingRequest {
+  userId: string;
+  name: string;
+  email: string;
+  phone: string;
+  dateOfTravel: Date;
+  numberOfPeople: number;
+  totalAmount: number;
+  tax: number;
+  finalAmount: number;
+  placess: string;
 }

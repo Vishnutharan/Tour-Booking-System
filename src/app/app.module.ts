@@ -29,6 +29,8 @@ import { BookingService } from './Service/BookingService';
 import { PaymentService } from './Service/payment.service';
 import { TravelService } from './Service/travel.service';
 import { UserService } from './Service/UserService';
+import { AdminComponent } from './Component/admin/admin.component';
+import { ReviewService } from './Service/ReviewService';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,7 @@ import { UserService } from './Service/UserService';
     HindiComponent,
     ChinesComponent,
     CurrencyConverterComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,11 +61,16 @@ import { UserService } from './Service/UserService';
     FormsModule,
     LucideAngularModule.pick({ Globe, Plane, Star }),
   ],
-  providers: [    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, 
-    CurrencyConverterService, AuthService,
-    BookingService, PaymentService, TravelService, UserService
-   ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    CurrencyConverterService,
+    AuthService,
+    BookingService,
+    PaymentService,
+    TravelService,
+    UserService,
+    ReviewService,
+  ],
   bootstrap: [AppComponent],
-  
 })
 export class AppModule {}

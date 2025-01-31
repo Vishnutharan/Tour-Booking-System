@@ -384,6 +384,41 @@
 </ng-template>
 
 
+<!-- <div class="form-container">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <h2>Personal Information</h2>
+    <div *ngFor="let field of ['firstName', 'lastName', 'dateOfBirth', 'gender', 'nationality']">
+      <label [for]="field">{{ field | titlecase }}</label>
+      <input
+        [type]="field === 'dateOfBirth' ? 'date' : 'text'"
+        [id]="field"
+        [formControlName]="field"
+        [class.invalid]="isFieldInvalid(field)"
+      />
+      <span class="error-message" *ngIf="isFieldInvalid(field)">
+        {{ field | titlecase }} is required
+      </span>
+    </div>
+
+    <h2>Contact Information</h2>
+    <div *ngFor="let field of ['email', 'phone', 'street', 'city', 'state', 'zipCode', 'country']">
+      <label [for]="field">{{ field | titlecase }}</label>
+      <input
+        [type]="field === 'email' ? 'email' : 'text'"
+        [id]="field"
+        [formControlName]="field"
+        [class.invalid]="isFieldInvalid(field)"
+      />
+      <span class="error-message" *ngIf="isFieldInvalid(field)">
+        {{ field | titlecase }} is required
+      </span>
+    </div>
+
+    <button type="submit" [disabled]="!userForm.valid">Submit</button>
+  </form>
+</div> -->
+
+
 <!-- location  -->
 <div class="location-info-section">
   <h3 class="map-heading">Our Location</h3>

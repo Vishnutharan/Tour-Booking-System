@@ -6,8 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { TravelService } from 'src/app/Service/travel.service';
 import { Country } from 'src/app/Model/travel.models';
 import { Router } from '@angular/router';
-import { Review, Skill, SocialLink, TourPackage,} from 'src/app/Model/travel.models';
+import { Review,TourPackage,} from 'src/app/Model/travel.models';
 import { AuthService } from 'src/app/Service/AuthService';
+import { UserService } from 'src/app/Service/UserService';
+import { ReviewService } from 'src/app/Service/ReviewService';
 
 @Component({
   selector: 'app-home',
@@ -20,8 +22,8 @@ export class HomeComponent implements OnInit {
   submitted = false;
   submitError = false;
   countries: Country[] = [];
-  imagePreview: string | null = null;
-
+  imagePreview: string | ArrayBuffer | null = null;
+  tourPackageId = 1; // Replace with the actual tour package ID
   userForm: FormGroup;
   isLoggedIn: boolean = false;
 
@@ -50,24 +52,29 @@ export class HomeComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private travelService: TravelService,
     private router: Router,
-    public  authService: AuthService
+    public  authService: AuthService,
+    public userService:UserService,
+    public reviewService: ReviewService
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      dateOfBirth: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
-      nationality: ['', [Validators.required]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      street: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
-      zipCode: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')],
-      ],
-      country: ['', [Validators.required]],
+      dateOfBirth: ['', Validators.required],
+      gender: ['', Validators.required],
+      nationality: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern('[0-9]+')]],
+      street: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      zipCode: ['', [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]],
+      country: ['', Validators.required],
+    }),
+    this.reviewForm = this.formBuilder.group({
+      customerName: ['', Validators.required],
+      rating: [0, [Validators.required, Validators.min(1)]],
+      reviewText: ['', Validators.required],
+      userImage: [null]
     });
   }
 
@@ -76,6 +83,7 @@ export class HomeComponent implements OnInit {
       if (fragment) {
         this.viewportScroller.scrollToAnchor(fragment);
       }
+      this.fetchReviews();
     });
 
     this.reviewForm = this.formBuilder.group({
@@ -92,19 +100,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onImageSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imagePreview = reader.result as string;
-        this.reviewForm.patchValue({
-          userImage: reader.result,
-        });
+        this.imagePreview = reader.result;
+        this.reviewForm.patchValue({ userImage: reader.result });
       };
       reader.readAsDataURL(file);
     }
   }
+  
   private getStoredReviews(): Review[] {
     const stored = localStorage.getItem('reviews');
     return stored ? JSON.parse(stored) : [];
@@ -116,23 +123,55 @@ export class HomeComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    if (this.reviewForm.valid) {
-      const newReview: Review = {
-        ...this.reviewForm.value,
-        date: new Date(),
-        userImage: this.imagePreview,
-      };
-      this.reviews.unshift(newReview);
-      this.storeReviews(this.reviews);
-      this.reviewForm.reset({ tourPackageId: 1, rating: 0 });
-      this.imagePreview = null;
-      this.submitted = false;
+
+    if (this.reviewForm.invalid) {
+      return;
     }
+
+    const review: Review = {
+      ...this.reviewForm.value,
+      tourPackageId: this.tourPackageId,
+      date: new Date()
+    };
+
+    this.reviewService.submitReview(review).subscribe(
+      (res) => {
+        alert('Review submitted successfully!');
+        this.reviews.push(res);
+        this.reviewForm.reset();
+        this.imagePreview = null;
+        this.submitted = false;
+      },
+      (err) => {
+        console.error('Error submitting review:', err);
+      }
+    );
+  }
+
+  fetchReviews(): void {
+    this.reviewService.getReviews(this.tourPackageId).subscribe(
+      (res) => {
+        this.reviews = res;
+      },
+      (err) => {
+        console.error('Error fetching reviews:', err);
+      }
+    );
+  }
+
+  private markFormFieldsAsTouched(form: FormGroup): void {
+    Object.keys(form.controls).forEach((key) => {
+      form.controls[key].markAsTouched();
+    });
   }
 
   // user information
   onUserSubmit() {
     if (this.userForm.valid) {
+      this.userService.addUser(this.userForm.value).subscribe({
+        next: () => alert('User added successfully!'),
+        error: (error) => console.error('Error:', error),
+      });
       console.log(this.userForm.value); // Handle valid form submission
     } else {
       Object.keys(this.userForm.controls).forEach((key) => {
@@ -153,12 +192,12 @@ export class HomeComponent implements OnInit {
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
   // Rating
-  setRating(rating: number): void {
-    this.reviewForm.get('rating')?.setValue(rating);
+  setRating(star: number): void {
+    this.reviewForm.patchValue({ rating: star });
   }
 
-  getStars(rating: number): number[] {
-    return Array(rating).fill(0);
+ getStars(rating: number): number[] {
+    return Array(5).fill(0).map((_, i) => i + 1);
   }
 
   get f() {

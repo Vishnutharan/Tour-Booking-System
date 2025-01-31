@@ -64,18 +64,6 @@ export class AuthService {
     }
   }
 
-  // Extract user ID from JWT token
-  //  private getUserIdFromToken(token: string): string | null {
-  //   try {
-  //     const base64Url = token.split('.')[1];
-  //     const base64 = base64Url.replace('-', '+').replace('_', '/');
-  //     const payload = JSON.parse(window.atob(base64));
-  //     return payload.sub; // Assuming 'sub' contains the user ID
-  //   } catch {
-  //     return null;
-  //   }
-  // }
-
   private getUserIdFromToken(token: string): string | null {
     try {
       const base64Url = token.split('.')[1];

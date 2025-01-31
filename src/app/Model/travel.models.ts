@@ -1,5 +1,3 @@
-// src/app/Model/travel.models.ts
-
 export interface Country {
   countryId: string;
   name: string;
@@ -10,8 +8,8 @@ export interface Country {
 
 export interface TouristPlace {
   id: string;
-  placeId: string;
   countryId: string;
+  placeId: string;
   name: string;
   description: string;
   imageUrl: string;
@@ -61,17 +59,6 @@ export interface Review {
   tourPackageId: number;
   userImage?: string;
   date: Date;
-}
-
-export interface Skill {
-  icon: string;
-  title: string;
-  description: string;
-}
-
-export interface SocialLink {
-  icon: string;
-  url: string;
 }
 
 export interface TourPackage {

@@ -1,0 +1,121 @@
+<!-- admin-panel.component.html -->
+<div class="sidebar">
+  <div class="logo">Admin</div>
+  <nav>
+    <div class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Dashboard</span>
+    </div>
+    <div class="nav-item">
+      <i class="fas fa-project-diagram"></i>
+      <span>Projects</span>
+    </div>
+    <div class="nav-item active">
+      <i class="fas fa-tasks"></i>
+      <span>Task list</span>
+    </div>
+    <div class="nav-item">
+      <i class="fas fa-cogs"></i>
+      <span>Services</span>
+    </div>
+    <div class="nav-item">
+      <i class="fas fa-bell"></i>
+      <span>Notifications</span>
+    </div>
+    <div class="nav-item">
+      <i class="fas fa-comments"></i>
+      <span>Chat</span>
+    </div>
+  </nav>
+  <div class="user-profile">
+    <div class="profile-avatar"></div>
+    <div class="profile-info">
+      <div class="profile-name">Emily Jonson</div>
+      <div class="profile-email">jonson@bress.com</div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="search-bar">
+    <div class="search-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Search" />
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn">
+        <i class="fas fa-th-large"></i>
+        Card
+      </button>
+      <button class="view-btn active">
+        <i class="fas fa-list"></i>
+        List
+      </button>
+    </div>
+  </div>
+
+  <div class="task-header">
+    <div>
+      <h2>Last tasks</h2>
+      <p>117 total, proceed to resolve them</p>
+    </div>
+    <div class="metrics">
+      <div>
+        <div class="metric">94</div>
+        <div class="metric-label">Done</div>
+      </div>
+      <div>
+        <div class="metric">23</div>
+        <div class="metric-label">In progress</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-list">
+    <div class="task-item">
+      <input type="checkbox" />
+      <div class="task-details">
+        <div>ClientOnboarding - Circle</div>
+        <div class="members">
+          <div class="member-avatar"></div>
+          <span>3</span>
+        </div>
+      </div>
+      <span class="status-badge in-progress">
+        <i class="fas fa-spinner fa-spin"></i>
+        In progress
+      </span>
+      <span class="time">
+        <i class="far fa-clock"></i>
+        6 hours
+      </span>
+      <span class="date">
+        <i class="far fa-calendar"></i>
+        6 Mon
+      </span>
+    </div>
+
+    <div class="task-item">
+      <input type="checkbox" />
+      <div class="task-details">
+        <div>Meeting with Webflow & Notion</div>
+        <div class="members">
+          <div class="member-avatar"></div>
+          <span>4</span>
+        </div>
+      </div>
+      <span class="status-badge done">
+        <i class="fas fa-check"></i>
+        Done
+      </span>
+      <span class="time">
+        <i class="far fa-clock"></i>
+        2 hours
+      </span>
+      <span class="date">
+        <i class="far fa-calendar"></i>
+        7 Tue
+      </span>
+    </div>
+  </div>
+</div>
