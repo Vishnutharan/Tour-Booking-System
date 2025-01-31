@@ -1,5 +1,3 @@
-// src/app/mock-data/mock-countries.ts
-
 import { Country } from '../Model/travel.models';
 
 export const mockCountries: Country[] = [

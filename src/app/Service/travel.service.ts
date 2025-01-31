@@ -1,13 +1,11 @@
-// src/app/Service/travel.service.ts
-
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Country, TouristPlace, CartItem, BookingDetails } from '../Model/travel.models';
+import { Country, TouristPlace, CartItem,  } from '../Model/travel.models';
 import { mockCountries } from '../mock-data/mock-countries';
 import { mockTouristPlaces } from '../mock-data/mock-tourist-places';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './AuthService';
-
+import { BookingDetails } from '../Model/bookingdetails';
 @Injectable({
   providedIn: 'root',
 })
@@ -57,7 +55,7 @@ export class TravelService {
         quantity: 1,
         details: place.description,
         imageUrl: place.imageUrl,
-        image: place.imageUrl,  // Added this line to satisfy the CartItem interface
+        image: place.imageUrl,  
         description: place.description,
         rating: place.rating,
         highlights: place.highlights,
@@ -90,41 +88,6 @@ export class TravelService {
   clearCart(): void {
     this.cartItems.next([]);
   }
-
-  // confirmBooking(bookingDetails: BookingDetails): Observable<any> {
-  //   const currentItems = this.cartItems.value;
-  //   const totalAmount = currentItems.reduce(
-  //     (total, item) => total + item.cost * item.quantity,
-  //     0
-  //   );
-  
-  //   const userId = this.authService.getUserId();
-  //   if (!userId) {
-  //     throw new Error('User not authenticated');
-  //   }
-  
-  //   const booking = {
-  //     userId: userId,
-  //     bookingDetails: {
-  //       ...bookingDetails,
-  //       totalAmount: totalAmount,
-  //       tax: totalAmount * 0.1,
-  //       finalAmount: totalAmount * 1.1,
-  //       bookingDate: new Date(),
-  //       status: 'Pending'
-  //     },
-  //     placesitems: currentItems.map((item) => ({
-  //       placeId: item.placeId,
-  //       countryId: item.countryId,
-  //       name: item.name,
-  //       cost: item.cost,
-  //       quantity: item.quantity,
-  //       totalCost: item.cost * item.quantity
-  //     }))
-  //   };
-  
-  //   return this.http.post(`${this.apiUrl}/Booking/create`, booking);
-  // }
 
   confirmBooking(bookingDetails: BookingDetails): Observable<any> {
     const token = localStorage.getItem('authToken');
@@ -166,8 +129,6 @@ export class TravelService {
     return this.http.post(`${this.apiUrl}/create`, booking);
   }
   
-  
-
   getUserBookings(): Observable<any> {
     const userId = this.authService.getUserId();
     return this.http.get(`${this.apiUrl}/Booking/user/${userId}`);

@@ -6,7 +6,7 @@ import { TravelService } from 'src/app/Service/travel.service';
 import { BookingService } from 'src/app/Service/BookingService';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { BookingRequest } from 'src/app/Model/bookingdetails';
+// import { BookingRequest } from 'src/app/Model/bookingdetails';
 import { BookingDetails } from 'src/app/Model/bookingdetails';
 
 @Component({

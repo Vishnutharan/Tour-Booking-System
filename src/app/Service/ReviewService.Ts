@@ -18,7 +18,3 @@ export class ReviewService {
     return this.http.get<Review[]>(`${this.baseUrl}/package/${tourPackageId}`);
   }
 }
-
-
-// https://localhost:7063/api/Reviews/submit
-// https://localhost:7063/api/Reviews/package

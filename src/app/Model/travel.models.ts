@@ -44,13 +44,16 @@ export interface CartItem extends Omit<TouristPlace, 'id'> {
   checkOut?: Date;
 }
 
-export interface BookingDetails {
-  name: string;
-  email: string;
-  phone: string;
-  dateOfTravel?: Date;
-  numberOfPeople?: number;
-}
+// interface AccommodationDetails {
+//   hotelName?: string;
+//   roomType?: string;
+//   checkInDate?: Date;
+//   checkOutDate?: Date;
+//   numberOfRooms?: number;
+//   occupancyDetails?: string;
+//   specialRoomRequests?: string;
+// }
+
 
 export interface Review {
   customerName: string;

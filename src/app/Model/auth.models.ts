@@ -15,11 +15,6 @@ export interface TokenResponse {
   refreshToken: string;
 }
 
-// export interface LoginCredentials {
-//   username: string;
-//   password: string;
-// }
-
 // Simplified interfaces - LoginCredentials can be merged with LoginDto
 export interface LoginResponse {
   token: string;    // Single token response structure

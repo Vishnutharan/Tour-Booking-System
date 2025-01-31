@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BookingDetails, CartItem, Country, TouristPlace } from 'src/app/Model/travel.models';
+import { BookingDetails } from 'src/app/Model/bookingdetails';
+import {  CartItem, Country, TouristPlace } from 'src/app/Model/travel.models';
 import { AuthService } from 'src/app/Service/AuthService';
 import { TravelService } from 'src/app/Service/travel.service';
 
@@ -18,13 +19,20 @@ export class CountryAddtocartComponent implements OnInit {
   searchQuery: string = '';
   totalAmount = 0;
   bookingDetails: BookingDetails = {
+    id: undefined,
+    userId: '',
+    bookingDate: new Date(),
+    status: '',
+    places: '',
     name: '',
     email: '',
     phone: '',
     dateOfTravel: new Date(),
     numberOfPeople: 1,
+    totalAmount: undefined,
+    finalAmount: undefined,
+    tax: undefined,
   };
-
   private prevScrollPos: number = window.pageYOffset;
   private searchSortBar: any; // To hold the reference to the DOM element
 
@@ -144,5 +152,4 @@ export class CountryAddtocartComponent implements OnInit {
 
     this.prevScrollPos = currentScrollPos;
   }
-
 }
