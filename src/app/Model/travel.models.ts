@@ -56,6 +56,7 @@ export interface CartItem extends Omit<TouristPlace, 'id'> {
 
 
 export interface Review {
+  id: number;
   customerName: string;
   rating: number;
   reviewText: string;

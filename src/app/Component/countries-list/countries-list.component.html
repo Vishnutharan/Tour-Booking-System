@@ -4,6 +4,57 @@
     <h1 class="text-4xl font-bold mb-4">Discover Your Next Adventure</h1>
   </header>
 
+  <!-- Currency Converter Section -->
+  <div class="currency-converter mb-12">
+    <h2 class="text-2xl font-semibold">Currency Converter</h2>
+    <div class="currency-inputs mb-4">
+      <div class="currency-dropdown">
+        <label for="fromCurrency">From Currency:</label>
+        <select [(ngModel)]="fromCurrency" id="fromCurrency" class="currency-input">
+          <option value="USD">USD - United States Dollar</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="GBP">GBP - British Pound</option>
+          <option value="INR">INR - Indian Rupee</option>
+          <option value="AUD">AUD - Australian Dollar</option>
+          <option value="JPY">JPY - Japanese Yen</option>
+          <option value="CAD">CAD - Canadian Dollar</option>
+          <option value="CNY">CNY - Chinese Yuan</option>
+          <!-- Add more currencies as needed -->
+        </select>
+      </div>
+
+      <div class="currency-dropdown">
+        <label for="toCurrency">To Currency:</label>
+        <select [(ngModel)]="toCurrency" id="toCurrency" class="currency-input">
+          <option value="USD">USD - United States Dollar</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="GBP">GBP - British Pound</option>
+          <option value="INR">INR - Indian Rupee</option>
+          <option value="AUD">AUD - Australian Dollar</option>
+          <option value="JPY">JPY - Japanese Yen</option>
+          <option value="CAD">CAD - Canadian Dollar</option>
+          <option value="CNY">CNY - Chinese Yuan</option>
+          <!-- Add more currencies as needed -->
+        </select>
+      </div>
+
+      <div class="currency-dropdown">
+        <label for="amount">Amount:</label>
+        <input [(ngModel)]="amount" placeholder="Amount" type="number" class="currency-input" />
+      </div>
+    </div>
+    <button (click)="convert()" class="convert-button">Convert</button>
+
+    <div *ngIf="conversionResult" class="conversion-result mt-6">
+      <h3 class="font-semibold">Conversion Result</h3>
+      <p>From: {{ conversionResult.fromCurrency }}</p>
+      <p>To: {{ conversionResult.toCurrency }}</p>
+      <p>Amount: {{ conversionResult.amount }}</p>
+      <p>Converted Amount: {{ conversionResult.convertedAmount }}</p>
+      <p>Exchange Rate: {{ conversionResult.exchangeRate }}</p>
+    </div>
+  </div>
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <div
       *ngFor="let country of countries"
