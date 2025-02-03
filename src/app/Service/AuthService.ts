@@ -4,24 +4,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoginDto, LoginResponse } from 'src/app/Model/auth.models';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'https://localhost:7063/api/Auth';
   private currentUserSubject = new BehaviorSubject<string | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
-  private userId: string | null = null; // Variable to store user ID
+  private userId: string | null = null;
+  private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient, private router: Router) {
-  const token = localStorage.getItem('authToken');
-  if (token && this.isValidToken(token)) {
-    this.currentUserSubject.next(this.getUsernameFromToken(token));
-  } else {
-    localStorage.removeItem('authToken'); // Clear invalid token
-    console.error('Token is invalid or expired.');
+    const token = localStorage.getItem('authToken');
+    if (token && this.isValidToken(token)) {
+      this.currentUserSubject.next(this.getUsernameFromToken(token));
+    } else {
+      localStorage.removeItem('authToken');
+      console.error('Token is invalid or expired.');
+    }
   }
-}
-  // User registration
+
   register(credentials: LoginDto): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, credentials);
   }
@@ -30,29 +32,26 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
         if (response?.token) {
-          console.log('Saving token:', response.token); // Debug log
+          console.log('Saving token:', response.token);
           localStorage.setItem('authToken', response.token);
         }
         else {
-          console.error('AuthService: No token received'); // Debug log
+          console.error('AuthService: No token received');
         }
       })
     );
   }
-  
-  // User logout and cleanup
+
   logout(): void {
     localStorage.removeItem('authToken');
     this.currentUserSubject.next(null);
     this.router.navigate(['/home']);
   }
 
-  // Check authentication status
   isLoggedIn(): boolean {
     return !!localStorage.getItem('authToken');
   }
 
-  // Extract username from JWT token
   private getUsernameFromToken(token: string): string | null {
     try {
       const base64Url = token.split('.')[1];
@@ -64,29 +63,30 @@ export class AuthService {
     }
   }
 
-  private getUserIdFromToken(token: string): string | null {
+  getUserIdFromToken(): number | null {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken.userId;
+    }
+    return null;
+  }
+
+  // Add this method to maintain compatibility
+  getUserId(): string | null {
+    const token = localStorage.getItem('authToken');
+    if (!token) return null;
     try {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace('-', '+').replace('_', '/');
       const payload = JSON.parse(window.atob(base64));
-      console.log('Decoded token payload:', payload); // Debugging log
-  
-      // Extract the user ID from the correct claim
       return payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || null;
     } catch (error) {
       console.error('Error decoding token:', error);
       return null;
     }
   }
-  
-  getUserId(): string | null {
-    const token = localStorage.getItem('authToken');
-    if (!token) return null;
-    return this.getUserIdFromToken(token);
-  }
-  
 
-  // Get current username
   getCurrentUsername(): string | null {
     return this.currentUserSubject.value;
   }
@@ -105,7 +105,7 @@ export class AuthService {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace('-', '+').replace('_', '/');
       const payload = JSON.parse(window.atob(base64));
-      const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+      const currentTime = Math.floor(Date.now() / 1000);
   
       if (payload.exp && payload.exp < currentTime) {
         console.error('Token is expired');
@@ -118,14 +118,13 @@ export class AuthService {
       return false;
     }
   }
+
   isAuthenticated(): boolean {
-    // Check for the presence of a valid authentication token in local storage or cookies
     const token = localStorage.getItem('authToken');
     return token !== null && !this.isTokenExpired(token);
   }
 
   private isTokenExpired(token: string): boolean {
-    // Decode the token and check if it's expired
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Math.floor(Date.now() / 1000);
     return payload.exp < currentTime;

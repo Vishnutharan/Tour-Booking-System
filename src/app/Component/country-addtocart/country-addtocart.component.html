@@ -1,9 +1,9 @@
+<div class="search-sort-bar">
+  <input type="text" [(ngModel)]="searchQuery" (keyup)="searchPlaces()" placeholder="Search Places..." class="search-input">
+  <button (click)="sortPlaces('price')" class="sort-button">Sort by Price</button>
+  <button (click)="sortPlaces('rating')" class="sort-button">Sort by Rating</button>
+</div>
 <div class="container">
-    <div class="search-sort-bar">
-      <input type="text" [(ngModel)]="searchQuery" (keyup)="searchPlaces()" placeholder="Search Places..." class="search-input">
-      <button (click)="sortPlaces('price')" class="sort-button">Sort by Price</button>
-      <button (click)="sortPlaces('rating')" class="sort-button">Sort by Rating</button>
-    </div>
     <main class="main-content">
       <div class="place-card" *ngFor="let place of filteredTouristPlaces">
         <img [src]="place.imageUrl" [alt]="place.name" class="place-image">
@@ -37,6 +37,14 @@
                 <input type="date" class="date-input" placeholder="Check-out" [(ngModel)]="place.checkOut">
               </div>
             </div>
+            <div class="info-box">
+              <h3>Guide</h3>
+              <p><strong>guideName:</strong> {{place.touristGuideDetails.guideName}}</p>
+              <p><strong>experience:</strong> {{place.touristGuideDetails.experience}}</p>
+              <p><strong>languagesSpoken:</strong> {{place.touristGuideDetails.languagesSpoken}}</p>
+              <p><strong>contactNumber:</strong> {{place.touristGuideDetails.contactNumber}}</p>
+              <p><strong>specialization:</strong> {{place.touristGuideDetails.specialization}}</p>
+          </div>
             <div class="info-box">
               <h3>Travel Details</h3>
               <p><strong>Transport:</strong> {{place.travelDetails.transportationMode}}</p>

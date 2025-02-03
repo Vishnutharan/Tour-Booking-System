@@ -14,8 +14,7 @@ import { UserService } from 'src/app/Service/UserService';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit {
-  currentSection: 'bookings' | 'places' | 'countries' | 'users' | 'reviews' =
-    'bookings';
+  currentSection: 'users' | 'bookings' | 'places' | 'countries' | 'reviews' = 'users';
   searchTerm: string = '';
   showEditModal: boolean = false;
   editingItem: any = null;
@@ -74,13 +73,12 @@ export class AdminComponent implements OnInit {
     return this.fb.group({
       userId: [0],
       username: ['', Validators.required],
-      password: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
       dateOfBirth: ['', Validators.required],
       gender: ['', Validators.required],
       nationality: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       street: [''],
       city: [''],
@@ -140,7 +138,7 @@ export class AdminComponent implements OnInit {
   }
 
   setSection(
-    section: 'bookings' | 'places' | 'countries' | 'users' | 'reviews'
+    section: 'users' | 'bookings' | 'places' | 'countries' | 'reviews'
   ) {
     this.currentSection = section;
     this.onSearch();
@@ -163,9 +161,13 @@ export class AdminComponent implements OnInit {
         (review) =>
           review.customerName.toLowerCase().includes(term) ||
           review.reviewText.toLowerCase().includes(term)
-      );
+      );}
+      else if  (this.currentSection === 'users') {
+        this.filteredUsers = this.users.filter(
+          (user) => user.firstName.toLowerCase().includes(term) || user.lastName.toLowerCase().includes(term)
+        );
+      }
     }
-  }
 
   showAddUserForm() {
     this.editingUser = null;
@@ -391,6 +393,62 @@ export class AdminComponent implements OnInit {
           this.closeModal();
         },
         error: (error) => console.error('Error creating review:', error),
+      });
+    }
+  }
+  
+
+  saveUserChanges() {
+    if (!this.editForm.valid) {
+      return; // Don't proceed if the form is invalid
+    }
+
+    const formData = this.editForm.value;
+
+    if (this.editingUser) {
+      // Update existing user
+      const updatedUser: UserInfo = { ...this.editingUser, ...formData };
+      this.userService.updateUser(updatedUser.userId, updatedUser).subscribe({
+        next: () => {
+          const index = this.users.findIndex(
+            (u) => u.userId === updatedUser.userId
+          );
+          if (index !== -1) {
+            this.users[index] = updatedUser;
+          }
+          this.filteredUsers = [...this.users];
+          this.closeModal();
+        },
+        error: (error) => console.error('Error updating user:', error),
+      });
+    } else {
+      // Add new user
+      this.userService.addUser(formData).subscribe({
+        next: (response) => {
+          console.log(response.message);
+          this.users.push(formData);
+          this.filteredUsers = [...this.users];
+          this.closeModal();
+        },
+        error: (error) => console.error('Error adding user:', error),
+      });
+    }
+  }
+
+  editUser(user: UserInfo) {
+    this.editingUser = user;
+    this.editForm.patchValue(user);
+    this.showEditModal = true;
+  }
+
+  deleteUser(user: UserInfo) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(user.userId).subscribe({
+        next: () => {
+          this.users = this.users.filter((u) => u.userId !== user.userId);
+          this.filteredUsers = [...this.users];
+        },
+        error: (error) => console.error('Delete error:', error),
       });
     }
   }

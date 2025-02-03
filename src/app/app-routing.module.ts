@@ -7,9 +7,9 @@ import { TravelPackagesComponent } from './Component/travel-packages/travel-pack
 import { CountriesListComponent } from './Component/countries-list/countries-list.component';
 import { PaymentPageComponent } from './Component/payment-page/payment-page.component';
 import { BookingConfirmationComponent } from './Component/booking-confirmation/booking-confirmation.component';
-import { BookingFormComponent } from './Component/booking-form/booking-form.component';
-import { BookingListComponent } from './Component/booking-list/booking-list.component';
-import { BookingDetailsComponent } from './Component/booking-details/booking-details.component';
+// import { BookingFormComponent } from './Component/booking-form/booking-form.component';
+// import { BookingListComponent } from './Component/booking-list/booking-list.component';
+// import { BookingDetailsComponent } from './Component/booking-details/booking-details.component';
 import { AuthGuard } from './Guard/AuthGuard';
 import { FinalAddtoCartComponent } from './Component/final-addto-cart/final-addto-cart.component';
 import { CountryAddtocartComponent } from './Component/country-addtocart/country-addtocart.component';
@@ -31,9 +31,9 @@ const routes: Routes = [
   { path: 'booking-confirmation', component: BookingConfirmationComponent },
   { path: 'final-cart',component:FinalAddtoCartComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Optional default route
-  { path: 'booking-form', component: BookingFormComponent, canActivate: [AuthGuard]},
-  { path: 'booking-list', component: BookingListComponent, canActivate:[AuthGuard]},
-  { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [AuthGuard]},
+  // { path: 'booking-form', component: BookingFormComponent, canActivate: [AuthGuard]},
+  // { path: 'booking-list', component: BookingListComponent, canActivate:[AuthGuard]},
+  // { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [AuthGuard]},
   { path: 'Tamil', component:TamilComponent},
   { path: 'Sinhala', component:SinhalaComponent},
   { path: 'Hindi', component:HindiComponent},

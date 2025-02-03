@@ -168,13 +168,33 @@ export class HomeComponent implements OnInit {
   // user information
   onUserSubmit() {
     if (this.userForm.valid) {
-      this.userService.addUser(this.userForm.value).subscribe({
-        next: () => alert('User added successfully!'),
-        error: (error) => console.error('Error:', error),
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        console.error('No token found');
+        this.router.navigate(['/login']);
+        return;
+      }
+
+      // Add authorization header to the request
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      this.userService.addUser(this.userForm.value, headers).subscribe({
+        next: (response) => {
+          console.log('Success:', response);
+          alert('User added successfully!');
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          if (error.status === 401) {
+            this.router.navigate(['/login']);
+          }
+        }
       });
-      console.log(this.userForm.value); // Handle valid form submission
     } else {
-      Object.keys(this.userForm.controls).forEach((key) => {
+      Object.keys(this.userForm.controls).forEach(key => {
         const control = this.userForm.get(key);
         if (control?.invalid) {
           control.markAsTouched();
@@ -182,6 +202,7 @@ export class HomeComponent implements OnInit {
       });
     }
   }
+
 
   navigateToLogin() {
     this.router.navigate(['/login']);

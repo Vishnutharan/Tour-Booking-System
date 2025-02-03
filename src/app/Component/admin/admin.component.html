@@ -1,4 +1,5 @@
 <div class="admin-dashboard">
+  <!-- Sidebar -->
   <div class="sidebar">
     <div class="logo">
       <h2>Admin Dashboard</h2>
@@ -17,10 +18,14 @@
         <li [class.active]="currentSection === 'reviews'" (click)="setSection('reviews')">
           <i class="fas fa-star"></i> Reviews
         </li>
+        <li [class.active]="currentSection === 'users'" (click)="setSection('users')">
+          <i class="fas fa-users"></i> Users
+        </li>
       </ul>
     </nav>
   </div>
 
+  <!-- Main Content -->
   <div class="main-content">
     <header>
       <div class="search-bar">
@@ -32,7 +37,38 @@
       </div>
     </header>
 
+    <!-- Dashboard Content -->
     <div class="dashboard-content">
+      <!-- User Management Section -->
+      <section *ngIf="currentSection === 'users'" class="section-content">
+        <h2>User Management</h2>
+        <button (click)="showAddUserForm()" class="add-new">Add New User</button>
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers">
+              <td>{{ user.userId }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.firstName }} {{ user.lastName }}</td>
+              <td>{{ user.email }}</td>
+              <td class="actions">
+                <button (click)="editUser(user)">Edit</button>
+                <button (click)="deleteUser(user)" class="delete">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Booking Management Section -->
       <section *ngIf="currentSection === 'bookings'" class="section-content">
         <h2>Booking Management</h2>
         <button (click)="editBooking(null)" class="add-new">Add New Booking</button>
@@ -67,6 +103,7 @@
         </table>
       </section>
 
+      <!-- Review Management Section -->
       <section *ngIf="currentSection === 'reviews'" class="section-content">
         <h2>Reviews Management</h2>
         <button (click)="editReview(null)" class="add-new">Add New Review</button>
@@ -90,10 +127,49 @@
   </div>
 </div>
 
+<!-- Modal for Add/Edit User, Booking, or Review -->
 <div class="modal" *ngIf="showEditModal">
   <div class="modal-content">
     <h2>{{ editingItem ? 'Edit ' + currentSection : 'Add New ' + currentSection }}</h2>
     <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+      
+      <!-- User Form Section -->
+      <div *ngIf="currentSection === 'users'">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" formControlName="username" />
+        </div>
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" formControlName="firstName" />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" formControlName="lastName" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" formControlName="phone" />
+        </div>
+        <div class="form-group">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input type="date" id="dateOfBirth" formControlName="dateOfBirth" />
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <input type="text" id="gender" formControlName="gender" />
+        </div>
+        <div class="form-group">
+          <label for="nationality">Nationality</label>
+          <input type="text" id="nationality" formControlName="nationality" />
+        </div>
+      </div>
+
+      <!-- Booking Form Section -->
       <div *ngIf="currentSection === 'bookings'">
         <div class="form-group">
           <label for="name">Name</label>
@@ -129,6 +205,7 @@
         </div>
       </div>
 
+      <!-- Review Form Section -->
       <div *ngIf="currentSection === 'reviews'">
         <div class="form-group">
           <label for="customerName">Customer Name</label>
@@ -136,13 +213,7 @@
         </div>
         <div class="form-group">
           <label for="rating">Rating</label>
-          <input
-            type="number"
-            id="rating"
-            formControlName="rating"
-            min="1"
-            max="5"
-          />
+          <input type="number" id="rating" formControlName="rating" min="1" max="5" />
         </div>
         <div class="form-group">
           <label for="reviewText">Review Text</label>

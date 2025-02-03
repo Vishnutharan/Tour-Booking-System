@@ -12,9 +12,9 @@ import { LucideAngularModule, Globe, Plane, Star } from 'lucide-angular';
 import { PaymentPageComponent } from './Component/payment-page/payment-page.component';
 import { BookingConfirmationComponent } from './Component/booking-confirmation/booking-confirmation.component';
 import { TamilComponent } from './Component/Language/tamil/tamil.component';
-import { BookingFormComponent } from './Component/booking-form/booking-form.component';
-import { BookingListComponent } from './Component/booking-list/booking-list.component';
-import { BookingDetailsComponent } from './Component/booking-details/booking-details.component';
+// import { BookingFormComponent } from './Component/booking-form/booking-form.component';
+// import { BookingListComponent } from './Component/booking-list/booking-list.component';
+// import { BookingDetailsComponent } from './Component/booking-details/booking-details.component';
 import { FinalAddtoCartComponent } from './Component/final-addto-cart/final-addto-cart.component';
 import { CountryAddtocartComponent } from './Component/country-addtocart/country-addtocart.component';
 import { CountriesListComponent } from './Component/countries-list/countries-list.component';
@@ -41,9 +41,9 @@ import { ReviewService } from './Service/ReviewService';
     PaymentPageComponent,
     BookingConfirmationComponent,
     TamilComponent,
-    BookingFormComponent,
-    BookingListComponent,
-    BookingDetailsComponent,
+    // BookingFormComponent,
+    // BookingListComponent,
+    // BookingDetailsComponent,
     FinalAddtoCartComponent,
     CountryAddtocartComponent,
     CountriesListComponent,
@@ -70,6 +70,7 @@ import { ReviewService } from './Service/ReviewService';
     TravelService,
     UserService,
     ReviewService,
+    
   ],
   bootstrap: [AppComponent],
 })

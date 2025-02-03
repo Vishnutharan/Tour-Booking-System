@@ -1,4 +1,3 @@
-<!-- trip-summary.component.html -->
 <div class="trip-summary-overlay">
   <div class="trip-summary-popup">
     <div class="popup-container">
@@ -80,6 +79,32 @@
               </div>
 
               <div class="section-block">
+                <h4>TouristGuid</h4>
+                <div class="detail-grid">
+                  <div class="detail-group">
+                    <span class="label">guideName</span>
+                    <span class="value">{{ item.touristGuideDetails.guideName }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">experience</span>
+                    <span class="value">{{ item.touristGuideDetails.experience }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">languagesSpoken</span>
+                    <span class="value">{{ item.touristGuideDetails.languagesSpoken }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">contactNumber</span>
+                    <span class="value">{{ item.touristGuideDetails.contactNumber }}</span>
+                  </div>
+                  <div class="detail-group">
+                    <span class="label">specialization</span>
+                    <span class="value">{{ item.touristGuideDetails.specialization }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-block">
                 <h4>Travel Information</h4>
                 <div class="detail-grid">
                   <div class="detail-group">
@@ -105,6 +130,7 @@
               </div>
             </div>
           </div>
+          <button class="remove-item-btn" (click)="removeFromCart(item.placeId)">Remove</button>
         </div>
       </div>
 
@@ -145,4 +171,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>

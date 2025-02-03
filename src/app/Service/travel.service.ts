@@ -64,7 +64,8 @@ export class TravelService {
         accommodation: place.accommodation,
         travelDetails: place.travelDetails,
         checkIn: place.checkIn,
-        checkOut: place.checkOut
+        checkOut: place.checkOut,
+        touristGuideDetails:place.touristGuideDetails
       };
       this.cartItems.next([...currentItems, newItem]);
     }

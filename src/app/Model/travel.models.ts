@@ -6,6 +6,14 @@ export interface Country {
   featuredScore: number;
 }
 
+// export interface TouristGuideDetails {
+//   guideName: string;
+//   experience: string;
+//   languagesSpoken: string[];
+//   contactNumber: string;
+//   specialization: string[];
+// }
+
 export interface TouristPlace {
   id: string;
   countryId: string;
@@ -34,6 +42,13 @@ export interface TouristPlace {
     travelDuration: string;
     cost?: number;
   };
+  touristGuideDetails: {
+    guideName: string;
+    experience: string;
+    languagesSpoken: string[];
+    contactNumber: string;
+    specialization: string[];
+  }
 }
 
 export interface CartItem extends Omit<TouristPlace, 'id'> {
@@ -43,17 +58,6 @@ export interface CartItem extends Omit<TouristPlace, 'id'> {
   checkIn?: Date;
   checkOut?: Date;
 }
-
-// interface AccommodationDetails {
-//   hotelName?: string;
-//   roomType?: string;
-//   checkInDate?: Date;
-//   checkOutDate?: Date;
-//   numberOfRooms?: number;
-//   occupancyDetails?: string;
-//   specialRoomRequests?: string;
-// }
-
 
 export interface Review {
   id: number;
