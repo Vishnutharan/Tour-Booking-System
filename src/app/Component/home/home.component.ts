@@ -174,14 +174,25 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/login']);
         return;
       }
-
+  
+      const userId = this.authService.getUserIdFromToken();
+      if (!userId) {
+        console.error('No authenticated user found');
+        alert('Authentication error. Please log in again.');
+        this.router.navigate(['/login']);
+        return;
+      }
+  
+      // Add userId to the form data
+      const userData = { ...this.userForm.value, userId };
+  
       // Add authorization header to the request
       const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       };
-
-      this.userService.addUser(this.userForm.value, headers).subscribe({
+  
+      this.userService.addUser(userData, headers).subscribe({
         next: (response) => {
           console.log('Success:', response);
           alert('User added successfully!');
@@ -191,10 +202,10 @@ export class HomeComponent implements OnInit {
           if (error.status === 401) {
             this.router.navigate(['/login']);
           }
-        }
+        },
       });
     } else {
-      Object.keys(this.userForm.controls).forEach(key => {
+      Object.keys(this.userForm.controls).forEach((key) => {
         const control = this.userForm.get(key);
         if (control?.invalid) {
           control.markAsTouched();
@@ -202,8 +213,7 @@ export class HomeComponent implements OnInit {
       });
     }
   }
-
-
+  
   navigateToLogin() {
     this.router.navigate(['/login']);
   }

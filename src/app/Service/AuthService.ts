@@ -63,14 +63,22 @@ export class AuthService {
     }
   }
 
-  getUserIdFromToken(): number | null {
+  getUserIdFromToken(): string | null {
     const token = localStorage.getItem('authToken');
     if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken.userId;
+      try {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        // Check for possible key names where userId might be stored
+        const userId = decodedToken.userId || decodedToken.sub || decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+        return userId || null; // Return userId if found, otherwise null
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+      }
     }
     return null;
   }
+  
 
   // Add this method to maintain compatibility
   getUserId(): string | null {

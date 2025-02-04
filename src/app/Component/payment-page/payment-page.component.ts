@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PaymentService } from 'src/app/Service/payment.service';
 import { TravelService } from 'src/app/Service/travel.service';
 import { AuthService } from 'src/app/Service/AuthService';
 import { CartItem } from 'src/app/Model/travel.models';
+
 @Component({
   selector: 'app-payment-page',
   templateUrl: './payment-page.component.html',
@@ -20,13 +21,15 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     tax: 0,
     total: 0
   };
+  bookingDetails: any;
  
   constructor(
     private fb: FormBuilder,
     private paymentService: PaymentService,
     private travelService: TravelService,
-    private authservice:AuthService,
-    private router: Router
+    private authservice: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.paymentForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -37,6 +40,34 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Get booking details from route parameters
+    this.route.queryParams.subscribe(params => {
+      this.bookingDetails = {
+        bookingId: params['bookingId'],
+        amount: parseFloat(params['amount']) || 0,
+        userName: params['userName'],
+        userEmail: params['userEmail'],
+        totalAmount: parseFloat(params['totalAmount']) || 0,
+        tax: parseFloat(params['tax']) || 0,
+        numberOfPeople: parseInt(params['numberOfPeople']) || 1,
+        status: params['status']
+      };
+
+      // Update order summary with booking details
+      this.orderSummary = {
+        subtotal: this.bookingDetails.totalAmount,
+        tax: this.bookingDetails.tax,
+        total: this.bookingDetails.amount
+      };
+
+      // Pre-fill the form with user details
+      this.paymentForm.patchValue({
+        email: this.bookingDetails.userEmail,
+        name: this.bookingDetails.userName,
+        amount: this.bookingDetails.amount
+      });
+    });
+
     this.loadCartItems();
     this.setupCardElement();
   }
@@ -45,9 +76,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     this.paymentService.unmountCardElement();
   }
 
-  // Ensures the Stripe Card Element is mounted. It also adds a listener for card errors or validation updates.
   private setupCardElement(): void {
-    // Ensure the element is only mounted once
     if (!this.paymentService.isElementMounted()) {
       setTimeout(() => {
         const cardElement = this.paymentService.mountCardElement('card-element');
@@ -62,49 +91,46 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  //  Loads the cart items to display a summary on the payment page.
   private loadCartItems(): void {
     this.travelService.getCartItems().subscribe(items => {
       this.cartItems = items;
-      this.calculateTotals();
+      // Only calculate totals if booking details are not available
+      if (!this.bookingDetails?.amount) {
+        this.calculateTotals();
+      }
     });
   }
 
-
-
-  // Same as the cart file – calculates totals for display and payment processing.
   private calculateTotals(): void {
-    this.orderSummary.subtotal = this.cartItems.reduce(
-      (total, item) => total + (item.cost * item.quantity),
-      0
-    );
-    this.orderSummary.tax = this.orderSummary.subtotal * 0.20;
-    this.orderSummary.total = this.orderSummary.subtotal + this.orderSummary.tax;
-    
-    // Update the amount in the form
-    this.paymentForm.patchValue({
-      amount: this.orderSummary.total
-    });
+    // Only calculate if booking details are not available
+    if (!this.bookingDetails?.amount) {
+      this.orderSummary.subtotal = this.cartItems.reduce(
+        (total, item) => total + (item.cost * item.quantity),
+        0
+      );
+      this.orderSummary.tax = this.orderSummary.subtotal * 0.20;
+      this.orderSummary.total = this.orderSummary.subtotal + this.orderSummary.tax;
+      
+      this.paymentForm.patchValue({
+        amount: this.orderSummary.total
+      });
+    }
   }
 
-  // Handles the payment process
-  // Validates the form.
   async onSubmit() {
     if (this.paymentForm.invalid) {
       return;
     }
-      // Check if the user is logged in
-    this.checkUserLogin(); // Ensures user login before proceeding
+    
+    this.checkUserLogin();
   
     this.loading = true;
     try {
       const { email, name } = this.paymentForm.value;
       const amount = Math.round(this.orderSummary.total * 100); // Convert to cents
   
-      // Calls createPaymentIntent to get the clientSecret
       const clientSecret = await this.paymentService.createPaymentIntent(amount);
   
-      // Calls handleCardPayment to finalize the payment
       const result = await this.paymentService.handleCardPayment(clientSecret, {
         payment_method_data: {
           billing_details: {
@@ -116,7 +142,13 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   
       if (result.success) {
         await this.travelService.clearCart();
-        this.router.navigate(['/booking-confirmation']);
+        this.router.navigate(['/booking-confirmation'], {
+          queryParams: {
+            bookingId: this.bookingDetails.bookingId,
+            amount: this.orderSummary.total,
+            status: 'success'
+          }
+        });
       } else {
         this.cardError = result.error || 'Payment failed';
       }
@@ -134,8 +166,8 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     } else {
       console.error('User is not logged in!');
       alert('You must be logged in to proceed with the payment.');
-      this.router.navigate(['/login']); // Navigate to the login page or show a login popup
-      throw new Error('User not logged in'); // Prevent further execution if not logged in
+      this.router.navigate(['/login']);
+      throw new Error('User not logged in');
     }
   }
-}  
+}

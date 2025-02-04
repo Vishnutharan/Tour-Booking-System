@@ -51,6 +51,14 @@ export class UserService {
     if (!userId) {
       throw new Error('No authenticated user found');
     }
-    return this.updateUser(userId, user);
+  
+    // Convert userId to number
+    const userIdAsNumber = Number(userId);
+    if (isNaN(userIdAsNumber)) {
+      throw new Error('Invalid userId');
+    }
+  
+    return this.updateUser(userIdAsNumber, user);
   }
+  
 }

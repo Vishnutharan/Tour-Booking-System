@@ -8,6 +8,8 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { BookingDetails } from 'src/app/Model/bookingdetails';
 import { UserOptions } from 'jspdf-autotable';
+import { UserService } from 'src/app/Service/UserService';
+import { UserInfo } from 'src/app/Model/UserInfo.models';
 
 interface TableRow {
   content: string;
@@ -30,13 +32,15 @@ export class FinalAddtoCartComponent implements OnInit {
   touristPlaces: TouristPlace[] = [];
   cartItems: CartItem[] = [];
   totalAmount = 0;
+  userInfo: UserInfo | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private travelservice: TravelService,
     private authservice: AuthService,
     private bookingService: BookingService,
-    private router: Router
+    private router: Router,
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -78,50 +82,143 @@ export class FinalAddtoCartComponent implements OnInit {
   }
 
   proceedToPay(): void {
+    if (!this.authservice.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+  
     const userId = this.authservice.getUserId();
-
     if (!userId) {
       this.router.navigate(['/login']);
       return;
     }
-
+  
+    // First get user details from localStorage (old implementation)
     const userInfo = localStorage.getItem('userDetails');
-    const user = userInfo ? JSON.parse(userInfo) : null;
-
-    const bookingDetails = {
-      userId: parseInt(userId),
-      bookingDate: new Date(),
-      status: 'Pending',
-      name: user?.name || '',
-      email: user?.email || '',
-      phone: user?.phone || '',
-      dateOfTravel: new Date(),
-      numberOfPeople: 1,
-      totalAmount: this.totalAmount,
-      tax: this.totalAmount * 0.1,
-      finalAmount: this.totalAmount * 1.1,
-      placess: JSON.stringify(
-        this.cartItems.map((item) => ({
+    const localUser = userInfo ? JSON.parse(userInfo) : null;
+  
+    // Then get user details from service (new implementation)
+    this.userService.getUserById(Number(userId)).subscribe({
+      next: (userInfo) => {
+        this.userInfo = userInfo;
+  
+        if (!this.userInfo || !this.userInfo.email) {
+          console.error('User information is incomplete');
+          alert('Please complete your profile before booking.');
+          return;
+        }
+  
+        // Format cart items for booking details
+        const formattedPlaces = this.cartItems.map(item => ({
           name: item.name,
           cost: item.cost,
           quantity: item.quantity,
           countryId: item.countryId,
           placeId: item.placeId,
-        }))
-      ),
-    };
-
-    this.bookingService.createBooking(bookingDetails).subscribe({
-      next: (response) => {
-        console.log('Booking successful:', response);
-        this.router.navigate(['/paymentonline']);
+          accommodation: {
+            hotelName: item.accommodation?.hotelName || 'N/A',
+            roomType: item.accommodation?.roomType || 'N/A',
+            checkInDate: item.accommodation?.checkInDate || 'N/A',
+            checkOutDate: item.accommodation?.checkOutDate || 'N/A',
+          },
+          travelDetails: {
+            transportationMode: item.travelDetails?.transportationMode || 'N/A',
+            travelDuration: item.travelDetails?.travelDuration || 'N/A',
+            cost: item.travelDetails?.cost || 0,
+          },
+        }));
+  
+        // Combine both old and new booking details
+        const bookingDetails = {
+          userId: parseInt(userId),
+          bookingDate: new Date(),
+          status: 'Pending',
+          name: localUser?.name || `${this.userInfo.firstName} ${this.userInfo.lastName}`,
+          email: localUser?.email || this.userInfo.email,
+          phone: localUser?.phone || this.userInfo.phone,
+          dateOfTravel: new Date(),
+          numberOfPeople: this.cartItems.reduce((acc, item) => acc + item.quantity, 0),
+          totalAmount: this.totalAmount,
+          tax: this.totalAmount * 0.1,
+          finalAmount: this.totalAmount * 1.1,
+          placess: JSON.stringify(formattedPlaces)
+        };
+  
+        // Send the booking request
+        this.bookingService.createBooking(bookingDetails).subscribe({
+          next: (response) => {
+            console.log('Booking successful:', response);
+            this.travelservice.clearCart(); // Clear cart after successful booking
+  
+            // Navigate to payment page with all necessary details
+            this.router.navigate(['/paymentonline'], {
+              queryParams: {
+                bookingId: response.bookingId,
+                amount: bookingDetails.finalAmount,
+                userName: bookingDetails.name,
+                userEmail: bookingDetails.email,
+                totalAmount: bookingDetails.totalAmount,
+                tax: bookingDetails.tax,
+                numberOfPeople: bookingDetails.numberOfPeople,
+                status: bookingDetails.status
+              }
+            });
+          },
+          error: (error) => {
+            console.error('Booking error:', error);
+            alert('Failed to create booking. Please try again.');
+          }
+        });
       },
       error: (error) => {
-        console.error('Booking error:', error);
-      },
+        console.error('Failed to fetch user details:', error);
+        
+        // Fallback to old implementation if user service fails
+        const fallbackBookingDetails = {
+          userId: parseInt(userId),
+          bookingDate: new Date(),
+          status: 'Pending',
+          name: localUser?.name || '',
+          email: localUser?.email || '',
+          phone: localUser?.phone || '',
+          dateOfTravel: new Date(),
+          numberOfPeople: 1,
+          totalAmount: this.totalAmount,
+          tax: this.totalAmount * 0.1,
+          finalAmount: this.totalAmount * 1.1,
+          placess: JSON.stringify(
+            this.cartItems.map((item) => ({
+              name: item.name,
+              cost: item.cost,
+              quantity: item.quantity,
+              countryId: item.countryId,
+              placeId: item.placeId,
+            }))
+          ),
+        };
+  
+        this.bookingService.createBooking(fallbackBookingDetails).subscribe({
+          next: (response) => {
+            console.log('Booking successful:', response);
+            this.router.navigate(['/paymentonline'], {
+              queryParams: {
+                bookingId: response.bookingId,
+                amount: fallbackBookingDetails.finalAmount,
+                userName: fallbackBookingDetails.name,
+                userEmail: fallbackBookingDetails.email,
+                totalAmount: fallbackBookingDetails.totalAmount
+              }
+            });
+          },
+          error: (bookingError) => {
+            console.error('Booking error:', bookingError);
+            alert('Failed to create booking. Please try again.');
+          }
+        });
+      }
     });
   }
-
+    
   downloadInvoice(): void {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
