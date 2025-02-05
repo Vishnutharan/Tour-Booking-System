@@ -6,14 +6,6 @@ export interface Country {
   featuredScore: number;
 }
 
-// export interface TouristGuideDetails {
-//   guideName: string;
-//   experience: string;
-//   languagesSpoken: string[];
-//   contactNumber: string;
-//   specialization: string[];
-// }
-
 export interface TouristPlace {
   id: string;
   countryId: string;
@@ -48,7 +40,7 @@ export interface TouristPlace {
     languagesSpoken: string[];
     contactNumber: string;
     specialization: string[];
-  }
+  };
 }
 
 export interface CartItem extends Omit<TouristPlace, 'id'> {

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookingDetails } from 'src/app/Model/bookingdetails';
+import { Coupon } from 'src/app/Model/coupon.models';
 import { Country, Review, TouristPlace } from 'src/app/Model/travel.models';
 import { UserInfo } from 'src/app/Model/UserInfo.models';
 import { BookingService } from 'src/app/Service/BookingService';
+import { CouponService } from 'src/app/Service/CouponService';
 import { ReviewService } from 'src/app/Service/ReviewService';
 import { TravelService } from 'src/app/Service/travel.service';
 import { UserService } from 'src/app/Service/UserService';
@@ -14,47 +16,68 @@ import { UserService } from 'src/app/Service/UserService';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit {
-  currentSection: 'users' | 'bookings' | 'places' | 'countries' | 'reviews' = 'users';
+  // Properties
+  currentSection:
+    | 'users'
+    | 'bookings'
+    | 'places'
+    | 'countries'
+    | 'reviews'
+    | 'coupons' = 'users';
   searchTerm: string = '';
   showEditModal: boolean = false;
   editingItem: any = null;
-  editForm: FormGroup;
-  editingUser: UserInfo | null = null;
+  editForm: FormGroup; // Generic form for bookings/reviews
   users: UserInfo[] = [];
   filteredUsers: UserInfo[] = [];
-  userForm: FormGroup;
+  userForm: FormGroup; // Dedicated form for users
 
   // Data arrays
   bookings: BookingDetails[] = [];
   places: TouristPlace[] = [];
   countries: Country[] = [];
   reviews: Review[] = [];
+  coupons: Coupon[] = [];
 
   // Filtered arrays
   filteredBookings: BookingDetails[] = [];
   filteredPlaces: TouristPlace[] = [];
   filteredCountries: Country[] = [];
   filteredReviews: Review[] = [];
+  filteredCoupons: Coupon[] = [];
+
+  // Coupon related properties
+  couponForm: FormGroup;
+  couponCode: string = '';
+  appliedCoupon: Coupon | null = null;
+  discountedAmount: number = 0;
+  editingUser: UserInfo | null = null;
 
   constructor(
     private travelService: TravelService,
     private bookingService: BookingService,
     private userService: UserService,
     private fb: FormBuilder,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private couponService: CouponService
   ) {
-    this.editForm = this.createForm();
+    this.editForm = this.createEditForm();
     this.userForm = this.createUserForm();
+    this.couponForm = this.createCouponForm();
   }
 
   ngOnInit() {
     this.loadData();
-    this.loadReviews();
     this.loadUsers();
+    this.loadCoupons();
+    this.loadReviews();
   }
 
-  createForm(): FormGroup {
+  // -------------------------- Form Creation Methods --------------------------
+
+  createEditForm(): FormGroup {
     return this.fb.group({
+      // Booking properties
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -88,33 +111,22 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  createReviewForm(): FormGroup {
+  createCouponForm(): FormGroup {
     return this.fb.group({
-      customerName: ['', Validators.required],
-      rating: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
-      reviewText: ['', Validators.required],
+      code: ['', [Validators.required, Validators.minLength(5)]],
+      discountPercentage: [
+        '',
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      expiryDate: ['', Validators.required],
+      minimumAmount: [0, Validators.min(0)],
+      maximumDiscount: [0, Validators.min(0)],
+      usageLimit: [0, Validators.min(0)],
+      isActive: [true],
     });
   }
 
-  loadUsers() {
-    this.userService.getUsers().subscribe({
-      next: (data) => {
-        this.users = data;
-        this.filteredUsers = data;
-      },
-      error: (error) => console.error('Error loading users:', error),
-    });
-  }
-
-  loadReviews() {
-    this.reviewService.getReviews(1).subscribe({
-      next: (data) => {
-        this.reviews = data;
-        this.filteredReviews = data;
-      },
-      error: (error) => console.error('Error loading reviews:', error),
-    });
-  }
+  // -------------------------- Data Loading Methods --------------------------
 
   loadData() {
     this.bookingService.getUserBookings().subscribe((data) => {
@@ -137,173 +149,164 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  loadUsers() {
+    this.userService.getUsers().subscribe({
+      next: (data) => {
+        this.users = data;
+        this.filteredUsers = data;
+      },
+      error: (error) => console.error('Error loading users:', error),
+    });
+  }
+
+  loadReviews() {
+    this.reviewService.getReviews(1).subscribe({
+      next: (data) => {
+        this.reviews = data;
+        this.filteredReviews = data;
+      },
+      error: (error) => console.error('Error loading reviews:', error),
+    });
+  }
+
+  loadCoupons() {
+    this.couponService.getCoupons().subscribe({
+      next: (coupons) => {
+        this.coupons = coupons;
+        this.filteredCoupons = coupons;
+      },
+      error: (error) => console.error('Error loading coupons:', error),
+    });
+  }
+
+  // -------------------------- Section Management Methods --------------------------
+
   setSection(
-    section: 'users' | 'bookings' | 'places' | 'countries' | 'reviews'
+    section: 'users' | 'bookings' | 'places' | 'countries' | 'reviews' | 'coupons'
   ) {
     this.currentSection = section;
-    this.onSearch();
-    if (section === 'reviews' && !this.editForm) {
-      this.editForm = this.createReviewForm();
-    }
+    this.onSearch(); // Apply search filter when changing section
   }
+
+  // -------------------------- Search Functionality --------------------------
 
   onSearch() {
     const term = this.searchTerm.toLowerCase();
 
-    if (this.currentSection === 'bookings') {
-      this.filteredBookings = this.bookings.filter(
-        (booking) =>
-          booking.name?.toLowerCase().includes(term) ||
-          booking.id?.toString().includes(term)
-      );
-    } else if (this.currentSection === 'reviews') {
-      this.filteredReviews = this.reviews.filter(
-        (review) =>
-          review.customerName.toLowerCase().includes(term) ||
-          review.reviewText.toLowerCase().includes(term)
-      );}
-      else if  (this.currentSection === 'users') {
-        this.filteredUsers = this.users.filter(
-          (user) => user.firstName.toLowerCase().includes(term) || user.lastName.toLowerCase().includes(term)
+    switch (this.currentSection) {
+      case 'bookings':
+        this.filteredBookings = this.bookings.filter(
+          (booking) =>
+            booking.name?.toLowerCase().includes(term) ||
+            booking.id?.toString().includes(term)
         );
-      }
+        break;
+      case 'reviews':
+        this.filteredReviews = this.reviews.filter(
+          (review) =>
+            review.customerName.toLowerCase().includes(term) ||
+            review.reviewText.toLowerCase().includes(term)
+        );
+        break;
+      case 'users':
+        this.filteredUsers = this.users.filter(
+          (user) =>
+            user.firstName.toLowerCase().includes(term) ||
+            user.lastName.toLowerCase().includes(term)
+        );
+        break;
+      case 'coupons':
+        this.filteredCoupons = this.coupons.filter((coupon) =>
+          coupon.code.toLowerCase().includes(term)
+        );
+        break;
+      default:
+        break;
     }
-
-  showAddUserForm() {
-    this.editingUser = null;
-    this.userForm.reset();
-    this.userForm.get('password')?.setValidators([Validators.required]);
-    this.userForm.get('password')?.updateValueAndValidity();
-    this.showEditModal = true;
   }
 
-  showAddReviewForm() {
-    this.editingItem = null;
-    this.editForm.reset();
+  // -------------------------- Modal & Form Management Methods --------------------------
+
+  openModal() {
     this.showEditModal = true;
-  }
-
-  saveChanges() {
-    if (!this.editForm.valid) {
-      return; // Don't proceed if the form is invalid
-    }
-
-    const formData = this.editForm.value;
-
-    if (this.currentSection === 'reviews') {
-      if (this.editingItem) {
-        // Update existing review
-        const updatedReview: Review = {
-          ...this.editingItem,
-          ...formData,
-        };
-
-        this.reviewService
-          .updateReview(updatedReview.id, updatedReview)
-          .subscribe({
-            next: () => {
-              // Update the review in the local arrays
-              const index = this.reviews.findIndex(
-                (r) => r.id === updatedReview.id
-              );
-              if (index > -1) {
-                this.reviews[index] = updatedReview;
-              }
-              this.filteredReviews = [...this.reviews];
-              this.closeModal();
-            },
-            error: (error) => console.error('Error updating review:', error),
-          });
-      } else {
-        // Create new review
-        this.reviewService.submitReview(formData).subscribe({
-          next: (newReview) => {
-            this.reviews.push(newReview);
-            this.filteredReviews = [...this.reviews];
-            this.closeModal();
-          },
-          error: (error) => console.error('Error creating review:', error),
-        });
-      }
-    } else if (this.currentSection === 'bookings') {
-      // Similar logic for bookings (update or create)
-      if (this.editingItem) {
-        // Update existing booking
-        const updatedBooking: BookingDetails = {
-          ...this.editingItem,
-          ...formData,
-        };
-
-        this.bookingService
-          .updateBooking(updatedBooking.id!, updatedBooking)
-          .subscribe({
-            next: () => {
-              const index = this.bookings.findIndex(
-                (b) => b.id === updatedBooking.id
-              );
-              if (index !== -1) {
-                this.bookings[index] = updatedBooking;
-              }
-              this.filteredBookings = [...this.bookings];
-              this.closeModal();
-            },
-            error: (err) => {
-              console.error('Error updating booking:', err);
-            },
-          });
-      } else {
-        // Create new booking
-        this.bookingService.createBooking(formData).subscribe({
-          next: (newBooking) => {
-            this.bookings.push(newBooking);
-            this.filteredBookings = [...this.bookings];
-            this.closeModal();
-          },
-          error: (error) => console.error('Error creating booking:', error),
-        });
-      }
-    }
   }
 
   closeModal() {
     this.showEditModal = false;
     this.editingItem = null;
     this.editForm.reset();
+    this.couponForm.reset();
   }
 
-  editReview(review: Review | null) {
-    this.currentSection = 'reviews';
-    this.editingItem = review;
-    this.showEditModal = true;
+  // -------------------------- User Management Methods --------------------------
 
-    if (review) {
-      if (!this.editForm) {
-        this.editForm = this.createReviewForm();
-      }
-      this.editForm.patchValue({
-        customerName: review.customerName,
-        rating: review.rating,
-        reviewText: review.reviewText,
+  showAddUserForm() {
+    this.editingUser = null;
+    this.userForm.reset();
+    this.openModal();
+  }
+
+  editUser(user: UserInfo) {
+    this.editingUser = user;
+    this.userForm.patchValue(user);
+    this.currentSection = 'users';
+    this.openModal();
+  }
+
+  saveUserChanges() {
+    if (!this.userForm.valid) {
+      return;
+    }
+
+    const formData = this.userForm.value;
+
+    if (this.editingUser) {
+      const updatedUser: UserInfo = { ...this.editingUser, ...formData };
+      this.userService.updateUser(updatedUser.userId, updatedUser).subscribe({
+        next: () => {
+          const index = this.users.findIndex(
+            (u) => u.userId === updatedUser.userId
+          );
+          if (index !== -1) {
+            this.users[index] = updatedUser;
+          }
+          this.filteredUsers = [...this.users];
+          this.closeModal();
+        },
+        error: (error) => console.error('Error updating user:', error),
       });
     } else {
-      // Reset the form for adding a new review
-      this.editForm.reset({
-        customerName: '',
-        rating: 1,
-        reviewText: '',
+      this.userService.addUser(formData).subscribe({
+        next: () => {
+          this.users.push(formData);
+          this.filteredUsers = [...this.users];
+          this.closeModal();
+        },
+        error: (error) => console.error('Error adding user:', error),
       });
     }
   }
 
+  deleteUser(user: UserInfo) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(user.userId).subscribe({
+        next: () => {
+          this.users = this.users.filter((u) => u.userId !== user.userId);
+          this.filteredUsers = [...this.users];
+        },
+        error: (error) => console.error('Delete error:', error),
+      });
+    }
+  }
+
+  // -------------------------- Booking Management Methods --------------------------
+
   editBooking(booking: BookingDetails | null) {
-    this.currentSection = 'bookings';
     this.editingItem = booking;
-    this.showEditModal = true;
+    this.currentSection = 'bookings';
+    this.openModal();
 
     if (booking) {
-      if (!this.editForm) {
-        this.editForm = this.createForm();
-      }
       this.editForm.patchValue({
         name: booking.name,
         email: booking.email,
@@ -315,29 +318,7 @@ export class AdminComponent implements OnInit {
         finalAmount: booking.finalAmount,
       });
     } else {
-      // Reset form for adding a new booking
-      this.editForm.reset({
-        name: '',
-        email: '',
-        phone: '',
-        dateOfTravel: '',
-        numberOfPeople: 1,
-        totalAmount: 0,
-        tax: 0,
-        finalAmount: 0,
-      });
-    }
-  }
-
-  deleteReview(review: Review) {
-    if (confirm('Are you sure you want to delete this review?')) {
-      this.reviewService.deleteReview(review.id).subscribe({
-        next: () => {
-          this.reviews = this.reviews.filter((r) => r.id !== review.id);
-          this.filteredReviews = [...this.reviews];
-        },
-        error: (error) => console.error('Delete error:', error),
-      });
+      this.editForm.reset();
     }
   }
 
@@ -355,15 +336,218 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  saveReviewChanges() {
+  // -------------------------- Review Management Methods --------------------------
+
+  editReview(review: Review | null) {
+    this.editingItem = review;
+    this.currentSection = 'reviews';
+    this.openModal();
+
+    if (review) {
+      this.editForm.patchValue({
+        customerName: review.customerName,
+        rating: review.rating,
+        reviewText: review.reviewText,
+      });
+    } else {
+      this.editForm.reset();
+    }
+  }
+
+  deleteReview(review: Review) {
+    if (confirm('Are you sure you want to delete this review?')) {
+      this.reviewService.deleteReview(review.id).subscribe({
+        next: () => {
+          this.reviews = this.reviews.filter((r) => r.id !== review.id);
+          this.filteredReviews = [...this.reviews];
+        },
+        error: (error) => console.error('Delete error:', error),
+      });
+    }
+  }
+
+  // -------------------------- Coupon Management Methods --------------------------
+
+  showAddCouponForm() {
+    this.editingItem = null;
+    this.couponForm.reset({
+      isActive: true,
+      discountPercentage: 0,
+      minimumAmount: 0,
+      maximumDiscount: 0,
+      usageLimit: 0,
+    });
+    this.openModal();
+    this.currentSection = 'coupons';
+  }
+
+  editCoupon(coupon: Coupon) {
+    this.editingItem = coupon;
+    this.couponForm.patchValue({
+      code: coupon.code,
+      discountPercentage: coupon.discountPercentage,
+      expiryDate: coupon.expiryDate,
+      minimumAmount: coupon.minimumAmount,
+      maximumDiscount: coupon.maximumDiscount,
+      usageLimit: coupon.usageLimit,
+      isActive: coupon.isActive,
+    });
+    this.openModal();
+    this.currentSection = 'coupons';
+  }
+
+  deleteCoupon(coupon: Coupon) {
+    if (confirm('Are you sure you want to delete this coupon?')) {
+      this.couponService.deleteCoupon(coupon.id).subscribe({
+        next: () => {
+          this.coupons = this.coupons.filter((c) => c.id !== coupon.id);
+          this.filteredCoupons = [...this.coupons];
+        },
+        error: (error) => console.error('Error deleting coupon:', error),
+      });
+    }
+  }
+
+  saveCouponChanges() {
+    if (!this.couponForm.valid) {
+      return;
+    }
+
+    const formData = this.couponForm.value;
+
+    if (this.editingItem) {
+      const updatedCoupon: Coupon = {
+        ...this.editingItem,
+        ...formData,
+      };
+
+      this.couponService
+        .updateCoupon(updatedCoupon.id, updatedCoupon)
+        .subscribe({
+          next: () => {
+            const index = this.coupons.findIndex(
+              (c) => c.id === updatedCoupon.id
+            );
+            if (index !== -1) {
+              this.coupons[index] = updatedCoupon;
+            }
+            this.filteredCoupons = [...this.coupons];
+            this.closeModal();
+          },
+          error: (error) => console.error('Error updating coupon:', error),
+        });
+    } else {
+      this.couponService.createCoupon(formData).subscribe({
+        next: (newCoupon) => {
+          this.coupons.push(newCoupon);
+          this.filteredCoupons = [...this.coupons];
+          this.closeModal();
+        },
+        error: (error) => console.error('Error creating coupon:', error),
+      });
+    }
+  }
+
+  applyCoupon() {
+    if (!this.couponCode) return;
+
+    const currentAmount = this.editForm.get('totalAmount')?.value || 0;
+
+    this.couponService
+      .validateCoupon(this.couponCode, currentAmount)
+      .subscribe({
+        next: (coupon) => {
+          this.appliedCoupon = coupon;
+          this.discountedAmount = this.calculateDiscount(coupon);
+
+          const finalAmount = currentAmount - this.discountedAmount;
+          this.editForm.patchValue({
+            finalAmount: finalAmount,
+          });
+        },
+        error: (error) => {
+          console.error('Error applying coupon:', error);
+          this.appliedCoupon = null;
+          this.discountedAmount = 0;
+        },
+      });
+  }
+
+  private calculateDiscount(coupon: Coupon): number {
+    const currentAmount = this.editForm.get('totalAmount')?.value || 0;
+
+    if (currentAmount < coupon.minimumAmount) {
+      return 0;
+    }
+
+    const discountAmount = (currentAmount * coupon.discountPercentage) / 100;
+
+    if (coupon.maximumDiscount && discountAmount > coupon.maximumDiscount) {
+      return coupon.maximumDiscount;
+    }
+
+    return discountAmount;
+  }
+
+  // -------------------------- Generic Save Changes Method --------------------------
+
+  saveChanges() {
     if (!this.editForm.valid) {
-      return; // Don't proceed if the form is invalid
+      return;
     }
 
     const formData = this.editForm.value;
 
+    switch (this.currentSection) {
+      case 'bookings':
+        this.saveBookingChanges(formData);
+        break;
+      case 'reviews':
+        this.saveReviewChanges(formData);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private saveBookingChanges(formData: any) {
     if (this.editingItem) {
-      // Update existing review
+      const updatedBooking: BookingDetails = {
+        ...this.editingItem,
+        ...formData,
+      };
+
+      this.bookingService
+        .updateBooking(updatedBooking.id!, updatedBooking)
+        .subscribe({
+          next: () => {
+            const index = this.bookings.findIndex(
+              (b) => b.id === updatedBooking.id
+            );
+            if (index !== -1) {
+              this.bookings[index] = updatedBooking;
+            }
+            this.filteredBookings = [...this.bookings];
+            this.closeModal();
+          },
+          error: (err) => {
+            console.error('Error updating booking:', err);
+          },
+        });
+    } else {
+      this.bookingService.createBooking(formData).subscribe({
+        next: (newBooking) => {
+          this.bookings.push(newBooking);
+          this.filteredBookings = [...this.bookings];
+          this.closeModal();
+        },
+        error: (error) => console.error('Error creating booking:', error),
+      });
+    }
+  }
+
+  private saveReviewChanges(formData: any) {
+    if (this.editingItem) {
       const updatedReview: Review = {
         ...this.editingItem,
         ...formData,
@@ -385,7 +569,6 @@ export class AdminComponent implements OnInit {
           error: (error) => console.error('Error updating review:', error),
         });
     } else {
-      // Create new review
       this.reviewService.submitReview(formData).subscribe({
         next: (newReview) => {
           this.reviews.push(newReview);
@@ -393,62 +576,6 @@ export class AdminComponent implements OnInit {
           this.closeModal();
         },
         error: (error) => console.error('Error creating review:', error),
-      });
-    }
-  }
-  
-
-  saveUserChanges() {
-    if (!this.editForm.valid) {
-      return; // Don't proceed if the form is invalid
-    }
-
-    const formData = this.editForm.value;
-
-    if (this.editingUser) {
-      // Update existing user
-      const updatedUser: UserInfo = { ...this.editingUser, ...formData };
-      this.userService.updateUser(updatedUser.userId, updatedUser).subscribe({
-        next: () => {
-          const index = this.users.findIndex(
-            (u) => u.userId === updatedUser.userId
-          );
-          if (index !== -1) {
-            this.users[index] = updatedUser;
-          }
-          this.filteredUsers = [...this.users];
-          this.closeModal();
-        },
-        error: (error) => console.error('Error updating user:', error),
-      });
-    } else {
-      // Add new user
-      this.userService.addUser(formData).subscribe({
-        next: (response) => {
-          console.log(response.message);
-          this.users.push(formData);
-          this.filteredUsers = [...this.users];
-          this.closeModal();
-        },
-        error: (error) => console.error('Error adding user:', error),
-      });
-    }
-  }
-
-  editUser(user: UserInfo) {
-    this.editingUser = user;
-    this.editForm.patchValue(user);
-    this.showEditModal = true;
-  }
-
-  deleteUser(user: UserInfo) {
-    if (confirm('Are you sure you want to delete this user?')) {
-      this.userService.deleteUser(user.userId).subscribe({
-        next: () => {
-          this.users = this.users.filter((u) => u.userId !== user.userId);
-          this.filteredUsers = [...this.users];
-        },
-        error: (error) => console.error('Delete error:', error),
       });
     }
   }

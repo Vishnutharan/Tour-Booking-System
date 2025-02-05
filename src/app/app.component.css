@@ -6,11 +6,11 @@
 
 .navbar .logo {
   @apply text-2xl font-bold text-gray-800 tracking-wider ml-6 flex items-center space-x-2;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .logo::before {
-  content: '🌍';
+  content: "🌍";
   @apply mr-2;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .nav-link::before {
-  content: '';
+  content: "";
   @apply absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform scale-x-0 origin-left transition-transform duration-300;
 }
 
@@ -119,11 +119,10 @@
 
 /* Subtle Background Particle Effect */
 .navbar::after {
-  content: '';
+  content: "";
   @apply absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none;
-  background-image: 
-    radial-gradient(#0000FF 8%, transparent 8%),
-    radial-gradient(#0000FF 8%, transparent 8%);
+  background-image: radial-gradient(#0000ff 8%, transparent 8%),
+    radial-gradient(#0000ff 8%, transparent 8%);
   background-position: 0 0, 25px 25px;
   background-size: 50px 50px;
 }

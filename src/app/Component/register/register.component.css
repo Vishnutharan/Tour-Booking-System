@@ -37,8 +37,8 @@
 }
 
 .form-side {
-  width: 50%;
-  padding: 60px;
+  width: 75%;
+  padding: 80px;
   display: flex;
   flex-direction: column;
 }
@@ -260,6 +260,6 @@ button:disabled {
   }
 
   .form-side {
-    padding: 40px 20px;
+    padding: 60px 40px;
   }
 }

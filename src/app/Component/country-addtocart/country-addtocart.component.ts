@@ -1,8 +1,12 @@
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookingDetails } from 'src/app/Model/bookingdetails';
+import { Coupon } from 'src/app/Model/coupon.models';
 import {  CartItem, Country, TouristPlace } from 'src/app/Model/travel.models';
 import { AuthService } from 'src/app/Service/AuthService';
+import { CouponService } from 'src/app/Service/CouponService';
+// import { Coupon, CouponService } from 'src/app/Service/coupon.service';
 import { TravelService } from 'src/app/Service/travel.service';
 
 @Component({
@@ -18,6 +22,7 @@ export class CountryAddtocartComponent implements OnInit {
   filteredTouristPlaces: TouristPlace[] = [];
   searchQuery: string = '';
   totalAmount = 0;
+  
   bookingDetails: BookingDetails = {
     id: undefined,
     userId: '',
@@ -32,18 +37,35 @@ export class CountryAddtocartComponent implements OnInit {
     totalAmount: undefined,
     finalAmount: undefined,
     tax: undefined,
+    
   };
+  
+  couponForm: FormGroup;
+  couponCode: string = '';
+  appliedCoupon: Coupon | null = null;
+  discountedAmount: number = 0;
+  originalAmount: number = 0;
+  isCouponValid: boolean = false;
+  couponError: string = '';
+
   private prevScrollPos: number = window.pageYOffset;
   private searchSortBar: any; // To hold the reference to the DOM element
+  
+
 
   constructor(
     private route: ActivatedRoute,
     private travelService: TravelService,
     private router: Router,
     private authService: AuthService,
-    private renderer: Renderer2
-
-  ) {}
+    private renderer: Renderer2,
+    private couponService: CouponService,
+    private fb: FormBuilder
+  ) {
+    this.couponForm = this.fb.group({
+      couponCode: ['', [Validators.required, Validators.minLength(5)]]
+    });
+  }
 
   ngOnInit(): void {
     this.countryId = this.route.snapshot.paramMap.get('id')!;
@@ -92,12 +114,12 @@ export class CountryAddtocartComponent implements OnInit {
     }
   }
 
-  calculateTotal(): void {
-    this.totalAmount = this.cartItems.reduce(
-      (total, item) => total + item.cost * item.quantity,
-      0
-    );
-  }
+  // calculateTotal(): void {
+  //   this.totalAmount = this.cartItems.reduce(
+  //     (total, item) => total + item.cost * item.quantity,
+  //     0
+  //   );
+  // }
 
   printItinerary(): void {
     window.print();
@@ -151,5 +173,95 @@ export class CountryAddtocartComponent implements OnInit {
     }
 
     this.prevScrollPos = currentScrollPos;
+  }
+
+  applyCoupon() {
+    this.couponError = '';
+    this.isCouponValid = false;
+    this.appliedCoupon = null;
+    this.discountedAmount = 0;
+
+    if (!this.couponForm.valid) {
+      this.couponError = 'Please enter a valid coupon code';
+      return;
+    }
+
+    const couponCode = this.couponForm.get('couponCode')?.value;
+    if (!couponCode) return;
+
+    this.originalAmount = this.cartItems.reduce(
+      (total, item) => total + item.cost * item.quantity,
+      0
+    );
+
+    this.couponService.validateCoupon(couponCode, this.originalAmount).subscribe({
+      next: (coupon) => {
+        if (!this.validateCouponConditions(coupon)) {
+          return;
+        }
+        this.appliedCoupon = coupon;
+        this.isCouponValid = true;
+        this.calculateDiscountedAmount();
+      },
+      error: (error) => {
+        this.couponError = 'Invalid or expired coupon';
+        this.resetCouponData();
+        console.error('Error applying coupon:', error);
+      }
+    });
+  }
+
+  private validateCouponConditions(coupon: Coupon): boolean {
+    if (!coupon.isActive) {
+      this.couponError = 'This coupon is no longer active';
+      return false;
+    }
+
+    if (new Date() > new Date(coupon.expiryDate)) {
+      this.couponError = 'This coupon has expired';
+      return false;
+    }
+
+    if (this.originalAmount < coupon.minimumAmount) {
+      this.couponError = `Minimum purchase amount of $${coupon.minimumAmount} required`;
+      return false;
+    }
+
+    return true;
+  }
+
+  private calculateDiscountedAmount() {
+    if (!this.appliedCoupon) return;
+
+    const discountAmount = (this.originalAmount * this.appliedCoupon.discountPercentage) / 100;
+    
+    if (this.appliedCoupon.maximumDiscount) {
+      this.discountedAmount = Math.min(discountAmount, this.appliedCoupon.maximumDiscount);
+    } else {
+      this.discountedAmount = discountAmount;
+    }
+
+    this.calculateTotal();
+  }
+
+  removeCoupon() {
+    this.resetCouponData();
+    this.calculateTotal();
+  }
+
+  private resetCouponData() {
+    this.couponForm.reset();
+    this.appliedCoupon = null;
+    this.discountedAmount = 0;
+    this.isCouponValid = false;
+    this.couponError = '';
+  }
+
+  calculateTotal(): void {
+    const subtotal = this.cartItems.reduce(
+      (total, item) => total + item.cost * item.quantity,
+      0
+    );
+    this.totalAmount = subtotal - this.discountedAmount;
   }
 }
