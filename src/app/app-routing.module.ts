@@ -16,6 +16,7 @@ import { HindiComponent } from './Component/Language/hindi/hindi.component';
 import { ChinesComponent } from './Component/Language/chines/chines.component';
 import { CurrencyConverterComponent } from './Component/currency-converter/currency-converter.component';
 import { AdminComponent } from './Component/admin/admin.component';
+import { RecomdationComponent } from './Component/recomdation/recomdation.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'Chinese', component: ChinesComponent },
   { path: 'currency', component: CurrencyConverterComponent },
   { path: 'Admin', component: AdminComponent },
+  { path: 'recommendation', component: RecomdationComponent },
 ];
 
 @NgModule({

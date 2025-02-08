@@ -40,4 +40,16 @@ export class BookingService {
   getBookingDetails(bookingId: number): Observable<BookingDetails> {
     return this.http.get<BookingDetails>(`${this.apiUrl}/${bookingId}`);
   }
+  // Add methods for Excel export and import
+  exportBookingsToExcel(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/export-excel`, {
+      responseType: 'blob' // Important: Set responseType to 'blob'
+    });
+  }
+
+  importBookingsFromExcel(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file); // 'file' should match the parameter name expected by your backend
+    return this.http.post(`${this.apiUrl}/import-excel`, formData);
+  }
 }

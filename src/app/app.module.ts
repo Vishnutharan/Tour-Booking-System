@@ -28,6 +28,7 @@ import { TravelService } from './Service/travel.service';
 import { UserService } from './Service/UserService';
 import { AdminComponent } from './Component/admin/admin.component';
 import { ReviewService } from './Service/ReviewService';
+import { RecomdationComponent } from './Component/recomdation/recomdation.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ReviewService } from './Service/ReviewService';
     ChinesComponent,
     CurrencyConverterComponent,
     AdminComponent,
+    RecomdationComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,15 +26,26 @@ export class ReviewService {
   }
 
   updateReview(id: number, review: Review): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, review, {
+    return this.http.put<void>(`${this.apiUrl}/update/${id}`, review, {
       headers: new HttpHeaders({ "Content-Type": "application/json" }),
     });
   }
 
   deleteReview(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
   getReviews(tourPackageId: number): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.apiUrl}/package/${tourPackageId}`);
+  }
+  exportReviewsToExcel(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/export-excel`, {
+      responseType: "blob",
+    });
+  }
+
+  importReviewsFromExcel(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append("file", file);
+    return this.http.post(`${this.apiUrl}/import-excel`, formData);
   }
 }
