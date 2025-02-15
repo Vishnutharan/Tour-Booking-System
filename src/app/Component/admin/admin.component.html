@@ -6,28 +6,16 @@
     </div>
     <nav>
       <ul>
-        <li
-          [class.active]="currentSection === 'bookings'"
-          (click)="setSection('bookings')"
-        >
+        <li [class.active]="currentSection === 'bookings'" (click)="setSection('bookings')">
           <i class="fas fa-calendar-check"></i> Bookings
         </li>
-        <li
-          [class.active]="currentSection === 'reviews'"
-          (click)="setSection('reviews')"
-        >
+        <li [class.active]="currentSection === 'reviews'" (click)="setSection('reviews')">
           <i class="fas fa-star"></i> Reviews
         </li>
-        <li
-          [class.active]="currentSection === 'users'"
-          (click)="setSection('users')"
-        >
+        <li [class.active]="currentSection === 'users'" (click)="setSection('users')">
           <i class="fas fa-users"></i> Users
         </li>
-        <li
-          [class.active]="currentSection === 'coupons'"
-          (click)="setSection('coupons')"
-        >
+        <li [class.active]="currentSection === 'coupons'" (click)="setSection('coupons')">
           <i class="fas fa-tag"></i> Coupons
         </li>
       </ul>
@@ -38,30 +26,20 @@
   <div class="main-content">
     <header>
       <div class="search-bar">
-        <input
-          type="text"
-          placeholder="Search..."
-          [(ngModel)]="searchTerm"
-          (input)="onSearch()"
-        />
+        <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="onSearch()">
       </div>
       <div class="admin-profile">
         <span>Admin</span>
-        <img src="assets/admin-avatar.png" alt="Admin" />
+        <img src="assets/admin-avatar.png" alt="Admin">
       </div>
     </header>
 
     <!-- Dashboard Content -->
     <div class="dashboard-content">
       <!-- User Management Section -->
-      <section
-        *ngIf="currentSection === 'users'"
-        class="section-content"
-      >
+      <section *ngIf="currentSection === 'users'" class="section-content">
         <h2>User Management</h2>
-        <button (click)="showAddUserForm()" class="add-new">
-          Add New User
-        </button>
+        <button (click)="showAddUserForm()" class="add-new">Add New User</button>
         <table>
           <thead>
             <tr>
@@ -88,14 +66,9 @@
       </section>
 
       <!-- Booking Management Section -->
-      <section
-        *ngIf="currentSection === 'bookings'"
-        class="section-content"
-      >
+      <section *ngIf="currentSection === 'bookings'" class="section-content">
         <h2>Booking Management</h2>
-        <button (click)="editBooking(null)" class="add-new">
-          Add New Booking
-        </button>
+        <button (click)="editBooking(null)" class="add-new">Add New Booking</button>
         <table>
           <thead>
             <tr>
@@ -114,15 +87,13 @@
               <td>{{ booking.dateOfTravel | date }}</td>
               <td>{{ booking.totalAmount | currency }}</td>
               <td>
-                <span [class]="'status-' + 'confirmed'.toLowerCase()">
-                  Confirmed
+                <span [class]="'status-' + booking.status?.toLowerCase()">
+                  {{ booking.status }}
                 </span>
               </td>
               <td class="actions">
                 <button (click)="editBooking(booking)">Edit</button>
-                <button (click)="deleteBooking(booking)" class="delete">
-                  Delete
-                </button>
+                <button (click)="deleteBooking(booking)" class="delete">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -130,46 +101,31 @@
       </section>
 
       <!-- Review Management Section -->
-      <section
-        *ngIf="currentSection === 'reviews'"
-        class="section-content"
-      >
+      <section *ngIf="currentSection === 'reviews'" class="section-content">
         <h2>Reviews Management</h2>
-        <button (click)="editReview(null)" class="add-new">
-          Add New Review
-        </button>
+        <button (click)="editReview(null)" class="add-new">Add New Review</button>
         <div class="reviews-grid">
           <div *ngFor="let review of filteredReviews" class="review-card">
             <h3>{{ review.customerName }}</h3>
             <p>{{ review.reviewText }}</p>
             <div class="review-rating">
-              <span
-                *ngFor="let star of [].constructor(review.rating); let i = index"
-              >
+              <span *ngFor="let star of [].constructor(review.rating)">
                 <i class="fas fa-star"></i>
               </span>
             </div>
             <div class="card-actions">
               <button (click)="editReview(review)">Edit</button>
-              <button (click)="deleteReview(review)" class="delete">
-                Delete
-              </button>
+              <button (click)="deleteReview(review)" class="delete">Delete</button>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Coupon Management Section -->
-      <section
-        *ngIf="currentSection === 'coupons'"
-        class="coupon-section"
-      >
+      <section *ngIf="currentSection === 'coupons'" class="section-content">
         <h2>Coupon Management</h2>
-        <button (click)="showAddCouponForm()" class="add-new">
-          Add New Coupon
-        </button>
-
-        <table class="coupon-table">
+        <button (click)="showAddCouponForm()" class="add-new">Add New Coupon</button>
+        <table>
           <thead>
             <tr>
               <th>Code</th>
@@ -185,19 +141,13 @@
               <td>{{ coupon.discountPercentage }}%</td>
               <td>{{ coupon.expiryDate | date }}</td>
               <td>
-                <span
-                  [class]="
-                    coupon.isActive ? 'status-active' : 'status-inactive'
-                  "
-                >
+                <span [class]="coupon.isActive ? 'status-active' : 'status-inactive'">
                   {{ coupon.isActive ? 'Active' : 'Inactive' }}
                 </span>
               </td>
-              <td class="coupon-actions">
+              <td class="actions">
                 <button (click)="editCoupon(coupon)">Edit</button>
-                <button (click)="deleteCoupon(coupon)" class="delete">
-                  Delete
-                </button>
+                <button (click)="deleteCoupon(coupon)" class="delete">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -205,191 +155,139 @@
       </section>
     </div>
   </div>
-</div>
 
-<!-- Modal for Add/Edit -->
-<div class="modal" *ngIf="showEditModal">
-  <div class="modal-content">
-    <h2>
-      {{ editingItem ? 'Edit ' + currentSection : 'Add New ' + currentSection }}
-    </h2>
-    <form
-      [formGroup]="
-        currentSection === 'users' ? userForm : (currentSection === 'coupons' ? couponForm : editForm)
-      "
-      (ngSubmit)="
-        currentSection === 'users'
-          ? saveUserChanges()
-          : (currentSection === 'coupons' ? saveCouponChanges() : saveChanges())
-      "
-    >
-      <!-- User Form Section -->
-      <div *ngIf="currentSection === 'users'">
+  <!-- Modal for Forms -->
+  <div class="modal" *ngIf="showEditModal">
+    <div class="modal-content">
+      <h2>{{ editingItem ? 'Edit' : 'Add New' }} {{ currentSection | titlecase }}</h2>
+
+      <!-- User Form -->
+      <form *ngIf="currentSection === 'users'" [formGroup]="userForm" (ngSubmit)="saveUserChanges()">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" id="username" formControlName="username" />
+          <input type="text" id="username" formControlName="username">
         </div>
         <div class="form-group">
           <label for="firstName">First Name</label>
-          <input type="text" id="firstName" formControlName="firstName" />
+          <input type="text" id="firstName" formControlName="firstName">
         </div>
         <div class="form-group">
           <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" formControlName="lastName" />
+          <input type="text" id="lastName" formControlName="lastName">
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" formControlName="email" />
+          <input type="email" id="email" formControlName="email">
         </div>
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input type="text" id="phone" formControlName="phone" />
+          <input type="text" id="phone" formControlName="phone">
         </div>
         <div class="form-group">
           <label for="dateOfBirth">Date of Birth</label>
-          <input type="date" id="dateOfBirth" formControlName="dateOfBirth" />
+          <input type="date" id="dateOfBirth" formControlName="dateOfBirth">
         </div>
         <div class="form-group">
           <label for="gender">Gender</label>
-          <input type="text" id="gender" formControlName="gender" />
+          <input type="text" id="gender" formControlName="gender">
         </div>
         <div class="form-group">
           <label for="nationality">Nationality</label>
-          <input type="text" id="nationality" formControlName="nationality" />
+          <input type="text" id="nationality" formControlName="nationality">
         </div>
-      </div>
+        <div class="form-actions">
+          <button type="submit" [disabled]="!userForm.valid">Save</button>
+          <button type="button" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
 
-      <!-- Booking Form Section -->
-      <div *ngIf="currentSection === 'bookings'">
+      <!-- Booking Form -->
+      <form *ngIf="currentSection === 'bookings'" [formGroup]="editForm" (ngSubmit)="saveChanges()">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" formControlName="name" />
+          <input type="text" id="name" formControlName="name">
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" formControlName="email" />
+          <input type="email" id="email" formControlName="email">
         </div>
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input type="text" id="phone" formControlName="phone" />
+          <input type="text" id="phone" formControlName="phone">
         </div>
         <div class="form-group">
           <label for="dateOfTravel">Date of Travel</label>
-          <input type="date" id="dateOfTravel" formControlName="dateOfTravel" />
+          <input type="date" id="dateOfTravel" formControlName="dateOfTravel">
         </div>
         <div class="form-group">
           <label for="numberOfPeople">Number of People</label>
-          <input
-            type="number"
-            id="numberOfPeople"
-            formControlName="numberOfPeople"
-          />
+          <input type="number" id="numberOfPeople" formControlName="numberOfPeople">
         </div>
         <div class="form-group">
           <label for="totalAmount">Total Amount</label>
-          <input
-            type="number"
-            id="totalAmount"
-            formControlName="totalAmount"
-          />
+          <input type="number" id="totalAmount" formControlName="totalAmount">
         </div>
-        <div class="form-group">
-          <label for="tax">Tax</label>
-          <input type="number" id="tax" formControlName="tax" />
+        <div class="form-actions">
+          <button type="submit" [disabled]="!editForm.valid">Save</button>
+          <button type="button" (click)="closeModal()">Cancel</button>
         </div>
-        <div class="form-group">
-          <label for="finalAmount">Final Amount</label>
-          <input
-            type="number"
-            id="finalAmount"
-            formControlName="finalAmount"
-          />
-        </div>
-      </div>
+      </form>
 
-      <!-- Review Form Section -->
-      <div *ngIf="currentSection === 'reviews'">
+      <!-- Review Form -->
+      <form *ngIf="currentSection === 'reviews'" [formGroup]="editForm" (ngSubmit)="saveChanges()">
         <div class="form-group">
           <label for="customerName">Customer Name</label>
-          <input type="text" id="customerName" formControlName="customerName" />
+          <input type="text" id="customerName" formControlName="customerName">
         </div>
         <div class="form-group">
           <label for="rating">Rating</label>
-          <input
-            type="number"
-            id="rating"
-            formControlName="rating"
-            min="1"
-            max="5"
-          />
+          <input type="number" id="rating" formControlName="rating" min="1" max="5">
         </div>
         <div class="form-group">
           <label for="reviewText">Review Text</label>
           <textarea id="reviewText" formControlName="reviewText"></textarea>
         </div>
-      </div>
+        <div class="form-actions">
+          <button type="submit" [disabled]="!editForm.valid">Save</button>
+          <button type="button" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
 
-      <!-- Coupon Form Section -->
-      <div *ngIf="currentSection === 'coupons'">
+      <!-- Coupon Form -->
+      <form *ngIf="currentSection === 'coupons'" [formGroup]="couponForm" (ngSubmit)="saveCouponChanges()">
         <div class="form-group">
           <label for="code">Coupon Code</label>
-          <input type="text" id="code" formControlName="code" />
+          <input type="text" id="code" formControlName="code">
         </div>
         <div class="form-group">
           <label for="discountPercentage">Discount Percentage</label>
-          <input
-            type="number"
-            id="discountPercentage"
-            formControlName="discountPercentage"
-          />
+          <input type="number" id="discountPercentage" formControlName="discountPercentage">
         </div>
         <div class="form-group">
           <label for="expiryDate">Expiry Date</label>
-          <input type="date" id="expiryDate" formControlName="expiryDate" />
+          <input type="date" id="expiryDate" formControlName="expiryDate">
         </div>
         <div class="form-group">
           <label for="minimumAmount">Minimum Amount</label>
-          <input
-            type="number"
-            id="minimumAmount"
-            formControlName="minimumAmount"
-          />
+          <input type="number" id="minimumAmount" formControlName="minimumAmount">
         </div>
         <div class="form-group">
           <label for="maximumDiscount">Maximum Discount</label>
-          <input
-            type="number"
-            id="maximumDiscount"
-            formControlName="maximumDiscount"
-          />
+          <input type="number" id="maximumDiscount" formControlName="maximumDiscount">
         </div>
         <div class="form-group">
           <label for="usageLimit">Usage Limit</label>
-          <input
-            type="number"
-            id="usageLimit"
-            formControlName="usageLimit"
-          />
+          <input type="number" id="usageLimit" formControlName="usageLimit">
         </div>
         <div class="form-group">
           <label for="isActive">Active</label>
-          <input type="checkbox" id="isActive" formControlName="isActive" />
+          <input type="checkbox" id="isActive" formControlName="isActive">
         </div>
-      </div>
-
-      <div class="form-actions">
-        <button
-          type="submit"
-          [disabled]="
-            currentSection === 'users'
-              ? !userForm.valid
-              : (currentSection === 'coupons' ? !couponForm.valid : !editForm.valid)
-          "
-        >
-          Save
-        </button>
-        <button type="button" (click)="closeModal()">Cancel</button>
-      </div>
-    </form>
+        <div class="form-actions">
+          <button type="submit" [disabled]="!couponForm.valid">Save</button>
+          <button type="button" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
