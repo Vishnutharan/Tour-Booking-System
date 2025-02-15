@@ -25,7 +25,7 @@ export class TravelService {
   }
 
   getCountryById(id: string): Observable<Country> {
-    const country = this.mockCountries.find((c) => c.countryId === id);
+    const country = this.mockCountries.find((c) => c.Id === id);
     return of(country!);
   }
 

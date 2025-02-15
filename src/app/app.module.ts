@@ -29,6 +29,7 @@ import { UserService } from './Service/UserService';
 import { AdminComponent } from './Component/admin/admin.component';
 import { ReviewService } from './Service/ReviewService';
 import { RecomdationComponent } from './Component/recomdation/recomdation.component';
+import { CountryDetailsComponent } from './Component/country-details/country-details.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { RecomdationComponent } from './Component/recomdation/recomdation.compon
     CurrencyConverterComponent,
     AdminComponent,
     RecomdationComponent,
+    CountryDetailsComponent,
   ],
   imports: [
     BrowserModule,

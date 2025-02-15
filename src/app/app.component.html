@@ -24,11 +24,12 @@
           <!-- Add more languages as needed -->
         </select>
       </div>
+      <a routerLink="/countrydetails" class="nav-link">CountryDetials</a>
       <a routerLink="/paymentonline" class="nav-link">Pay</a>
       <a routerLink="/login" class="nav-link auth">Login</a>
       <a routerLink="/register" class="nav-link auth">Register</a>
     </ng-container>
-
+    
     <ng-template #loggedInMenu>
       <div class="user-menu">
         <a (click)="toggleLogoutDropdown()" class="nav-link auth username">

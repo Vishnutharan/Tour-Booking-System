@@ -1,0 +1,101 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-6">{{ isEditing ? 'Edit' : 'Add' }} Country</h1>
+    
+    <form (ngSubmit)="onSubmit()" #countryForm="ngForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+          Country Name
+        </label>
+        <input 
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="name"
+          type="text"
+          [(ngModel)]="country.name"
+          name="name"
+          required>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+          Description
+        </label>
+        <textarea 
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="description"
+          [(ngModel)]="country.description"
+          name="description"
+          rows="4"
+          required></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="imageUrl">
+          Image
+        </label>
+        <input 
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+
+        <div *ngIf="country.imageUrl" class="mt-2">
+          <img [src]="country.imageUrl" alt="Country preview" class="max-w-xs rounded shadow">
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="featuredScore">
+          Featured Score
+        </label>
+        <input 
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="featuredScore"
+          type="number"
+          [(ngModel)]="country.featuredScore"
+          name="featuredScore"
+          required>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <button 
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+          type="submit">
+          {{ isEditing ? 'Update' : 'Create' }}
+        </button>
+        <button 
+          class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="button"
+          (click)="resetForm()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold mb-4">Countries List</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div *ngFor="let country of countries" class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img [src]="country.imageUrl" [alt]="country.name" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h3 class="text-xl font-bold mb-2">{{country.name}}</h3>
+          <p class="text-gray-700 mb-2">{{country.description}}</p>
+          <p class="text-sm text-gray-600 mb-4">Featured Score: {{country.featuredScore}}</p>
+          <div class="flex justify-end space-x-2">
+            <button 
+              (click)="editCountry(country)"
+              class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded">
+              Edit
+            </button>
+            <button 
+              (click)="deleteCountry(country.Id)"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
