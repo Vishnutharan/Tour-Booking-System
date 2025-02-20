@@ -3,12 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookingDetails } from 'src/app/Model/bookingdetails';
 import { Coupon } from 'src/app/Model/coupon.models';
-import { Country, Review, TouristPlace } from 'src/app/Model/travel.models';
+import { Country, Review, TouristPlace, TouristPlaceBackend } from 'src/app/Model/travel.models';
 import { UserInfo } from 'src/app/Model/UserInfo.models';
 import { BookingService } from 'src/app/Service/BookingService';
 import { CountryService } from 'src/app/Service/CountryService';
 import { CouponService } from 'src/app/Service/CouponService';
 import { ReviewService } from 'src/app/Service/ReviewService';
+import { TouristPlaceService } from 'src/app/Service/TouristPlaceService';
 import { TravelService } from 'src/app/Service/travel.service';
 import { UserService } from 'src/app/Service/UserService';
 
@@ -36,7 +37,7 @@ export class AdminComponent implements OnInit {
 
     // Data arrays
     bookings: BookingDetails[] = [];
-    places: TouristPlace[] = [];
+    places: TouristPlaceBackend[] = [];  // Use the correct type
     countries: Country[] = [];
     reviews: Review[] = [];
     coupons: Coupon[] = [];
@@ -44,7 +45,7 @@ export class AdminComponent implements OnInit {
 
     // Filtered arrays
     filteredBookings: BookingDetails[] = [];
-    filteredPlaces: TouristPlace[] = [];
+    filteredPlaces: TouristPlaceBackend[] = []; // Use the correct type
     filteredCountries: Country[] = [];
     filteredReviews: Review[] = [];
     filteredCoupons: Coupon[] = [];
@@ -56,6 +57,11 @@ export class AdminComponent implements OnInit {
     discountedAmount: number = 0;
     editingUser: UserInfo | null = null;
 
+    //tourist place form
+    placeForm: FormGroup;
+    isAddingPlace = false;
+    isEditingPlace = false;
+
     constructor(
         private travelService: TravelService,
         private bookingService: BookingService,
@@ -63,11 +69,13 @@ export class AdminComponent implements OnInit {
         private fb: FormBuilder,
         private reviewService: ReviewService,
         private couponService: CouponService,
-        private countryService: CountryService
+        private countryService: CountryService,
+        private touristPlaceService: TouristPlaceService // Inject TouristPlaceService
     ) {
         this.editForm = this.createEditForm();
         this.userForm = this.createUserForm();
         this.couponForm = this.createCouponForm();
+        this.placeForm = this.createPlaceForm();
     }
 
     ngOnInit() {
@@ -76,30 +84,39 @@ export class AdminComponent implements OnInit {
         this.loadCoupons();
         this.loadReviews();
         this.getCountries();
+        this.loadPlaces();
 
     }
 
     getCountries(): void {
-        this.countryService.getCountries().subscribe(countries => this.countries = countries);
-      }
-    
-      getCountry(id: string): void {
-        this.countryService.getCountry(id).subscribe(country => this.country = country);
-      }
-    
-      createCountry(): void {
-        this.countryService.createCountry(this.country).subscribe(() => this.getCountries());
-      }
-    
-      updateCountry(): void {
-        this.countryService.updateCountry(this.country.CountryId, this.country).subscribe(() => this.getCountries());
-      }
-    
-      deleteCountry(id: string): void {
-        this.countryService.deleteCountry(id).subscribe(() => this.getCountries());
+        this.countryService.getCountries().subscribe(countries => {
+          this.countries = countries;
+          this.filteredCountries = countries;  // Also update filtered list
+        });
       }
 
-    
+    getCountry(id: string): void {
+        this.countryService.getCountry(id).subscribe(country => this.country = country);
+    }
+
+    createCountry(): void {
+        this.countryService.createCountry(this.country).subscribe(() => this.getCountries());
+    }
+
+    updateCountry(): void {
+        this.countryService.updateCountry(this.country.CountryId, this.country).subscribe(() => this.getCountries());
+    }
+
+    deleteCountry(id: string): void {
+        this.countryService.deleteCountry(id).subscribe(() => this.getCountries());
+    }
+    editCountry(country: Country): void {
+        this.country = { ...country }; // Create a copy to avoid modifying the original until saved.
+        this.openModal();
+      }
+      
+
+
     // -------------------------- Form Creation Methods --------------------------
 
     createEditForm(): FormGroup {
@@ -153,6 +170,35 @@ export class AdminComponent implements OnInit {
         });
     }
 
+    createPlaceForm(): FormGroup {
+        return this.fb.group({
+            placeName: ['', Validators.required],
+            countryId: ['', Validators.required],
+            description: [''],
+            imageUrl: [''],
+            cost: [0, Validators.required],
+            rating: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
+            highlights: [[]],
+            bestTimeToVisit: [''],
+            duration: [''],
+            hotelName: [''],
+            roomType: [''],
+            specialRequests: [''],
+            checkInDate: [null],
+            checkOutDate: [null],
+            numberOfRooms: [null],
+            occupancyDetails: [''],
+            transportationMode: [''],
+            travelDuration: [''],
+            travelCost: [null],
+            guideName: ['', Validators.required],
+            experience: ['', Validators.required],
+            languagesSpoken: [[]],
+            contactNumber: ['', Validators.required],
+            specialization: [[]]
+        });
+      }
+
     // -------------------------- Data Loading Methods --------------------------
 
     loadData() {
@@ -166,14 +212,15 @@ export class AdminComponent implements OnInit {
             this.filteredCountries = data;
         });
 
-        if (this.countries.length > 0) {
-            this.travelService
-                .getTouristPlaces(this.countries[0].CountryId)
-                .subscribe((data) => {
-                    this.places = data;
-                    this.filteredPlaces = data;
-                });
-        }
+        // if (this.countries.length > 0) {
+        //  this.travelService
+        //      .getTouristPlaces(this.countries[0].CountryId)
+        //   .subscribe((data) => {  //Removed the parameter from getTouristPlaces.
+        //    this.places = data;
+        //    this.filteredPlaces = data;
+        //        });
+        // }
+        this.loadPlaces(); // Load places
     }
 
     loadUsers() {
@@ -205,6 +252,13 @@ export class AdminComponent implements OnInit {
             error: (error) => console.error('Error loading coupons:', error),
         });
     }
+    loadPlaces(): void {
+        this.touristPlaceService.getTouristPlaces()
+          .subscribe(places => {
+            this.places = places;
+            this.filteredPlaces = places; // Update filtered places
+          });
+      }
 
     // -------------------------- Section Management Methods --------------------------
 
@@ -249,6 +303,21 @@ export class AdminComponent implements OnInit {
                     coupon.code.toLowerCase().includes(term)
                 );
                 break;
+            case 'countries':
+                this.filteredCountries = this.countries.filter(
+                    (country) =>
+                    country.name.toLowerCase().includes(term) ||
+                    country.description.toLowerCase().includes(term)
+                );
+                break;
+            case 'places':
+                this.filteredPlaces = this.places.filter(
+                    (place) =>
+                    place.placeName.toLowerCase().includes(term) ||
+                    place.description?.toLowerCase().includes(term) || false
+                   );
+                break;
+
             default:
                 break;
         }
@@ -266,6 +335,9 @@ export class AdminComponent implements OnInit {
         this.editForm.reset();
         this.couponForm.reset();
         this.userForm.reset(); // Reset user form
+        this.placeForm.reset();
+        this.isAddingPlace = false;
+        this.isEditingPlace = false;
     }
 
     // -------------------------- User Management Methods --------------------------
@@ -542,73 +614,148 @@ export class AdminComponent implements OnInit {
     }
     private saveBookingChanges(formData: any) {
         if (this.editingItem) {
-        const updatedBooking: BookingDetails = {
-                 ...this.editingItem,
-                 ...formData,
-               };
-       
-               this.bookingService
-                 .updateBooking(updatedBooking.id!, updatedBooking)
-                 .subscribe({
-                   next: () => {
-                     const index = this.bookings.findIndex(
-                       (b) => b.id === updatedBooking.id
-                     );
-                     if (index !== -1) {
-                       this.bookings[index] = updatedBooking;
-                     }
-                     this.filteredBookings = [...this.bookings];
-                     this.closeModal();
-                   },
-                   error: (err) => {
-                     console.error('Error updating booking:', err);
-                   },
-                 });
-             } else {
-               this.bookingService.createBooking(formData).subscribe({
-                 next: (newBooking) => {
-                   this.bookings.push(newBooking);
-                   this.filteredBookings = [...this.bookings];
-                   this.closeModal();
-                 },
-                 error: (error) => console.error('Error creating booking:', error),
-               });
-             }
-           }
-       
-           private saveReviewChanges(formData: any) {
-             if (this.editingItem) {
-               const updatedReview: Review = {
-                 ...this.editingItem,
-                 ...formData,
-               };
-       
-               this.reviewService
-                 .updateReview(updatedReview.id, updatedReview)
-                 .subscribe({
-                   next: () => {
-                     const index = this.reviews.findIndex(
-                       (r) => r.id === updatedReview.id
-                     );
-                     if (index > -1) {
-                       this.reviews[index] = updatedReview;
-                     }
-                     this.filteredReviews = [...this.reviews];
-                     this.closeModal();
-                   },
-                   error: (error) => console.error('Error updating review:', error),
-                 });
-             } else {
-               this.reviewService.submitReview(formData).subscribe({
-                 next: (newReview) => {
-                   this.reviews.push(newReview);
-                   this.filteredReviews = [...this.reviews];
-                   this.closeModal();
-                 },
-                 error: (error) => console.error('Error creating review:', error),
-               });
-             }
-           }
-         }
- 
+            const updatedBooking: BookingDetails = {
+                ...this.editingItem,
+                ...formData,
+            };
+
+            this.bookingService
+                .updateBooking(updatedBooking.id!, updatedBooking)
+                .subscribe({
+                    next: () => {
+                        const index = this.bookings.findIndex(
+                            (b) => b.id === updatedBooking.id
+                        );
+                        if (index !== -1) {
+                            this.bookings[index] = updatedBooking;
+                        }
+                        this.filteredBookings = [...this.bookings];
+                        this.closeModal();
+                    },
+                    error: (err) => {
+                        console.error('Error updating booking:', err);
+                    },
+                });
+        } else {
+            this.bookingService.createBooking(formData).subscribe({
+                next: (newBooking) => {
+                    this.bookings.push(newBooking);
+                    this.filteredBookings = [...this.bookings];
+                    this.closeModal();
+                },
+                error: (error) => console.error('Error creating booking:', error),
+            });
+        }
+    }
+
+    private saveReviewChanges(formData: any) {
+        if (this.editingItem) {
+            const updatedReview: Review = {
+                ...this.editingItem,
+                ...formData,
+            };
+
+            this.reviewService
+                .updateReview(updatedReview.id, updatedReview)
+                .subscribe({
+                    next: () => {
+                        const index = this.reviews.findIndex(
+                            (r) => r.id === updatedReview.id
+                        );
+                        if (index > -1) {
+                            this.reviews[index] = updatedReview;
+                        }
+                        this.filteredReviews = [...this.reviews];
+                        this.closeModal();
+                    },
+                    error: (error) => console.error('Error updating review:', error),
+                });
+        } else {
+            this.reviewService.submitReview(formData).subscribe({
+                next: (newReview) => {
+                    this.reviews.push(newReview);
+                    this.filteredReviews = [...this.reviews];
+                    this.closeModal();
+                },
+                error: (error) => console.error('Error creating review:', error),
+            });
+        }
+    }
+
+    //--------------Tourist place CURD Operation--------------------
+
+    showAddPlaceForm() {
+        this.isAddingPlace = true;
+        this.placeForm.reset({
+            cost: 0,
+            rating: 1,
+            highlights: [],
+            languagesSpoken: [],
+            specialization: []
+        });
+        this.setSection('places');  // Switch to the places section
+        this.openModal();       // Open the modal
+    }
+
+
+    editPlace(place: TouristPlaceBackend) {
+        this.isEditingPlace = true;
+        this.editingItem = place.placeId; // Corrected line
+        this.placeForm.patchValue(place);
+        this.setSection('places'); // Switch to places section
+        this.openModal();          // Open the modal
+    }
+
+
+    deletePlace(place: TouristPlaceBackend) {
+      if (confirm('Are you sure you want to delete this place?')) {
+          this.touristPlaceService.deleteTouristPlace(place.placeId).subscribe({
+              next: () => {
+                  this.places = this.places.filter(p => p.placeId !== place.placeId);
+                  this.filteredPlaces = [...this.places];
+              },
+              error: error => console.error("Error deleting place:", error)
+          });
+      }
+  }
+    savePlaceChanges() {
+
+        if (this.placeForm.invalid) {
+          return;
+        }
     
+        if (this.isEditingPlace && this.editingItem) {
+          // Edit existing place
+          this.touristPlaceService.updateTouristPlace(this.editingItem, this.placeForm.value)
+            .subscribe(() => {
+              this.loadPlaces();
+              this.closeModal();
+            });
+        } else {
+          // Add new place
+          this.touristPlaceService.createTouristPlace(this.placeForm.value)
+            .subscribe(() => {
+              this.loadPlaces();
+              this.closeModal();
+            });
+        }
+      }
+      updatePlaceArray(event: any, controlName: string): void {
+        const value = event.target.value;
+        const array = value ? value.split(',').map((item: string) => item.trim()) : [];
+        this.placeForm.get(controlName)?.setValue(array);
+    }
+
+    onPlaceFileSelected(event: any): void {
+        const file = event.target.files[0];
+        if (file) {
+          this.touristPlaceService.uploadImage(file)
+            .subscribe(url => {
+                // Prepend the base URL to the returned path.
+                this.placeForm.patchValue({ imageUrl: `http://localhost:4200/${url}` });
+            });
+        }
+      }
+
+
+}
