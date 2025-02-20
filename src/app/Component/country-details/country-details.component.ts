@@ -10,7 +10,7 @@ import { CountryService } from 'src/app/Service/CountryService';
 export class CountryDetailsComponent implements OnInit {
   countries: Country[] = [];
   country: Country = {
-    Id: '',
+    CountryId: '',
     name: '',
     description: '',
     imageUrl: '',
@@ -32,7 +32,7 @@ export class CountryDetailsComponent implements OnInit {
 
   onSubmit(): void {
     if (this.isEditing) {
-      this.countryService.updateCountry(this.country.Id, this.country).subscribe({
+      this.countryService.updateCountry(this.country.CountryId, this.country).subscribe({
         next: () => {
           this.loadCountries();
           this.resetForm();
@@ -63,7 +63,7 @@ export class CountryDetailsComponent implements OnInit {
 
   resetForm(): void {
     this.country = {
-      Id: '',
+      CountryId: '',
       name: '',
       description: '',
       imageUrl: '',

@@ -30,6 +30,8 @@ import { AdminComponent } from './Component/admin/admin.component';
 import { ReviewService } from './Service/ReviewService';
 import { RecomdationComponent } from './Component/recomdation/recomdation.component';
 import { CountryDetailsComponent } from './Component/country-details/country-details.component';
+import { TouristPlaceComponent } from './Component/tourist-place/tourist-place.component';
+import { AdminLoginComponent } from './Component/admin-login/admin-login.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { CountryDetailsComponent } from './Component/country-details/country-det
     AdminComponent,
     RecomdationComponent,
     CountryDetailsComponent,
+    TouristPlaceComponent,
+    AdminLoginComponent,
   ],
   imports: [
     BrowserModule,

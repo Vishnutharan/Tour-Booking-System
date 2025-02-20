@@ -2,7 +2,7 @@ import { TouristPlace } from '../Model/travel.models';
 
 export const mockTouristPlaces: TouristPlace[] = [
   {
-    id: 'fr1_id',
+    PlaceId: 'fr1_id',
     placeId: 'eiffel_tower',
     countryId: 'fr',
     name: 'Eiffel Tower',
@@ -40,7 +40,7 @@ export const mockTouristPlaces: TouristPlace[] = [
     }
   },
   {
-    id: 'fr2_id',
+    PlaceId: 'fr2_id',
     placeId: 'louvre_museum',
     countryId: 'fr',
     name: 'Louvre Museum',
@@ -74,7 +74,7 @@ export const mockTouristPlaces: TouristPlace[] = [
     }
   },
   {
-    id: 'fr3_id',
+    PlaceId: 'fr3_id',
     placeId: 'notre_dame',
     countryId: 'fr',
     name: 'Notre-Dame Cathedral',
@@ -108,7 +108,7 @@ export const mockTouristPlaces: TouristPlace[] = [
     }
   },
   {
-    id: 'fr4_id',
+    PlaceId: 'fr4_id',
     placeId: 'versailles',
     countryId: 'fr',
     name: 'Palace of Versailles',
@@ -142,7 +142,7 @@ export const mockTouristPlaces: TouristPlace[] = [
     }
   },
   {
-    id: 'fr5_id',
+    PlaceId: 'fr5_id',
     placeId: 'mont_saint_michel',
     countryId: 'fr',
     name: 'Mont Saint-Michel',
@@ -176,7 +176,7 @@ export const mockTouristPlaces: TouristPlace[] = [
     }
   },
   {
-    id: 'fr6_id',
+    PlaceId: 'fr6_id',
     placeId: 'chateau_de_chenonceau',
     countryId: 'fr',
     name: 'Château de Chenonceau',

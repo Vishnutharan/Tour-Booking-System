@@ -1,5 +1,5 @@
 export interface Country {
-  Id: string; 
+  CountryId: string; 
   name: string;
   description: string;
   imageUrl: string;
@@ -7,7 +7,7 @@ export interface Country {
 }
 
 export interface TouristPlace {
-  id: string;
+  PlaceId: string;
   countryId: string;
   placeId: string;
   name: string;
@@ -43,7 +43,34 @@ export interface TouristPlace {
   };
 }
 
-export interface CartItem extends Omit<TouristPlace, 'id'> {
+export interface TouristPlaceBackend {
+  placeId: number;
+  placeName: string;
+  countryId: string;
+  description?: string;
+  imageUrl?: string;
+  cost: number;
+  rating: number;
+  highlights?: string[];
+  bestTimeToVisit?: string;
+  duration?: string;
+  hotelName?: string;
+  roomType?: string;
+  specialRequests?: string;
+  checkInDate?: Date;
+  checkOutDate?: Date;
+  numberOfRooms?: number;
+  occupancyDetails?: string;
+  transportationMode?: string;
+  travelDuration?: string;
+  travelCost?: number;
+  guideName: string;
+  experience: string;
+  languagesSpoken: string[];
+  contactNumber: string;
+  specialization: string[];
+}
+export interface CartItem extends Omit<TouristPlace, 'PlaceId'> {
   quantity: number;
   details: string;
   image: string;

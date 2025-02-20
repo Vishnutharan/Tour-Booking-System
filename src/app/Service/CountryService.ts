@@ -7,7 +7,7 @@ import { Country } from '../Model/travel.models';
   providedIn: 'root'
 })
 export class CountryService {
-  private apiUrl = 'https://localhost:7063/api/Country';
+  private apiUrl = 'https://localhost:7063/api/Countries';
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +20,9 @@ export class CountryService {
   }
 
   createCountry(country: Country): Observable<Country> {
-    country.Id = crypto.randomUUID();
+    if (!country.CountryId) {
+      country.CountryId = crypto.randomUUID(); // Manually generate ID if not provided
+    }
     return this.http.post<Country>(this.apiUrl, country);
   }
 

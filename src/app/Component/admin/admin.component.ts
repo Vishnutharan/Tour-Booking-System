@@ -40,7 +40,7 @@ export class AdminComponent implements OnInit {
     countries: Country[] = [];
     reviews: Review[] = [];
     coupons: Coupon[] = [];
-    country: Country = { Id: '', name: '', description: '', imageUrl: '', featuredScore: 0 };
+    country: Country = { CountryId: '', name: '', description: '', imageUrl: '', featuredScore: 0 };
 
     // Filtered arrays
     filteredBookings: BookingDetails[] = [];
@@ -92,7 +92,7 @@ export class AdminComponent implements OnInit {
       }
     
       updateCountry(): void {
-        this.countryService.updateCountry(this.country.Id, this.country).subscribe(() => this.getCountries());
+        this.countryService.updateCountry(this.country.CountryId, this.country).subscribe(() => this.getCountries());
       }
     
       deleteCountry(id: string): void {
@@ -168,7 +168,7 @@ export class AdminComponent implements OnInit {
 
         if (this.countries.length > 0) {
             this.travelService
-                .getTouristPlaces(this.countries[0].Id)
+                .getTouristPlaces(this.countries[0].CountryId)
                 .subscribe((data) => {
                     this.places = data;
                     this.filteredPlaces = data;

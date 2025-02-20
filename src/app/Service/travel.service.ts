@@ -25,9 +25,10 @@ export class TravelService {
   }
 
   getCountryById(id: string): Observable<Country> {
-    const country = this.mockCountries.find((c) => c.Id === id);
+    const country = this.mockCountries.find((c) => c.CountryId === id);  // Updated 'Id' to 'CountryId'
     return of(country!);
   }
+  
 
   getTouristPlaces(countryId: string): Observable<TouristPlace[]> {
     return of(
@@ -48,14 +49,14 @@ export class TravelService {
       this.cartItems.next([...currentItems]);
     } else {
       const newItem: CartItem = {
-        placeId: place.placeId,
+        placeId: place.placeId,  // Ensure placeId is used here
         countryId: place.countryId,
         name: place.name,
         cost: place.cost,
         quantity: 1,
         details: place.description,
         imageUrl: place.imageUrl,
-        image: place.imageUrl,  
+        image: place.imageUrl,
         description: place.description,
         rating: place.rating,
         highlights: place.highlights,
@@ -65,11 +66,12 @@ export class TravelService {
         travelDetails: place.travelDetails,
         checkIn: place.checkIn,
         checkOut: place.checkOut,
-        touristGuideDetails:place.touristGuideDetails
+        touristGuideDetails: place.touristGuideDetails
       };
       this.cartItems.next([...currentItems, newItem]);
     }
   }
+  
   removeFromCart(placeId: string): void {
     const currentItems = this.cartItems.value;
     this.cartItems.next(

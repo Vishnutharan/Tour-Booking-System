@@ -1,0 +1,42 @@
+<!-- src/app/admin-login/admin-login.component.html -->
+
+<div class="login-container">
+    <div class="login-box">
+      <div class="brand">
+        <i class="fas fa-lock"></i>
+        <h1>Admin Login</h1>
+      </div>
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="form-group">
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="credentials.username"
+            required
+            placeholder="Username"
+          />
+        </div>
+        <div class="form-group">
+          <i class="fas fa-key"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="credentials.password"
+            required
+            placeholder="Password"
+          />
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ errorMessage }}
+        </div>
+        <button type="submit" [disabled]="loginForm.invalid">
+          <span>Login</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>

@@ -18,6 +18,8 @@ import { CurrencyConverterComponent } from './Component/currency-converter/curre
 import { AdminComponent } from './Component/admin/admin.component';
 import { RecomdationComponent } from './Component/recomdation/recomdation.component';
 import { CountryDetailsComponent } from './Component/country-details/country-details.component';
+import { TouristPlaceComponent } from './Component/tourist-place/tourist-place.component';
+import { AdminLoginComponent } from './Component/admin-login/admin-login.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -38,6 +40,9 @@ const routes: Routes = [
   { path: 'Admin', component: AdminComponent },
   { path: 'recommendation', component: RecomdationComponent },
   { path: 'countrydetails', component: CountryDetailsComponent },
+  { path: 'Touristplace', component: TouristPlaceComponent },
+  { path: 'Adminlogin', component: AdminLoginComponent },
+
 
 ];
 

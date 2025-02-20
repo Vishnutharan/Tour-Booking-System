@@ -1,8 +1,23 @@
+<!-- country-details.component.html -->
 <div class="container mx-auto px-4 py-8">
   <div class="mb-8">
     <h1 class="text-3xl font-bold mb-6">{{ isEditing ? 'Edit' : 'Add' }} Country</h1>
     
     <form (ngSubmit)="onSubmit()" #countryForm="ngForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="id">
+          Country ID
+        </label>
+        <input 
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="id"
+          type="text"
+          [(ngModel)]="country.CountryId"
+          name="id"
+          [readonly]="isEditing"
+          required>
+      </div>
+
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
           Country Name
@@ -89,7 +104,7 @@
               Edit
             </button>
             <button 
-              (click)="deleteCountry(country.Id)"
+              (click)="deleteCountry(country.CountryId)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
               Delete
             </button>
