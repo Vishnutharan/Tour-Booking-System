@@ -6,6 +6,56 @@
 }
 
 /* --- Section 1: travel-journey-hero --- */
+/* Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0); /* Start slightly below */
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0); /* End at normal position */
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translate3d(-50px, 0, 0); /* Start from the left */
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translate3d(50px, 0, 0);  /* Start from the right*/
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes subtleScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+
 .about-hero {
   position: relative;
   width: 100%;
@@ -14,7 +64,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0f172a; /* Deep slate blue for sophistication */
+  background: #0f172a;
 }
 
 .about-bg {
@@ -27,8 +77,10 @@
 }
 
 .about-bg-1 {
-  background: linear-gradient(120deg, #1a2b49, #253b6e, #2d4b93); /* Professional dark blue gradient */
-  opacity: 0.85;
+    background: linear-gradient(120deg, #1a2b49, #253b6e, #2d4b93);
+    opacity: 0.85;
+    animation: subtleGradientShift 15s ease infinite; /* Subtle background animation */
+
 }
 
 .about-bg-2 {
@@ -55,10 +107,12 @@
   flex: 1;
   color: #ffffff;
   padding: 40px;
-  background: rgba(15, 23, 42, 0.7); /* Semi-transparent dark backdrop */
+  background: rgba(15, 23, 42, 0.7);
   border-radius: 12px;
   backdrop-filter: blur(8px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.8s ease-out forwards; /* Smooth fade-in and slide-up */
+
 }
 
 .about-title {
@@ -70,15 +124,17 @@
 }
 
 .about-title span {
-  color: #60a5fa; /* Vibrant sky blue */
+  color: #60a5fa;
   text-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
+    animation: subtleScale 3s ease-in-out infinite; /*Gentle scaling*/
+
 }
 
 .about-subtitle {
   font-size: 1.25rem;
   line-height: 1.7;
   margin-bottom: 35px;
-  color: #e2e8f0; /* Soft off-white */
+  color: #e2e8f0;
   font-weight: 300;
 }
 
@@ -95,10 +151,12 @@
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.4s ease;
+     animation: fadeInUp 0.8s ease-out forwards 0.3s; /* Delay button animation */
+
 }
 
 .about-btn-main {
-  background: #3b82f6; /* Bright blue */
+  background: #3b82f6;
   color: #ffffff;
   box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
 }
@@ -126,6 +184,8 @@
   flex: 1;
   position: relative;
   padding: 20px;
+    animation: slideInRight 0.8s ease-out forwards;
+
 }
 
 .about-image {
@@ -148,6 +208,8 @@
   right: 30px;
   width: 220px;
   z-index: 3;
+    animation: fadeInUp 0.8s ease-out forwards 0.6s; /* Delay and apply to overlay */
+
 }
 
 .about-overlay {
@@ -170,8 +232,12 @@
     text-align: center;
   }
 
+.about-content > * {
+    animation: fadeIn 1s ease-out forwards;
+}
   .about-text {
     padding: 20px;
+      animation: none;
   }
 
   .about-title {
@@ -180,10 +246,12 @@
 
   .about-actions {
     justify-content: center;
+      animation:none;
   }
 
   .about-visual {
     padding: 0;
+    animation: none;
   }
 
   .about-image {
@@ -194,7 +262,21 @@
     width: 150px;
     bottom: 20px;
     right: 20px;
+      animation: none;
   }
+}
+
+/* Keyframes for subtle background animation */
+@keyframes subtleGradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 /* --- Section 2: travel-adventure-intro --- */
 .travel-about-modern {

@@ -117,8 +117,8 @@
               <td>{{ booking.dateOfTravel | date }}</td>
               <td>{{ booking.totalAmount | currency }}</td>
               <td>
-                <span [class]="'status-' + booking.status?.toLowerCase()">
-                  {{ booking.status }}
+                <span [class]="'status-' + (booking.status || '').toLowerCase()">
+                  {{ booking.status || 'Unknown' }}
                 </span>
               </td>
               <td class="actions">
