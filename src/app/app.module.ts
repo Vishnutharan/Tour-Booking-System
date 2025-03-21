@@ -30,6 +30,7 @@ import { AdminComponent } from './Component/admin/admin.component';
 import { ReviewService } from './Service/ReviewService';
 import { RecomdationComponent } from './Component/recomdation/recomdation.component';
 import { AdminLoginComponent } from './Component/admin-login/admin-login.component';
+import { StatisticsComponent } from './Component/statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { AdminLoginComponent } from './Component/admin-login/admin-login.compone
     AdminComponent,
     RecomdationComponent,
     AdminLoginComponent,
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,

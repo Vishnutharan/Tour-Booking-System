@@ -1,0 +1,396 @@
+/* Statistics Container */
+.statistics-container {
+  max-width: 1200px;
+  margin: 8rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.statistics-container h2 {
+  color: #2575fc;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  animation: slideDown 0.8s ease-out;
+}
+
+.statistics-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff8a00, #ff2070);
+  border-radius: 3px;
+}
+
+/* Loading indicator */
+.loading-indicator {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-weight: 500;
+  position: relative;
+}
+
+.loading-indicator::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #2575fc;
+  border-radius: 50%;
+  margin: 1rem auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Chart bars */
+.chart-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  background: #f6f9fc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  animation: slideUp 0.8s ease-out;
+}
+
+.chart-bar:hover {
+  transform: translateX(10px);
+}
+
+.bar-label {
+  padding: 0.8rem 1rem;
+  min-width: 150px;
+  font-weight: 600;
+  color: #333;
+  background: #e9f1fd;
+  position: relative;
+}
+
+.bar-label::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10px;
+  height: 100%;
+  width: 10px;
+  background: #e9f1fd;
+  clip-path: polygon(0 0, 0% 100%, 100% 50%);
+}
+
+.bar {
+  height: 35px;
+  background: linear-gradient(90deg, #11998e, #38ef7d);
+  border-radius: 0 4px 4px 0;
+  transition: width 1s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  animation: growBar 1.5s ease-out;
+}
+
+.bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+  animation: shimmer 2s infinite;
+}
+
+.bar-value {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Rating bars */
+.rating-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  background: #f6f9fc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  animation: slideUp 0.8s ease-out;
+}
+
+.rating-bar:hover {
+  transform: translateX(10px);
+}
+
+.rating-label {
+  padding: 0.8rem 1rem;
+  min-width: 100px;
+  font-weight: 600;
+  color: #333;
+  background: #fff3e0;
+  position: relative;
+}
+
+.rating-label::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10px;
+  height: 100%;
+  width: 10px;
+  background: #fff3e0;
+  clip-path: polygon(0 0, 0% 100%, 100% 50%);
+}
+
+.rating-bar .bar {
+  background: linear-gradient(90deg, #ff8a00, #ff2070);
+}
+
+/* Stat cards */
+.stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.stat-card h3 {
+  color: #2575fc;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.stat-card h3::before {
+  content: '📊';
+  margin-right: 0.5rem;
+  animation: bounce 2s infinite;
+}
+
+.age-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.age-summary {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.age-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f6f9fc;
+  padding: 1.2rem;
+  border-radius: 10px;
+  min-width: 200px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.age-stat:hover {
+  transform: translateY(-5px);
+}
+
+.stat-label {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff2070;
+}
+
+/* Age groups */
+.age-groups {
+  margin-top: 1rem;
+}
+
+.age-groups h4 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.age-groups h4::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: #f0f0f0;
+  border-radius: 3px;
+}
+
+.age-group {
+  margin-bottom: 2rem;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s ease;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.age-group:hover {
+  transform: translateY(-5px);
+}
+
+.age-group h5 {
+  color: #ff8a00;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.age-group h5::before {
+  content: '🗺️';
+  margin-right: 0.5rem;
+}
+
+.top-places {
+  padding-left: 1.5rem;
+}
+
+.top-places li {
+  margin-bottom: 0.5rem;
+  color: #555;
+  position: relative;
+}
+
+.top-places li::marker {
+  color: #2575fc;
+  font-weight: bold;
+}
+
+/* Add a paper airplane animation to the statistics container */
+.statistics-container::before {
+  content: '✈️';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2rem;
+  opacity: 0.1;
+  animation: flyAroundPath 20s infinite linear;
+}
+
+@keyframes flyAroundPath {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-300px, 100px) rotate(-20deg);
+  }
+  50% {
+    transform: translate(-100px, 200px) rotate(0deg);
+  }
+  75% {
+    transform: translate(200px, 50px) rotate(20deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes growBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Globe icon animation */
+.age-groups::before {
+  content: '🌍';
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.05;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 4s infinite;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .age-groups {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .bar-label, .rating-label {
+    min-width: 100px;
+  }
+  
+  .age-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .statistics-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .chart-bar, .rating-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .bar-label, .rating-label {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .bar-label::after, .rating-label::after {
+    display: none;
+  }
+  
+  .bar {
+    border-radius: 0 0 8px 8px;
+  }
+}

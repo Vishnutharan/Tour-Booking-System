@@ -1,32 +1,152 @@
-<!-- travel-booking.component.html -->
-<div class="travel-booking-container">
-  <div class="header">
-    <h1>Travel Booking System</h1>
-  </div>
-  <div class="search-container">
-    <input type="text" placeholder="Destination" class="search-input">
-    <input type="date" class="search-input">
-    <input type="date" class="search-input">
-    <button class="search-button">Search</button>
-  </div>
-  <div class="recommendations-container">
-    <div class="recommendation-card">
-      <img src="https://via.placeholder.com/150" alt="Destination 1">
-      <h3>Destination 1</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      <button class="book-button">Book Now</button>
+<div class="home-container">
+  <div class="jumbotron">
+    <h1>Travel Destination Recommendation System</h1>
+    <p>Find the perfect travel destination based on your age and preferences</p>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" (click)="goToRecommendation()">Get Recommendation</button>
+      <button class="btn btn-secondary" (click)="goToStatistics()">View Statistics</button>
     </div>
-    <div class="recommendation-card">
-      <img src="https://via.placeholder.com/150" alt="Destination 2">
-      <h3>Destination 2</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      <button class="book-button">Book Now</button>
+  </div>
+
+  <div class="features">
+    <div class="feature-card">
+      <h3>Personalized Recommendations</h3>
+      <p>Our system uses machine learning to analyze travel patterns and provide personalized destination recommendations based on your age and rating preferences.</p>
     </div>
-    <div class="recommendation-card">
-      <img src="https://via.placeholder.com/150" alt="Destination 3">
-      <h3>Destination 3</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      <button class="book-button">Book Now</button>
+    <div class="feature-card">
+      <h3>Data-Driven Insights</h3>
+      <p>Explore travel trends and see how different age groups rate various destinations to make informed travel decisions.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Simple Interface</h3>
+      <p>Just enter your age and rating preference to get instant recommendations tailored to your profile.</p>
+    </div>
+  </div>
+</div>
+
+<div class="recommendation-container">
+  <h2>Get Your Travel Recommendation</h2>
+
+  <form [formGroup]="recommendationForm" (ngSubmit)="getRecommendation()" class="recommendation-form">
+    <div class="form-group">
+      <label for="age">Your Age</label>
+      <input 
+        type="number" 
+        id="age" 
+        formControlName="age" 
+        class="form-control" 
+        placeholder="Enter your age"
+      />
+      <div *ngIf="recommendationForm.get('age')?.invalid && recommendationForm.get('age')?.touched" class="error-message">
+        <div *ngIf="recommendationForm.get('age')?.errors?.['required']">
+          Age is required
+        </div>
+        <div *ngIf="recommendationForm.get('age')?.errors?.['min'] || recommendationForm.get('age')?.errors?.['max']">
+          Age must be between 18 and 100
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="rating">Your Preferred Rating (1-5)</label>
+      <input 
+        type="range" 
+        id="rating" 
+        formControlName="rating" 
+        min="1" 
+        max="5" 
+        step="1" 
+        class="form-control range-input"
+      />
+      <div class="rating-labels">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+      </div>
+      <div class="rating-display">
+        Selected: {{ recommendationForm.get("rating")?.value }}
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="recommendationForm.invalid || loading">
+        <span *ngIf="loading">Loading...</span>
+        <span *ngIf="!loading">Get Recommendation</span>
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="resetForm()">
+        Reset
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="error" class="error-alert">
+    {{ error }}
+  </div>
+
+  <div *ngIf="recommendation" class="recommendation-result">
+    <div class="result-header">
+      <h3>Your Recommended Destination</h3>
+      <div class="input-summary">
+        Based on age: <strong>{{ recommendation.input.age }}</strong> and rating preference: 
+        <strong>{{ recommendation.input.rating }}</strong>
+      </div>
+    </div>
+
+    <div class="destination-card">
+      <h4>{{ recommendation.recommendation }}</h4>
+      <div class="confidence-meter">
+        <div class="confidence-label">Confidence:</div>
+        <div 
+          class="confidence-bar" 
+          [style.width.%]="recommendation.confidence * 100"
+          [style.background-color]="getConfidenceColor(recommendation.confidence)"
+        ></div>
+        <div class="confidence-value">
+          {{ (recommendation.confidence * 100).toFixed(0) }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="similar-places" *ngIf="recommendation.similar_places?.length">
+      <h4>Similar Destinations</h4>
+      <div class="similar-places-list">
+        <div class="similar-place-item" *ngFor="let place of recommendation.similar_places">
+          <div class="place-name">{{ place.place }}</div>
+          <div class="place-details">
+            <span>Age: {{ place.age }}</span>
+            <span>Rating: {{ place.rating }}/5</span>
+            <span>Review: {{ place.review }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="destination-stats" *ngIf="recommendation.place_stats && recommendation.place_stats[recommendation.recommendation]">
+      <h4>About {{ recommendation.recommendation }}</h4>
+      <div class="stats-content">
+        <div class="stat-item">
+          <span class="stat-label">Average Rating:</span>
+          <span class="stat-value">
+            {{ recommendation.place_stats[recommendation.recommendation].avg_rating.toFixed(1) }}/5
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Average Visitor Age:</span>
+          <span class="stat-value">
+            {{ recommendation.place_stats[recommendation.recommendation].avg_age.toFixed(0) }}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Top Reviews:</span>
+          <ul class="top-reviews">
+            <li *ngFor="let review of getTopReviews(recommendation.place_stats[recommendation.recommendation].top_reviews)">
+              {{ review.text }} ({{ review.count }} mentions)
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -18,6 +18,7 @@ import { CurrencyConverterComponent } from './Component/currency-converter/curre
 import { AdminComponent } from './Component/admin/admin.component';
 import { RecomdationComponent } from './Component/recomdation/recomdation.component';
 import { AdminLoginComponent } from './Component/admin-login/admin-login.component';
+import { StatisticsComponent } from './Component/statistics/statistics.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -38,6 +39,8 @@ const routes: Routes = [
   { path: 'Admin', component: AdminComponent },
   { path: 'recommendation', component: RecomdationComponent },
   { path: 'Adminlogin', component: AdminLoginComponent },
+  { path: 'recommend', component: RecomdationComponent },
+  { path: 'statistics', component: StatisticsComponent },
 
 
 ];

@@ -126,3 +126,49 @@
   background-position: 0 0, 25px 25px;
   background-size: 50px 50px;
 }
+
+/* Jumbotron Section */
+.home-container {
+  @apply flex flex-col items-center justify-center min-h-screen bg-gray-100;
+}
+
+.jumbotron {
+  @apply text-center py-12 px-6 bg-white shadow-lg rounded-xl;
+}
+
+.jumbotron h1 {
+  @apply text-4xl font-bold text-gray-900;
+}
+
+.jumbotron p {
+  @apply text-lg text-gray-700 mt-2;
+}
+
+.cta-buttons {
+  @apply mt-6 flex space-x-4;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all;
+}
+
+.btn-secondary {
+  @apply bg-gray-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-gray-600 transition-all;
+}
+
+/* Features Section */
+.features {
+  @apply mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 px-6;
+}
+
+.feature-card {
+  @apply bg-white p-6 rounded-lg shadow-md text-center;
+}
+
+.feature-card h3 {
+  @apply text-xl font-semibold text-gray-900;
+}
+
+.feature-card p {
+  @apply text-gray-600 mt-2;
+}
