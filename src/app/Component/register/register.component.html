@@ -3,14 +3,14 @@
   <div class="register-box">
     <div class="form-side">
       <div class="brand">
-        <i class="fas fa-paper-plane"></i>
-        <h1>Welcome Back</h1>
-        <p>Create your account and start your journey</p>
+        <i class="fas fa-globe-americas"></i>
+        <h1>Explore Your Journey</h1>
+        <p>Join our travel community and discover amazing destinations</p>
       </div>
 
       <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
         <div class="form-group">
-          <i class="fas fa-user"></i>
+          <i class="fas fa-passport"></i>
           <input
             type="text"
             id="username"
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-group">
-          <i class="fas fa-lock"></i>
+          <i class="fas fa-key"></i>
           <input
             type="password"
             id="password"
@@ -34,25 +34,30 @@
         </div>
 
         <div *ngIf="errorMessage" class="error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i class="fas fa-exclamation-triangle"></i>
           {{ errorMessage }}
         </div>
 
         <button type="submit" [disabled]="registerForm.invalid">
-          <span>Create Account</span>
-          <i class="fas fa-arrow-right"></i>
+          <span>Register</span>
+          <i class="fas fa-suitcase"></i>
         </button>
 
         <div class="login-link">
-          Already have an account?
-          <a (click)="switchToLogin()">Sign In</a>
+          Already a explorer?
+          <a (click)="switchToLogin()">
+            <i class="fas fa-ticket-alt"></i>
+            Sign In
+          </a>
         </div>
       </form>
     </div>
 
     <div class="image-side">
       <div class="overlay"></div>
-      <img src="/assets/register.jpg" alt="Registration" />
+      <img src="/assets/regs.png" alt="Travel Destinations" />
+      <div class="travel-tag">
+      </div>
     </div>
   </div>
 </div>

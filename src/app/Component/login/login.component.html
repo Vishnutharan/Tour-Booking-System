@@ -3,44 +3,49 @@
     <div class="login-content">
       <div class="login-left">
         <div class="welcome-text">
-          <h1>Welcome Back</h1>
-          <p>Experience your dream destinations with us</p>
+          <h1>Explore New Destinations</h1>
+          <p>Unlock your travel journey with us</p>
         </div>
-        <div class="animated-bg"></div>
+        <div class="animated-bg">
+          <div class="travel-icon"><i class="fas fa-plane"></i></div>
+          <div class="travel-icon"><i class="fas fa-umbrella-beach"></i></div>
+          <div class="travel-icon"><i class="fas fa-mountain"></i></div>
+          <div class="travel-icon"><i class="fas fa-sun"></i></div>
+        </div>
       </div>
 
       <div class="login-form-container">
         <div class="form-header">
           <div class="logo">
-            <i class="fas fa-globe-americas"></i>
+            <i class="fas fa-map-marked-alt"></i>
           </div>
-          <h2>Sign In</h2>
-          <p>Enter your credentials to continue</p>
+          <h2>Traveler Sign In</h2>
+          <p>Enter your credentials to continue your journey</p>
         </div>
 
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
           <div class="input-group">
             <div class="input-field">
-              <i class="fas fa-user"></i>
+              <i class="fas fa-passport"></i>
               <input
                 type="text"
                 id="username"
                 name="username"
                 [(ngModel)]="credentials.username"
                 required
-                placeholder="Username"
+                placeholder="Traveler Name"
               />
             </div>
 
             <div class="input-field">
-              <i class="fas fa-lock"></i>
+              <i class="fas fa-key"></i>
               <input
                 type="password"
                 id="password"
                 name="password"
                 [(ngModel)]="credentials.password"
                 required
-                placeholder="Password"
+                placeholder="Security Code"
               />
             </div>
           </div>
@@ -54,7 +59,7 @@
           </div>
 
           <div *ngIf="errorMessage" class="error-message">
-            <i class="fas fa-exclamation-circle"></i>
+            <i class="fas fa-exclamation-triangle"></i>
             {{ errorMessage }}
           </div>
 
@@ -63,13 +68,16 @@
             class="login-btn"
             [disabled]="loginForm.invalid"
           >
-            <span>Login</span>
-            <i class="fas fa-arrow-right"></i>
+            <span>Start Journey</span>
+            <i class="fas fa-suitcase"></i>
           </button>
 
           <div class="register-link">
-            Don't have an account?
-            <a (click)="switchToRegister()">Create Account</a>
+            New explorer?
+            <a (click)="switchToRegister()">
+              <i class="fas fa-ticket-alt"></i>
+              Create Account
+            </a>
           </div>
         </form>
       </div>
